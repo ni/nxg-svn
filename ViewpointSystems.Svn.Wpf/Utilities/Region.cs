@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewpointSystems.Svn
+namespace ViewpointSystems.Svn.Wpf.Utilities
 {
-    public class Class1
+    public enum Region
     {
+        Unknown,
+        FullScreen,
+        ModalWindow
     }
 }

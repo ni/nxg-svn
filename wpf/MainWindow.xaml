@@ -1,0 +1,10 @@
+﻿<Window x:Class="ViewpointSystems.Svn.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mvx="clr-namespace:MvvmCross.BindingEx.Wpf;assembly=MvvmCross.BindingEx.Wpf"
+        ResizeMode="NoResize"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        
+    </Grid>
+</Window>

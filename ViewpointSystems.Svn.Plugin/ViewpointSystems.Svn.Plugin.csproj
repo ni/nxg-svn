@@ -135,6 +135,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ViewpointSystems.Svn\ViewpointSystems.Svn.csproj">
+      <Project>{45643b0f-d3f3-4f2b-b60a-7770600736ab}</Project>
+      <Name>ViewpointSystems.Svn</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

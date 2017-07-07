@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ViewpointSystems.Svn.Wpf.Views
+{
+    using MvvmCross.Wpf.Views;
+
+    /// <summary>
+    ///  Defines the BaseView type.
+    /// </summary>
+    public abstract class BaseView : MvxWpfView
+    {
+        public string WindowTitle { get; set; }
+    }
+}
