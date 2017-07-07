@@ -14,7 +14,7 @@ namespace ViewpointSystems.Svn.History
         {
             _editSite = site;
             
-            site.RootEditSite.ActiveDocumentChanged += HandleActiveDocumentChanged;
+            //site.RootEditSite.ActiveDocumentChanged += HandleActiveDocumentChanged;
         }
 
         private string documentName;

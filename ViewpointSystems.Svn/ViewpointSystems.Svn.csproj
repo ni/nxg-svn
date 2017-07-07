@@ -108,12 +108,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands.cs" />
+    <Compile Include="History\HistoryCommand.cs" />
     <Compile Include="History\HistoryType.cs" />
     <Compile Include="History\HistoryView.xaml.cs">
       <DependentUpon>HistoryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="History\HistoryViewModel.cs" />
+    <Compile Include="Lock\LockCommand.cs" />
     <Compile Include="Lock\LockView.xaml.cs">
       <DependentUpon>LockView.xaml</DependentUpon>
     </Compile>

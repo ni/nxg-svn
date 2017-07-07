@@ -12,13 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using NationalInstruments.Core;
 
 namespace ViewpointSystems.Svn.Lock
 {
     /// <summary>
     /// Interaction logic for LockView.xaml
     /// </summary>
-    public partial class LockView : Window
+    public partial class LockView : BaseWindow
     {
         public LockView()
         {
