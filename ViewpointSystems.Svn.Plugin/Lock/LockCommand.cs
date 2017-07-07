@@ -16,17 +16,16 @@ using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
 using NationalInstruments.VI.SourceModel;
-using ViewpointSystems.Svn.History;
-using ViewpointSystems.Svn.Lock;
 
-namespace ViewpointSystems.Svn.Lock
+
+namespace ViewpointSystems.Svn.Plugin.Lock
 {
     [ExportPushCommandContent]
     public class LockCommand : PushCommandContent
     {       
         public static readonly ICommandEx TakeLockShellRelayCommand = new ShellRelayCommand(TakeLock)
         {
-            UniqueId = "ViewpointSystems.Svn.Lock.TakeLockShellRelayCommand",
+            UniqueId = "ViewpointSystems.Svn.Plugin.Lock.TakeLockShellRelayCommand",
             LabelTitle = "Lock",
         };
 

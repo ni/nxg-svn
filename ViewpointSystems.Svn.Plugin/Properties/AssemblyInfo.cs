@@ -1,15 +1,21 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using NationalInstruments.Composition;
 
+
+// This attribute is required to plug-in to the editing system
+// Any assembly that has exports which need to be found by our editor
+// must have this attribute or it will not be looked at.
+[assembly: ParticipatesInComposition]
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ViewpointSystems.Svn")]
+[assembly: AssemblyTitle("ViewpointSystems.Svn.Plugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ViewpointSystems.Svn")]
+[assembly: AssemblyProduct("ViewpointSystems.Svn.Plugin")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +26,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("45643b0f-d3f3-4f2b-b60a-7770600736ab")]
+[assembly: Guid("60654f2f-94ce-457d-878e-793b4c5eb100")]
 
 // Version information for an assembly consists of the following four values:
 //

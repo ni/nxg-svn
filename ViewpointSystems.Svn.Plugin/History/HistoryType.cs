@@ -2,7 +2,7 @@
 using NationalInstruments.Shell;
 using NationalInstruments.Composition;
 
-namespace ViewpointSystems.Svn.History
+namespace ViewpointSystems.Svn.Plugin.History
 {
 
     /// <summary>

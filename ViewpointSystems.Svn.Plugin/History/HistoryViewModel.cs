@@ -4,7 +4,7 @@ using System.Windows.Media;
 using NationalInstruments.Core;
 using NationalInstruments.Shell;
 
-namespace ViewpointSystems.Svn.History
+namespace ViewpointSystems.Svn.Plugin.History
 {
     public class HistoryViewModel : IToolWindowViewModel// ToolWindowViewModelBase
     {

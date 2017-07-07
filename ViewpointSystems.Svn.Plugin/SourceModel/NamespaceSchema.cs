@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using NationalInstruments.SourceModel.Persistence;
 
-namespace ViewpointSystems.Svn
+namespace ViewpointSystems.Svn.Plugin
 {
     /// <summary>
     /// Implements namespace versioning for elements in this assembly.

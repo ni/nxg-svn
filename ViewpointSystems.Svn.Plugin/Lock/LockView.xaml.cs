@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NationalInstruments.Core;
 
-namespace ViewpointSystems.Svn.Lock
+namespace ViewpointSystems.Svn.Plugin.Lock
 {
     /// <summary>
     /// Interaction logic for LockView.xaml

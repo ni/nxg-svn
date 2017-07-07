@@ -16,17 +16,15 @@ using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
 using NationalInstruments.VI.SourceModel;
-using ViewpointSystems.Svn.History;
-using ViewpointSystems.Svn.Lock;
 
-namespace ViewpointSystems.Svn.History
+namespace ViewpointSystems.Svn.Plugin.History
 {
     [ExportPushCommandContent]
     public class HistoryCommand : PushCommandContent
     {
         public static readonly ICommandEx HistoryShellRelayCommand = new ShellRelayCommand(ViewHistory)
         {
-            UniqueId = "ViewpointSystems.Svn.History.HistoryShellRelayCommand",
+            UniqueId = "ViewpointSystems.Svn.Plugin.History.HistoryShellRelayCommand",
             LabelTitle = "View History",
         };
        

@@ -18,7 +18,7 @@ using NationalInstruments.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
 
-namespace ViewpointSystems.Svn.History
+namespace ViewpointSystems.Svn.Plugin.History
 {
     /// <summary>
     /// Interaction logic for HistoryView.xaml
