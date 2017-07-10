@@ -4,7 +4,6 @@ using System.Threading;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpSvn;
-using SvnProject.SvnThings;
 using ViewpointSystems.Svn.SvnThings;
 
 namespace ViewpointSystems.Svn.Core.Tests.SvnTests
