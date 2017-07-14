@@ -21,8 +21,7 @@ namespace ViewpointSystems.Svn.Cache
         readonly SvnClient _client;
         public readonly Dictionary<string, SvnItem> _map; // Maps from full-normalized paths to SvnItems
         public readonly Dictionary<string, SvnDirectory> _dirMap;
-        bool _enableUpgrade;
-        private ISvnStatusCache Context;
+        bool _enableUpgrade;        
         private bool usingShell = false;
         private SvnStatusFileSystemWatcher statusFileSystemWatcher;
 
@@ -40,7 +39,7 @@ namespace ViewpointSystems.Svn.Cache
             {
                 statusFileSystemWatcher = new SvnStatusFileSystemWatcher(svnManagement);
             }
-            
+
         }
 
         /// <summary>
@@ -63,7 +62,7 @@ namespace ViewpointSystems.Svn.Cache
                 {
                     ReleaseShellMonitor(disposing);
                 }
-                
+
                 _client.Dispose();
             }
             finally
@@ -288,12 +287,12 @@ namespace ViewpointSystems.Svn.Cache
 
             lock (_lock)
             {
-                SvnDirectory directory;
                 ISvnDirectoryUpdate updateDir;
-                SvnItem walkItem;
+                SvnItem walkItem = null;
 
                 // We get more information for free, lets use that to update other items
-                if (_dirMap.TryGetValue(walkPath, out directory))
+                _dirMap.TryGetValue(walkPath, out SvnDirectory directory);
+                if (null != directory)
                 {
                     updateDir = directory;
                     updateDir.TickAll();
@@ -306,7 +305,6 @@ namespace ViewpointSystems.Svn.Cache
                     _dirMap[walkPath] = directory;
                 }
 
-                walkItem = directory.Directory;
 
                 bool ok;
                 bool statSelf = false;
@@ -322,7 +320,7 @@ namespace ViewpointSystems.Svn.Cache
                 if (directory != null)
                     walkItem = directory.Directory; // Might have changed via casing
 
-                if (!statSelf)
+                if (!statSelf && null != walkItem)
                 {
                     if (((ISvnItemUpdate)walkItem).ShouldRefresh())
                         statSelf = true;

@@ -14,8 +14,8 @@ namespace ViewpointSystems.Svn.Cache
         private SvnManagement svnManagement;
         readonly object _lock = new object();
 
-        private string fullPath = "C:\\WorkingRepo\\.svn\\wc.db";
-        private string svnCommitPath = "C:\\WorkingRepo\\.svn\\tmp\\";
+        private string fullPath = "C:\\UnitTestRepo\\.svn\\wc.db";
+        private string svnCommitPath = "C:\\UnitTestRepo\\.svn\\tmp\\";
         private WatcherChangeTypes previousEventType;
 
         public SvnStatusFileSystemWatcher(SvnManagement svnManagementObjectSvnManagement)
@@ -77,7 +77,7 @@ namespace ViewpointSystems.Svn.Cache
                         }
                         if (path != svnCommitPath)
                         {
-                            svnManagement.AddtoCache(e.FullPath);
+                            svnManagement.AddToCache(e.FullPath);
                         }
                         
                         break;
