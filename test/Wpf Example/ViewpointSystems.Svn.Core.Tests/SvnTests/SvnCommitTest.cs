@@ -15,38 +15,35 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_SvnCommit_IsValid()
         {
             // Arrange
-            SvnManagement svnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(svnManagement);
-            string localWorkingLocation = @"C:\UnitTestRepo\";
-
+            var rootPath = SvnManagement.GetRoot(UnitTestPath);
             // Act
 
-            if (svnManagement.IsWorkingCopy(localWorkingLocation))
+            if (SvnManagement.IsWorkingCopy(rootPath))
             {
-                svnManagement.LoadCurrentSvnItemsInLocalRepository(localWorkingLocation);
+                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = svnManagement.GetMappings();
+            var mappingsBefore = SvnManagement.GetMappings();
             int countBefore = mappingsBefore.Count;
-            FileInfo fi = new FileInfo(localWorkingLocation + countBefore + "SvnCommit.txt");
+            var svnCommit = new FileInfo(Path.Combine(UnitTestPath, countBefore + "_SvnCommit.txt"));
 
-            var myFile = File.Create(fi.ToString());
+            var myFile = File.Create(svnCommit.ToString());
             myFile.Close();
             Thread.Sleep(2000);
 
-            svnManagement.Add(fi.ToString());
+            SvnManagement.Add(svnCommit.ToString());
 
             Thread.Sleep(500);
-            svnManagement.CommitChosenFiles(fi.ToString(), "Unit Test");
+            SvnManagement.CommitChosenFiles(svnCommit.ToString(), "Unit Test");
             Thread.Sleep(2000);
-            var mappingsAfter = svnManagement.GetMappings();
+            var mappingsAfter = SvnManagement.GetMappings();
             int countAfter = mappingsAfter.Count;
 
             // Assert
             countBefore.Should().BeLessThan(countAfter);
             foreach (var item in mappingsAfter)
             {
-                if (fi.ToString() == item.Key)
+                if (svnCommit.ToString() == item.Key)
                 {
                     item.Value.Status.LocalNodeStatus.Should().Be(SvnStatus.Normal);
                 }

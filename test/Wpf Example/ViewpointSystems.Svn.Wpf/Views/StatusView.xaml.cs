@@ -53,7 +53,7 @@ namespace ViewpointSystems.Svn.Wpf.Views
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            ViewModel.Monitor = false;
+            //ViewModel.Monitor = false;
         }
     }
 }

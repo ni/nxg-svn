@@ -17,42 +17,39 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_SvnRenameCommittedFile_IsValid()
         {
             // Arrange
-            SvnManagement svnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(svnManagement);
-            string localWorkingLocation = @"C:\UnitTestRepo\";
-
+            var rootPath = SvnManagement.GetRoot(UnitTestPath);
             // Act
 
-            if (svnManagement.IsWorkingCopy(localWorkingLocation))
+            if (SvnManagement.IsWorkingCopy(rootPath))
             {
-                svnManagement.LoadCurrentSvnItemsInLocalRepository(localWorkingLocation);
+                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = svnManagement.GetMappings();
+            var mappingsBefore = SvnManagement.GetMappings();
             int countBefore = mappingsBefore.Count;
-            FileInfo fi = new FileInfo(localWorkingLocation + countBefore + "SvnRenameCommittedFile.txt");
+            var svnRenameCommittedFile = new FileInfo(Path.Combine(UnitTestPath, countBefore + "_SvnRenameCommittedFile.txt"));
 
-            var myFile = File.Create(fi.ToString());
+            var myFile = File.Create(svnRenameCommittedFile.ToString());
             myFile.Close();
             Thread.Sleep(2000);
 
-            svnManagement.Add(fi.ToString());
+            SvnManagement.Add(svnRenameCommittedFile.ToString());
 
             Thread.Sleep(500);
-            svnManagement.CommitChosenFiles(fi.ToString(), "Unit Test");
+            SvnManagement.CommitChosenFiles(svnRenameCommittedFile.ToString(), "Unit Test");
             Thread.Sleep(2000);
-            var mappingsAfter = svnManagement.GetMappings();
+            var mappingsAfter = SvnManagement.GetMappings();
             int countAfter = mappingsAfter.Count;
 
-            FileInfo fiNew = new FileInfo(localWorkingLocation + "SvnRename" + countAfter + "SvnRenameCommittedFile.txt");
+            var fiNew = new FileInfo(Path.Combine(UnitTestPath, countAfter + "SvnRename_SvnRenameCommittedFile.txt"));
 
-            svnManagement.SvnRename(fi.ToString(), fiNew.ToString());
+            SvnManagement.SvnRename(svnRenameCommittedFile.ToString(), fiNew.ToString());
             Thread.Sleep(1000);
 
             // Assert
             foreach (var item in mappingsAfter)
             {
-                if (fi.ToString() == item.Key)
+                if (svnRenameCommittedFile.ToString() == item.Key)
                 {
                     item.Value.Status.LocalNodeStatus.Should().Be(SvnStatus.Deleted);
                 }
@@ -68,37 +65,32 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_SvnRenameAdded_IsValid()
         {
             // Arrange
-            SvnManagement svnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(svnManagement);
-            string localWorkingLocation = @"C:\UnitTestRepo\";
-            StatusViewModel status = new StatusViewModel();
-            status.Initialize();
-
+            var rootPath = SvnManagement.GetRoot(UnitTestPath);
             // Act
 
-            if (svnManagement.IsWorkingCopy(localWorkingLocation))
+            if (SvnManagement.IsWorkingCopy(rootPath))
             {
-                svnManagement.LoadCurrentSvnItemsInLocalRepository(localWorkingLocation);
+                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = svnManagement.GetMappings();
+            var mappingsBefore = SvnManagement.GetMappings();
             int countBefore = mappingsBefore.Count;
-            FileInfo fi = new FileInfo(localWorkingLocation + countBefore + "SvnRenameAdded.txt");
+            var svnRenameAdded = new FileInfo(Path.Combine(UnitTestPath, countBefore + "_SvnRenameAdded.txt"));
 
-            var myFile = File.Create(fi.ToString());
+            var myFile = File.Create(svnRenameAdded.ToString());
             myFile.Close();
             Thread.Sleep(2000);
 
-            svnManagement.Add(fi.ToString());
+            SvnManagement.Add(svnRenameAdded.ToString());
 
             Thread.Sleep(1000);
 
-            var mappingsAfter = svnManagement.GetMappings();
+            var mappingsAfter = SvnManagement.GetMappings();
             int countAfter = mappingsAfter.Count;
 
-            FileInfo fiNew = new FileInfo(localWorkingLocation + "SvnRename" + countBefore + "SvnRenameAdded.txt");
+            var fiNew = new FileInfo(Path.Combine(UnitTestPath, countBefore + "SvnRename_SvnRenameAdded.txt"));
 
-            svnManagement.SvnRename(fi.ToString(), fiNew.ToString());
+            SvnManagement.SvnRename(svnRenameAdded.ToString(), fiNew.ToString());
             Thread.Sleep(2000);
 
             // Assert

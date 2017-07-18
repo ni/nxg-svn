@@ -15,30 +15,27 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_PhysicalAdd_IsValid()
         {
             // Arrange
-            SvnManagement svnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(svnManagement);
-            string localWorkingLocation = @"C:\UnitTestRepo\";
-
+            var rootPath = SvnManagement.GetRoot(UnitTestPath);
             // Act
 
-            if (svnManagement.IsWorkingCopy(localWorkingLocation))
+            if (SvnManagement.IsWorkingCopy(rootPath))
             {
-                svnManagement.LoadCurrentSvnItemsInLocalRepository(localWorkingLocation);
+                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = svnManagement.GetMappings();
+            var mappingsBefore = SvnManagement.GetMappings();
             int countBefore = mappingsBefore.Count;
-            FileInfo fi = new FileInfo(localWorkingLocation + countBefore + "PhysicalAdd.txt");
-            
-            fi.Create();
+            var physicalAddFile = new FileInfo(Path.Combine(UnitTestPath, countBefore + "_PhysicalAdd.txt"));
+
+            physicalAddFile.Create();
             Thread.Sleep(2000);
-            var mappingsAfter = svnManagement.GetMappings();
+            var mappingsAfter = SvnManagement.GetMappings();
             int countAfter = mappingsAfter.Count;
 
             // Assert
             foreach (var item in mappingsAfter)
             {
-                if (fi.ToString() == item.Key)
+                if (physicalAddFile.ToString() == item.Key)
                 {
                     item.Value.Status.LocalNodeStatus.Should().Be(SvnStatus.NotVersioned);
                 }                   

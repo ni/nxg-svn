@@ -32,7 +32,6 @@ namespace ViewpointSystems.Svn.Core.ViewModels
         {
             Mvx.RegisterSingleton<StatusViewModel>(this);
             items = 1;
-
         }
 
         /// <summary>

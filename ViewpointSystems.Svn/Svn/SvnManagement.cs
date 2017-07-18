@@ -15,12 +15,14 @@ namespace ViewpointSystems.Svn.SvnThings
     {                
         private string repo;
         private SvnStatusCache statusCache;
+        private SvnClient svnClient;
 
         // This event is what is used to notify the main UI that the connection to the camera has been established.
         public event EventHandler RemoveItemFromViewer;
         public SvnManagement()
         {            
             statusCache = new SvnStatusCache(false, this);
+            svnClient = new SvnClient();
         }
 
         /// <summary>
@@ -61,28 +63,25 @@ namespace ViewpointSystems.Svn.SvnThings
 
         public void AddToCache(string path)
         {
-            using (var svnClient = new SvnClient())
+            repo = path;
+            try
             {
-                repo = path;
-                try
+                if (svnClient.GetStatus(repo, new SvnStatusArgs
+            {
+                Depth = SvnDepth.Infinity,
+                RetrieveAllEntries = true
+            }, out Collection<SvnStatusEventArgs> statusContents))
+            {
+                foreach (var content in statusContents)
                 {
-                    if (svnClient.GetStatus(repo, new SvnStatusArgs
-                {
-                    Depth = SvnDepth.Infinity,
-                    RetrieveAllEntries = true
-                }, out Collection<SvnStatusEventArgs> statusContents))
-                {
-                    foreach (var content in statusContents)
-                    {
-                        var contentStatusData = new SvnStatusData(content);
-                        statusCache.StoreItem(statusCache.CreateItem(content.FullPath, contentStatusData));
-                    }
+                    var contentStatusData = new SvnStatusData(content);
+                    statusCache.StoreItem(statusCache.CreateItem(content.FullPath, contentStatusData));
                 }
-                }
-                catch (Exception e)
-                {
-                    //TODO: confirm this is ok
-                }
+            }
+            }
+            catch (Exception e)
+            {
+                //TODO: confirm this is ok
             }
         }
 
@@ -92,15 +91,12 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public Collection<SvnStatusEventArgs> GetStatus()
         {
-            using (var svnClient = new SvnClient())
+            svnClient.GetStatus(repo, new SvnStatusArgs
             {
-                svnClient.GetStatus(repo, new SvnStatusArgs
-                {
-                    Depth = SvnDepth.Infinity,
-                    RetrieveAllEntries = true
-                }, out Collection<SvnStatusEventArgs> statusContents);
-                return statusContents;
-            }
+                Depth = SvnDepth.Infinity,
+                RetrieveAllEntries = true
+            }, out Collection<SvnStatusEventArgs> statusContents);
+            return statusContents;
         }
 
         /// <summary>
@@ -152,21 +148,18 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool Add(string path)
         {
-            using (var svnClient = new SvnClient())
-            {
-                var args = new SvnAddArgs();
-                args.Depth = SvnDepth.Empty;
-                Console.Out.WriteLine(path);
-                args.AddParents = true;
+            var args = new SvnAddArgs();
+            args.Depth = SvnDepth.Empty;
+            Console.Out.WriteLine(path);
+            args.AddParents = true;
 
-                try
-                {
-                    return svnClient.Add(path, args);
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
+            try
+            {
+                return svnClient.Add(path, args);
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
 
@@ -178,19 +171,16 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool SvnLock(string target, string comment)
         {
-            using (var svnClient = new SvnClient())
-            {
-                //try
-                //{
-                return svnClient.Lock(target, comment);
+            //try
+            //{
+            return svnClient.Lock(target, comment);
 
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.WriteLine(e);
-                //    throw e;
-                //}
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw e;
+            //}       
         }
 
 
@@ -202,65 +192,52 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool SvnUnlock(string target)
         {
-            using (var svnClient = new SvnClient())
-            {
-                //try
-                //{
-                return svnClient.Unlock(target);
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.WriteLine(e);
-                //    throw e;
-                //}
-            }
+            //try
+            //{
+            return svnClient.Unlock(target);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw e;
+            //}
         }
 
         public bool SvnRename(string oldPath, string newPath)
         {
-            using (var svnClient = new SvnClient())
-            {
-                //try
-                //{
-                return svnClient.Move(oldPath, newPath);
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.WriteLine(e);
-                //    throw e;
-                //}
-            }
-
+           //try
+            //{
+            return svnClient.Move(oldPath, newPath);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw e;
+            //}
         }
 
         public bool CommitChosenFiles(string path, string message)
         {
-            using (var svnClient = new SvnClient())
+            var args = new SvnCommitArgs();
+
+            args.LogMessage = message;
+            args.ThrowOnError = true;
+            args.ThrowOnCancel = true;
+            args.Depth = SvnDepth.Empty;
+
+
+            try
             {
-                var successfulCommit = false;
-
-
-                var args = new SvnCommitArgs();
-
-                args.LogMessage = message;
-                args.ThrowOnError = true;
-                args.ThrowOnCancel = true;
-                args.Depth = SvnDepth.Empty;
-
-
-                try
+                return svnClient.Commit(path, args);
+            }
+            catch (Exception e)
+            {
+                if (e.InnerException != null)
                 {
-                    return svnClient.Commit(path, args);
+                    throw new Exception(e.InnerException.Message, e);
                 }
-                catch (Exception e)
-                {
-                    if (e.InnerException != null)
-                    {
-                        throw new Exception(e.InnerException.Message, e);
-                    }
 
-                    throw e;
-                }
+                throw e;
             }
         }
 
@@ -272,40 +249,37 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool Commit(string path, string message)
         {
-            using (var svnClient = new SvnClient())
+            var args = new SvnCommitArgs();
+
+            args.LogMessage = message;
+            args.ThrowOnError = true;
+            args.ThrowOnCancel = true;
+
+            try
             {
-                var args = new SvnCommitArgs();
+                var sa = new SvnStatusArgs();
+                sa.Depth = SvnDepth.Infinity;
+                sa.RetrieveAllEntries = true; //the new line
+                Collection<SvnStatusEventArgs> statuses;
 
-                args.LogMessage = message;
-                args.ThrowOnError = true;
-                args.ThrowOnCancel = true;
-
-                try
+                svnClient.GetStatus(repo, sa, out statuses);
+                foreach (var item in statuses)
                 {
-                    var sa = new SvnStatusArgs();
-                    sa.Depth = SvnDepth.Infinity;
-                    sa.RetrieveAllEntries = true; //the new line
-                    Collection<SvnStatusEventArgs> statuses;
-
-                    svnClient.GetStatus(repo, sa, out statuses);
-                    foreach (var item in statuses)
+                    if (item.LocalContentStatus == SvnStatus.Added || item.LocalContentStatus == SvnStatus.Modified)
                     {
-                        if (item.LocalContentStatus == SvnStatus.Added || item.LocalContentStatus == SvnStatus.Modified)
-                        {
-                            svnClient.Commit(item.FullPath, args);
-                        }
+                        svnClient.Commit(item.FullPath, args);
                     }
-                    return true;
                 }
-                catch (Exception e)
+                return true;
+            }
+            catch (Exception e)
+            {
+                if (e.InnerException != null)
                 {
-                    if (e.InnerException != null)
-                    {
-                        throw new Exception(e.InnerException.Message, e);
-                    }
-
-                    throw e;
+                    throw new Exception(e.InnerException.Message, e);
                 }
+
+                throw e;
             }
         }
 
@@ -316,11 +290,19 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool IsWorkingCopy(string path)
         {
-            using (var svnClient = new SvnClient())
-            {
-                var uri = svnClient.GetUriFromWorkingCopy(path);
-                return uri != null;
-            }
+            var uri = svnClient.GetUriFromWorkingCopy(path);
+            return uri != null;
+        }
+
+        /// <summary>
+        /// Returns the working copy root directory string
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public string GetRoot(string path)
+        {
+            var workingCopyRoot = svnClient.GetWorkingCopyRoot(path);
+            return workingCopyRoot;
         }
 
         /// <summary>
@@ -329,13 +311,40 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool CheckOut(string localRepo)
         {
-            using (var svnClient = new SvnClient())
+            var localUri = svnClient.GetUriFromWorkingCopy(localRepo);
+            var svnUriTarget = new SvnUriTarget(localUri);   //TODO: why is this the only place URI is used?
+            repo = localRepo;
+            return svnClient.CheckOut(svnUriTarget, repo);
+        }
+
+        public bool BuildUnitTestRepo(string workingPath, string unitTestDirectory )
+        {
+            var unitTestPath = Path.Combine(workingPath, unitTestDirectory);
+            var x = Directory.Exists(unitTestPath);
+            if (!x)
             {
-                var localUri = svnClient.GetUriFromWorkingCopy(localRepo);
-                var svnUriTarget = new SvnUriTarget(localUri);   //TODO: why is this the only place URI is used?
-                repo = localRepo;
-                return svnClient.CheckOut(svnUriTarget, repo);
+                if (IsWorkingCopy(workingPath))
+                {
+                    if (svnClient.CreateDirectory(unitTestPath))
+                    {
+                        CommitChosenFiles(unitTestPath, "Unit Test");
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
             }
+            else
+            {
+                return true;
+            }
+
         }
     }
 }

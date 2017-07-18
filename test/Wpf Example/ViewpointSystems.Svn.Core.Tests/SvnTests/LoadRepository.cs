@@ -13,37 +13,31 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void LoadRepository_WorkingCopy_IsValid()
         {
             // Arrange
-            SvnManagement svnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(svnManagement);
-            string localWorkingLocation = @"C:\UnitTestRepo\";
-
+            SvnManagement.BuildUnitTestRepo(MainViewModel.LocalWorkingLocation, UnitTestFolder);
             // Act
-            var IsWorkingCopy = svnManagement.IsWorkingCopy(localWorkingLocation);
+            var isWorkingCopy = SvnManagement.IsWorkingCopy(SvnManagement.GetRoot(UnitTestPath));
 
             // Assert
-            IsWorkingCopy.Should().BeTrue();
+            isWorkingCopy.Should().BeTrue();
         }
 
         [TestMethod]
         public void LoadRepository_Load_IsValid()
         {
             // Arrange
-            SvnManagement svnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(svnManagement);
-            string localWorkingLocation = @"C:\UnitTestRepo\";
-
+            var rootPath = SvnManagement.GetRoot(UnitTestPath);
             // Act
-            var IsWorkingCopy = svnManagement.IsWorkingCopy(localWorkingLocation);
-            if (svnManagement.IsWorkingCopy(localWorkingLocation))
+            var isWorkingCopy = SvnManagement.IsWorkingCopy(rootPath);
+            if (isWorkingCopy)
             {
-                svnManagement.LoadCurrentSvnItemsInLocalRepository(localWorkingLocation);
+                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappedItems = svnManagement.GetMappings();
+            var mappedItems = SvnManagement.GetMappings();
 
             // Assert
-            IsWorkingCopy.Should().BeTrue();
-            mappedItems.Count.Should().BeGreaterThan(1);
+            isWorkingCopy.Should().BeTrue();
+            mappedItems.Count.Should().BeGreaterThan(0);
 
         }
     }

@@ -14,7 +14,7 @@ namespace ViewpointSystems.Svn.Cache
         private SvnManagement svnManagement;
         readonly object _lock = new object();
 
-        private string fullPath = "C:\\UnitTestRepo\\.svn\\wc.db";
+        private string fullPath = "wc.db-journal";
         private string svnCommitPath = "C:\\UnitTestRepo\\.svn\\tmp\\";
         private WatcherChangeTypes previousEventType;
 
@@ -67,7 +67,6 @@ namespace ViewpointSystems.Svn.Cache
                         break;
 
                     case WatcherChangeTypes.Created:
-                        //Physical add means we and to perform a svn add if we are in the project
                         string[] s = e.FullPath.Split('\\');
                         Array.Resize(ref s, s.Length - 1);
                         string path = "";
@@ -83,7 +82,9 @@ namespace ViewpointSystems.Svn.Cache
                         break;
 
                     case WatcherChangeTypes.Changed:
-                        if (e.FullPath == fullPath)
+                        string[] str = e.FullPath.Split('\\');
+                        var x = str.GetValue(str.Length - 1);
+                        if (x.ToString() == fullPath)
                         { 
                             svnManagement.UpdateCache();
                         }
