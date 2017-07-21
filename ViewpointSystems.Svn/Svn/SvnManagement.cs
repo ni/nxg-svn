@@ -163,6 +163,13 @@ namespace ViewpointSystems.Svn.SvnThings
             }
         }
 
+        public Collection<SvnLogEventArgs> GetHistory(string filePath)
+        {
+            Collection<SvnLogEventArgs> logs = new Collection<SvnLogEventArgs>();
+            svnClient.GetLog(filePath, out logs);
+            return logs;
+        }
+
         /// <summary>
         /// Lock a committed file
         /// </summary>

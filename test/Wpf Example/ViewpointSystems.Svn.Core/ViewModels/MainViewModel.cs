@@ -17,7 +17,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
     public class MainViewModel : BaseViewModel
     {
         private SvnManagement _svnManagement = Mvx.Resolve<SvnManagement>();
-        
+
         private string repository;
         public string Repository
         {
@@ -29,6 +29,13 @@ namespace ViewpointSystems.Svn.Core.ViewModels
         {
             get { return localWorkingLocation; }
             set { localWorkingLocation = value; RaisePropertyChanged(() => LocalWorkingLocation); }
+        }
+
+        private Collection<SvnLogEventArgs> svnFileHistory;
+        public Collection<SvnLogEventArgs> SvnFileHistory
+        {
+            get { return svnFileHistory; }
+            set { svnFileHistory = value; RaisePropertyChanged(() => SvnFileHistory); }
         }
 
 
@@ -340,6 +347,87 @@ namespace ViewpointSystems.Svn.Core.ViewModels
             {
                 ReportOut("Error(): Unlock file Failed, please make sure the directory is committed.");
                 return;
+            }
+        }
+
+        private MvxCommand historyCommand;
+        public MvxCommand HistoryCommand
+        {
+            get
+            {
+                historyCommand = historyCommand ?? new MvxCommand(DoHistoryCommand);
+                return historyCommand;
+            }
+
+        }
+
+        /// <summary>
+        /// Performs an Svn GetLogs on a file(s) that the user selects from the dialog window.
+        /// </summary>
+        private void DoHistoryCommand()
+        {
+            bool directoryNormal = true;
+            using (var dialog = new OpenFileDialog())
+            {
+                dialog.Filter = "All Files (*.*)|*.*";
+                dialog.FilterIndex = 1;
+                dialog.Multiselect = true;
+                string[] arrAllFiles = new string[20];
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    //string sFileName = dialog.FileName;
+                    arrAllFiles = dialog.FileNames; //used when Multiselect = true           
+                }
+
+                var mappings = _svnManagement.GetMappings();
+
+                foreach (var item in arrAllFiles)
+                {
+                    string directory = System.IO.Path.GetDirectoryName(item);
+                    foreach (var subItem in mappings)
+                    {
+                        if (subItem.Key == directory)
+                        {
+                            if (subItem.Value.Status.LocalNodeStatus != SvnStatus.Normal)
+                            {
+                                directoryNormal = false;
+                            }
+                            else
+                            {
+                                directoryNormal = true;
+                            }
+                        }
+                    }
+                }
+
+                if (directoryNormal)
+                {
+                    foreach (var item in arrAllFiles)
+                    {
+                        foreach (var subItem in mappings)
+                        {
+                            if (item == subItem.Key)
+                            {
+                                if (subItem.Value.Status.LocalNodeStatus == SvnStatus.Normal)
+                                {
+                                    SvnFileHistory = new Collection<SvnLogEventArgs>();
+                                    SvnFileHistory = _svnManagement.GetHistory(item);
+                                }
+                                else
+                                {
+                                    ReportOut("File is not committed!");
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ReportOut("Selected directory is not committed!");
+                    return;
+                }
+
             }
         }
 
