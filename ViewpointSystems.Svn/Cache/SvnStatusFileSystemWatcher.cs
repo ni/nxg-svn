@@ -13,7 +13,7 @@ namespace ViewpointSystems.Svn.Cache
         private FileSystemWatcher myFileSystemWatcher;
         private SvnManagement svnManagement;
         readonly object _lock = new object();
-
+        //TODO: fix now
         private string fullPath = "C:\\UnitTestRepo\\.svn\\wc.db";
         private string svnCommitPath = "C:\\UnitTestRepo\\.svn\\tmp\\";
         private WatcherChangeTypes previousEventType;

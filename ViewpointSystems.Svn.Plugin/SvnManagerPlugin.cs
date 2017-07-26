@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 using NationalInstruments.Composition;
 using NationalInstruments.Core;
 
-namespace ViewpointSystems.Svn
+namespace ViewpointSystems.Svn.Plugin
 {
-    [System.ComponentModel.Composition.Export(typeof(SvnManager))]
+    [System.ComponentModel.Composition.Export(typeof(SvnManagerPlugin))]
     [PartMetadata(ExportIdentifier.RootContainerKey, "")]
-    public class SvnManager
+    public class SvnManagerPlugin
     {
-        public DateTime TheValue;
+        private ViewpointSystems.Svn.Svn.SvnManagement _svnManager;
 
-        public SvnManager()
+        public SvnManagerPlugin()
         {
             
-            TheValue = DateTime.Now;
+            
         }
     }
 }

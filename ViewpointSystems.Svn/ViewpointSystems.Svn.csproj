@@ -95,19 +95,19 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Scc\NoSccStatus.cs" />
-    <Compile Include="Scc\SccDirectory.cs" />
-    <Compile Include="Scc\SccFileSystemNode.cs" />
-    <Compile Include="Scc\SccItem.cs" />
-    <Compile Include="Scc\SccItem.LongPath.cs" />
-    <Compile Include="Svn\SvnDirectory.cs" />
-    <Compile Include="Svn\SvnFileStatus.cs" />
-    <Compile Include="Svn\SvnItem.cs" />
-    <Compile Include="Svn\SvnItem.State.cs" />
-    <Compile Include="Svn\SvnItemsEventArgs.cs" />
-    <Compile Include="Svn\SvnItemState.cs" />
-    <Compile Include="Svn\SvnManagement.cs" />
-    <Compile Include="Svn\SvnStatusData.cs" />
+    <Compile Include="SccThings\NoSccStatus.cs" />
+    <Compile Include="SccThings\SccDirectory.cs" />
+    <Compile Include="SccThings\SccFileSystemNode.cs" />
+    <Compile Include="SccThings\SccItem.cs" />
+    <Compile Include="SccThings\SccItem.LongPath.cs" />
+    <Compile Include="SvnThings\SvnDirectory.cs" />
+    <Compile Include="SvnThings\SvnFileStatus.cs" />
+    <Compile Include="SvnThings\SvnItem.cs" />
+    <Compile Include="SvnThings\SvnItem.State.cs" />
+    <Compile Include="SvnThings\SvnItemsEventArgs.cs" />
+    <Compile Include="SvnThings\SvnItemState.cs" />
+    <Compile Include="SvnThings\SvnManagement.cs" />
+    <Compile Include="SvnThings\SvnStatusData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
