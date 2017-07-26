@@ -15,36 +15,33 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void SvnCache_SvnAdd_IsValid()
         {
             // Arrange
-            SvnManagement svnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(svnManagement);
-            string localWorkingLocation = @"C:\UnitTestRepo\";
-
+            var rootPath = SvnManagement.GetRoot(UnitTestPath);
             // Act
 
-            if (svnManagement.IsWorkingCopy(localWorkingLocation))
+            if (SvnManagement.IsWorkingCopy(rootPath))
             {
-                svnManagement.LoadCurrentSvnItemsInLocalRepository(localWorkingLocation);
+                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = svnManagement.GetMappings();
+            var mappingsBefore = SvnManagement.GetMappings();
             int countBefore = mappingsBefore.Count;
-            FileInfo fi = new FileInfo(localWorkingLocation + countBefore + "SvnAdd.txt");
+            var svnAdd = new FileInfo(Path.Combine(SvnManagement.GetRoot(UnitTestPath), countBefore + "_SvnAdd.txt"));
 
-            var myFile = File.Create(fi.ToString());
+            var myFile = File.Create(svnAdd.ToString());
             myFile.Close();
             Thread.Sleep(2000);
 
-            svnManagement.Add(fi.ToString());
+            SvnManagement.Add(svnAdd.ToString());
 
-            Thread.Sleep(500);
+            Thread.Sleep(3000);
 
-            var mappingsAfter = svnManagement.GetMappings();
+            var mappingsAfter = SvnManagement.GetMappings();
             int countAfter = mappingsAfter.Count;
 
             // Assert
             foreach (var item in mappingsAfter)
             {
-                if (fi.ToString() == item.Key)
+                if (svnAdd.ToString() == item.Key)
                 {
                     item.Value.Status.LocalNodeStatus.Should().Be(SvnStatus.Added);
                 }

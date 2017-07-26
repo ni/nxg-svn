@@ -15,46 +15,43 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_PhysicallyRenameNormal_isValid()
         {
             // Arrange
-            SvnManagement svnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(svnManagement);
-            string localWorkingLocation = @"C:\UnitTestRepo\";
-
+            var rootPath = SvnManagement.GetRoot(UnitTestPath);
             // Act
 
-            if (svnManagement.IsWorkingCopy(localWorkingLocation))
+            if (SvnManagement.IsWorkingCopy(rootPath))
             {
-                svnManagement.LoadCurrentSvnItemsInLocalRepository(localWorkingLocation);
+                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = svnManagement.GetMappings();
+            var mappingsBefore = SvnManagement.GetMappings();
             int countBefore = mappingsBefore.Count;
-            FileInfo fi = new FileInfo(localWorkingLocation + countBefore + "PhysicallyRenameNormal.txt");
-            FileInfo fiNew = new FileInfo(localWorkingLocation + "PhysicallyRenameNormalRenamed" + countBefore + 1 + "PhysicallyRenameNormalRenamed.txt");
+            var physicalRenameFile = new FileInfo(Path.Combine(UnitTestPath, countBefore + "_PhysicallyRenameNormal.txt"));
+            var physicalRenameFileNew = new FileInfo(Path.Combine(UnitTestPath, (countBefore + 1) + "Renamed" + "_PhysicallyRenameNormalRenamed.txt"));
 
-            var myFile = File.Create(fi.ToString());
+            var myFile = File.Create(physicalRenameFile.ToString());
             myFile.Close();
             Thread.Sleep(2000);
 
-            svnManagement.Add(fi.ToString());
+            SvnManagement.Add(physicalRenameFile.ToString());
 
             Thread.Sleep(500);
-            svnManagement.CommitChosenFiles(fi.ToString(), "Unit Test");
+            SvnManagement.CommitChosenFiles(physicalRenameFile.ToString(), "Unit Test");
             Thread.Sleep(2000);
 
-            System.IO.File.Move(fi.ToString(), fiNew.ToString());
+            System.IO.File.Move(physicalRenameFile.ToString(), physicalRenameFileNew.ToString());
             Thread.Sleep(2000);
-            var mappingsAfter = svnManagement.GetMappings();
+            var mappingsAfter = SvnManagement.GetMappings();
             int countAfter = mappingsAfter.Count;
 
             // Assert
             foreach (var item in mappingsAfter)
             {
-                if (fi.ToString() == item.Key)
+                if (physicalRenameFile.ToString() == item.Key)
                 {
                     item.Value.Status.LocalNodeStatus.Should().Be(SvnStatus.Missing);
                     
                 }
-                else if (fiNew.ToString() == item.Key)
+                else if (physicalRenameFileNew.ToString() == item.Key)
                 {
                     item.Value.Status.LocalNodeStatus.Should().Be(SvnStatus.NotVersioned);
                 }
@@ -65,44 +62,41 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_PhysicallyRenameAdded_isValid()
         {
             // Arrange
-            SvnManagement svnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(svnManagement);
-            string localWorkingLocation = @"C:\UnitTestRepo\";
-
+            var rootPath = SvnManagement.GetRoot(UnitTestPath);
             // Act
 
-            if (svnManagement.IsWorkingCopy(localWorkingLocation))
+            if (SvnManagement.IsWorkingCopy(rootPath))
             {
-                svnManagement.LoadCurrentSvnItemsInLocalRepository(localWorkingLocation);
+                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = svnManagement.GetMappings();
+            var mappingsBefore = SvnManagement.GetMappings();
             int countBefore = mappingsBefore.Count;
-            FileInfo fi = new FileInfo(localWorkingLocation + countBefore + ".txt");
-            FileInfo fiNew = new FileInfo(localWorkingLocation + countBefore + 1 + ".txt");
+            var physicallyRenameAddedFile = new FileInfo(Path.Combine(UnitTestPath, countBefore + ".txt"));
+            var physicallyRenameAddedFileNew = new FileInfo(Path.Combine(UnitTestPath, (countBefore + 1) + ".txt"));
 
-            var myFile = File.Create(fi.ToString());
+            var myFile = File.Create(physicallyRenameAddedFile.ToString());
             myFile.Close();
             Thread.Sleep(2000);
 
-            svnManagement.Add(fi.ToString());
+            SvnManagement.Add(physicallyRenameAddedFile.ToString());
 
             Thread.Sleep(500);
 
-            System.IO.File.Move(fi.ToString(), fiNew.ToString());
+            System.IO.File.Move(physicallyRenameAddedFile.ToString(), physicallyRenameAddedFileNew.ToString());
             Thread.Sleep(2000);
-            var mappingsAfter = svnManagement.GetMappings();
+            var mappingsAfter = SvnManagement.GetMappings();
             int countAfter = mappingsAfter.Count;
 
             // Assert
             countBefore.Should().BeLessThan(countAfter);
             foreach (var item in mappingsAfter)
             {
-                if (fi.ToString() == item.Key)
+                if (physicallyRenameAddedFile.ToString() == item.Key)
                 {
                     item.Value.Status.LocalNodeStatus.Should().Be(SvnStatus.Missing);
                 }
-                else if (fiNew.ToString() == item.Key)
+                else if (physicallyRenameAddedFileNew.ToString() == item.Key)
                 {
                     item.Value.Status.LocalNodeStatus.Should().Be(SvnStatus.NotVersioned);
                 }

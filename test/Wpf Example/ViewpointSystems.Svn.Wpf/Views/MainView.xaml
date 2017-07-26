@@ -26,6 +26,7 @@
                     <Button HorizontalAlignment="Center" mvx:Bi.nd="Command AddCommand" Width="100" Height="35" Margin="10,10,10,10">Add</Button>
                     <Button HorizontalAlignment="Center" mvx:Bi.nd="Command LockCommand" Width="100" Height="35" Margin="10,10,10,10">Lock</Button>
                     <Button HorizontalAlignment="Center" mvx:Bi.nd="Command UnLockCommand" Width="100" Height="35" Margin="10,10,10,10">Unlock</Button>
+                    <Button HorizontalAlignment="Center" mvx:Bi.nd="Command HistoryCommand" Width="100" Height="35" Margin="10,10,10,10">History</Button>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Button mvx:Bi.nd="Command CommitCommand" Width="100" Height="35" Margin="10,10,10,10">Commit</Button>

@@ -17,21 +17,18 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void SvnManagement_Checkout_IsValid()
         {
             // Arrange
-            SvnManagement svnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(svnManagement);
-            string localWorkingLocation = @"C:\UnitTestRepo\";
             bool assertVal = false;
+            SvnManagement.BuildUnitTestRepo(MainViewModel.LocalWorkingLocation, UnitTestFolder);
 
             // Act
-            if (svnManagement.IsWorkingCopy(localWorkingLocation))
+            
+            if (SvnManagement.CheckOut(UnitTestPath))
             {
-                if (svnManagement.CheckOut(localWorkingLocation))
-                {
-                    svnManagement.LoadCurrentSvnItemsInLocalRepository(localWorkingLocation);
-                    assertVal = true;
-                }
+                SvnManagement.LoadCurrentSvnItemsInLocalRepository(UnitTestPath);
+                assertVal = true;
             }
-
+            
+            
             // Assert
             assertVal.Should().BeTrue();
         }

@@ -10,6 +10,8 @@ using MvvmCross.Platform.Core;
 using MvvmCross.Platform.Platform;
 using MvvmCross.Test.Core;
 using ViewpointSystems.Svn.Core.Tests.Mocks;
+using ViewpointSystems.Svn.Core.ViewModels;
+using ViewpointSystems.Svn.SvnThings;
 
 
 namespace ViewpointSystems.Svn.Core.Tests
@@ -23,7 +25,14 @@ namespace ViewpointSystems.Svn.Core.Tests
         /// <summary>
         /// The mock dispatcher.
         /// </summary>
-        public MockDispatcher MockDispatcher;       
+        public MockDispatcher MockDispatcher;  
+        
+        public SvnManagement SvnManagement;
+        
+        public string UnitTestFolder = @"UnitTestRepo\";
+        public string UnitTestPath = @"";
+
+        public MainViewModel MainViewModel;
 
         /// <summary>
         /// Sets up.
@@ -39,7 +48,10 @@ namespace ViewpointSystems.Svn.Core.Tests
             Ioc.RegisterSingleton<IMvxStringToTypeParser>(new MvxStringToTypeParser());
             //var messenger = new MvxMessengerHub();
             //Ioc.RegisterSingleton<IMvxMessenger>(messenger);
-
+            SvnManagement = new SvnManagement();
+            Ioc.RegisterSingleton<SvnManagement>(SvnManagement);
+            MainViewModel = new MainViewModel();
+            UnitTestPath = Path.Combine(MainViewModel.LocalWorkingLocation, UnitTestFolder);
             Ioc.RegisterSingleton<IMvxTrace>(new TestTrace());
             Ioc.RegisterSingleton<IMvxSettings>(new MvxSettings());
             Initialize();
