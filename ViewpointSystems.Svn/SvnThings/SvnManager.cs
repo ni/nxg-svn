@@ -11,7 +11,7 @@ using ViewpointSystems.Svn.Cache;
 
 namespace ViewpointSystems.Svn.SvnThings
 {
-    public class SvnManager
+    public class SvnManager 
     {                
         private string _repo;
         private readonly SvnStatusCache _statusCache;
