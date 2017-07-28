@@ -10,36 +10,36 @@ namespace ViewpointSystems.Svn.Cache
 {
     public class SvnStatusFileSystemWatcher
     {
-        private FileSystemWatcher myFileSystemWatcher;
-        private SvnManagement svnManagement;
+        private FileSystemWatcher _myFileSystemWatcher;
+        private readonly SvnManager _svnManager;
         readonly object _lock = new object();
-        //TODO: fix now
-        private string fullPath = "C:\\UnitTestRepo\\.svn\\wc.db";
-        private string svnCommitPath = "C:\\UnitTestRepo\\.svn\\tmp\\";
-        private WatcherChangeTypes previousEventType;
+        
+        //private string fullPath = "C:\\UnitTestRepo\\.svn\\wc.db";
+        //private string svnCommitPath = "C:\\UnitTestRepo\\.svn\\tmp\\";
+        //private WatcherChangeTypes previousEventType;
 
-        public SvnStatusFileSystemWatcher(SvnManagement svnManagementObjectSvnManagement)
+        public SvnStatusFileSystemWatcher(SvnManager svnManagerObjectSvnManager)
         {
-            svnManagement = svnManagementObjectSvnManagement;
+            _svnManager = svnManagerObjectSvnManager;
         }
 
         public void InitializeFileSystemWatcher(string path)
         {
-            myFileSystemWatcher = new FileSystemWatcher();
-            myFileSystemWatcher.Path = path;
-            myFileSystemWatcher.NotifyFilter = NotifyFilters.Attributes |
+            _myFileSystemWatcher = new FileSystemWatcher();
+            _myFileSystemWatcher.Path = path;
+            _myFileSystemWatcher.NotifyFilter = NotifyFilters.Attributes |
             NotifyFilters.CreationTime |
             NotifyFilters.DirectoryName |
             NotifyFilters.FileName |
             NotifyFilters.LastWrite |
             NotifyFilters.Size;
-            myFileSystemWatcher.IncludeSubdirectories = true;
-            myFileSystemWatcher.Filter = "*.*";
-            myFileSystemWatcher.Changed += new FileSystemEventHandler(OnChanged);
-            myFileSystemWatcher.Created += new FileSystemEventHandler(OnChanged);
-            myFileSystemWatcher.Deleted += new FileSystemEventHandler(OnChanged);
-            myFileSystemWatcher.Renamed += new RenamedEventHandler(OnRenamed);
-            myFileSystemWatcher.EnableRaisingEvents = true;
+            _myFileSystemWatcher.IncludeSubdirectories = true;
+            _myFileSystemWatcher.Filter = "*.*";
+            _myFileSystemWatcher.Changed += new FileSystemEventHandler(OnChanged);
+            _myFileSystemWatcher.Created += new FileSystemEventHandler(OnChanged);
+            _myFileSystemWatcher.Deleted += new FileSystemEventHandler(OnChanged);
+            _myFileSystemWatcher.Renamed += new RenamedEventHandler(OnRenamed);
+            _myFileSystemWatcher.EnableRaisingEvents = true;
         }
 
         private void OnRenamed(object sender, RenamedEventArgs e)
@@ -49,7 +49,7 @@ namespace ViewpointSystems.Svn.Cache
                 switch (e.ChangeType)
                 {
                     case WatcherChangeTypes.Renamed:
-                        svnManagement.ChangeName(e.OldFullPath, e.FullPath);
+                        _svnManager.ChangeName(e.OldFullPath, e.FullPath);
                         break;
                 }
             }
@@ -62,8 +62,8 @@ namespace ViewpointSystems.Svn.Cache
                 switch (e.ChangeType)
                 {
                     case WatcherChangeTypes.Deleted:
-                        svnManagement.Remove(e.FullPath);
-                        svnManagement.UpdateCache();
+                        _svnManager.Remove(e.FullPath);
+                        _svnManager.UpdateCache();
                         break;
 
                     case WatcherChangeTypes.Created:
@@ -75,21 +75,21 @@ namespace ViewpointSystems.Svn.Cache
                         {
                             path = path + item + "\\";
                         }
-                        if (path != svnCommitPath)
-                        {
-                            svnManagement.AddToCache(e.FullPath);
-                        }
+                        //if (path != svnCommitPath)
+                        //{
+                            _svnManager.AddToCache(e.FullPath);
+                        //}
                         
                         break;
 
                     case WatcherChangeTypes.Changed:
-                        if (e.FullPath == fullPath)
-                        { 
-                            svnManagement.UpdateCache();
-                        }
+                        //if (e.FullPath == fullPath)
+                        //{ 
+                            _svnManager.UpdateCache();
+                        //}
                         break;
                 }
-                previousEventType = e.ChangeType;
+                //previousEventType = e.ChangeType;
             }
         }
     }

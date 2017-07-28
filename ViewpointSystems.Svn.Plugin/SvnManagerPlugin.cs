@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NationalInstruments.Composition;
 using NationalInstruments.Core;
+using ViewpointSystems.Svn.SvnThings;
 
 namespace ViewpointSystems.Svn.Plugin
 {
@@ -14,12 +15,19 @@ namespace ViewpointSystems.Svn.Plugin
     [PartMetadata(ExportIdentifier.RootContainerKey, "")]
     public class SvnManagerPlugin
     {
-        private ViewpointSystems.Svn.Svn.SvnManagement _svnManager;
+        private SvnManager _svnManager;
 
         public SvnManagerPlugin()
         {
-            
+            _svnManager = new SvnManager();
+            if (_svnManager.IsWorkingCopy("")) //TODO: Fill in with working path
+            {
+                _svnManager.LoadCurrentSvnItemsInLocalRepository(""); //TODO: Fill in with working path
+                //TODO: Update UI with latest status of items in SVN
+            }
             
         }
+
+        //TODO: listen to add file, update cache
     }
 }

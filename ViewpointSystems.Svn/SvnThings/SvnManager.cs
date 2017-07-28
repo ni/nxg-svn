@@ -11,18 +11,18 @@ using ViewpointSystems.Svn.Cache;
 
 namespace ViewpointSystems.Svn.SvnThings
 {
-    public class SvnManagement
+    public class SvnManager
     {                
-        private string repo;
-        private SvnStatusCache statusCache;
-        private SvnClient svnClient;
+        private string _repo;
+        private readonly SvnStatusCache _statusCache;
+        private readonly SvnClient _svnClient;
 
         // This event is what is used to notify the main UI that the connection to the camera has been established.
         public event EventHandler RemoveItemFromViewer;
-        public SvnManagement()
+        public SvnManager()
         {            
-            statusCache = new SvnStatusCache(false, this);
-            svnClient = new SvnClient();
+            _statusCache = new SvnStatusCache(false, this);
+            _svnClient = new SvnClient();
         }
 
         /// <summary>
@@ -30,16 +30,21 @@ namespace ViewpointSystems.Svn.SvnThings
         /// </summary>
         public void LoadCurrentSvnItemsInLocalRepository(string localRepo)
         {
-            repo = localRepo;
-            AddToCache(repo);
-            statusCache.StartFileSystemWatcher(repo);
+            _repo = localRepo;
+            AddToCache(_repo);
+            _statusCache.StartFileSystemWatcher(_repo);
         }
 
+        /// <summary>
+        /// Change the name of a file
+        /// </summary>
+        /// <param name="old"></param>
+        /// <param name="snew"></param>
         public void ChangeName(string old, string snew)
         {
-            if (statusCache._map.ContainsKey(old))
+            if (_statusCache.Map.ContainsKey(old))
             {
-                if (statusCache._map.TryGetValue(old, out SvnItem itemOfChoice))
+                if (_statusCache.Map.TryGetValue(old, out SvnItem itemOfChoice))
                 {
                     if (itemOfChoice.Status.LocalNodeStatus == SvnStatus.NotVersioned)
                     {
@@ -61,12 +66,16 @@ namespace ViewpointSystems.Svn.SvnThings
             }
         }
 
+        /// <summary>
+        /// Add a file to the cache
+        /// </summary>
+        /// <param name="path"></param>
         public void AddToCache(string path)
         {
-            repo = path;
+            _repo = path;
             try
             {
-                if (svnClient.GetStatus(repo, new SvnStatusArgs
+                if (_svnClient.GetStatus(_repo, new SvnStatusArgs
             {
                 Depth = SvnDepth.Infinity,
                 RetrieveAllEntries = true
@@ -75,7 +84,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 foreach (var content in statusContents)
                 {
                     var contentStatusData = new SvnStatusData(content);
-                    statusCache.StoreItem(statusCache.CreateItem(content.FullPath, contentStatusData));
+                    _statusCache.StoreItem(_statusCache.CreateItem(content.FullPath, contentStatusData));
                 }
             }
             }
@@ -91,7 +100,7 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public Collection<SvnStatusEventArgs> GetStatus()
         {
-            svnClient.GetStatus(repo, new SvnStatusArgs
+            _svnClient.GetStatus(_repo, new SvnStatusArgs
             {
                 Depth = SvnDepth.Infinity,
                 RetrieveAllEntries = true
@@ -104,12 +113,12 @@ namespace ViewpointSystems.Svn.SvnThings
         /// </summary>
         public void Remove(string path)
         {
-            if (statusCache._map.ContainsKey(path))
+            if (_statusCache.Map.ContainsKey(path))
             {
-                if (statusCache._map.TryGetValue(path, out SvnItem itemOfChoice))
+                if (_statusCache.Map.TryGetValue(path, out SvnItem itemOfChoice))
                 {
                     RemoveItemFromViewer?.Invoke(itemOfChoice, new EventArgs());
-                    statusCache._map.Remove(path);
+                    _statusCache.Map.Remove(path);
                 }
             }
         }
@@ -120,12 +129,12 @@ namespace ViewpointSystems.Svn.SvnThings
         public void UpdateCache()
         {
             DoAgain:
-            var j = statusCache._map.Count;
+            var j = _statusCache.Map.Count;
 
-            foreach (var item in statusCache._map.Values)
+            foreach (var item in _statusCache.Map.Values)
             {
-                statusCache.RefreshItem(item, item.NodeKind);
-                if (j != statusCache._map.Count)
+                _statusCache.RefreshItem(item, item.NodeKind);
+                if (j != _statusCache.Map.Count)
                 {
                     goto DoAgain;
                 }
@@ -138,7 +147,7 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public Dictionary<string, SvnItem> GetMappings()
         {
-            return statusCache._map;
+            return _statusCache.Map;
         }
 
         /// <summary>
@@ -155,7 +164,7 @@ namespace ViewpointSystems.Svn.SvnThings
 
             try
             {
-                return svnClient.Add(path, args);
+                return _svnClient.Add(path, args);
             }
             catch (Exception ex)
             {
@@ -163,10 +172,14 @@ namespace ViewpointSystems.Svn.SvnThings
             }
         }
 
+        /// <summary>
+        /// History of a file
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public Collection<SvnLogEventArgs> GetHistory(string filePath)
         {
-            Collection<SvnLogEventArgs> logs = new Collection<SvnLogEventArgs>();
-            svnClient.GetLog(filePath, out logs);
+            _svnClient.GetLog(filePath, out Collection<SvnLogEventArgs> logs);
             return logs;
         }
 
@@ -178,9 +191,10 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool SvnLock(string target, string comment)
         {
+            //TODO: confirm pre-conditions for lock
             //try
             //{
-            return svnClient.Lock(target, comment);
+            return _svnClient.Lock(target, comment);
 
             //}
             //catch (Exception e)
@@ -199,9 +213,10 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool SvnUnlock(string target)
         {
+            //TODO: confirm pre-conditions for unlock
             //try
             //{
-            return svnClient.Unlock(target);
+            return _svnClient.Unlock(target);
             //}
             //catch (Exception e)
             //{
@@ -210,11 +225,18 @@ namespace ViewpointSystems.Svn.SvnThings
             //}
         }
 
+        /// <summary>
+        /// Rename a file
+        /// </summary>
+        /// <param name="oldPath"></param>
+        /// <param name="newPath"></param>
+        /// <returns></returns>
         public bool SvnRename(string oldPath, string newPath)
         {
+            //TODO: ensure file exists, protect for overwriting an existing file
            //try
             //{
-            return svnClient.Move(oldPath, newPath);
+            return _svnClient.Move(oldPath, newPath);
             //}
             //catch (Exception e)
             //{
@@ -223,6 +245,12 @@ namespace ViewpointSystems.Svn.SvnThings
             //}
         }
 
+        /// <summary>
+        /// Commit
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public bool CommitChosenFiles(string path, string message)
         {
             var args = new SvnCommitArgs();
@@ -235,7 +263,7 @@ namespace ViewpointSystems.Svn.SvnThings
 
             try
             {
-                return svnClient.Commit(path, args);
+                return _svnClient.Commit(path, args);
             }
             catch (Exception e)
             {
@@ -269,12 +297,12 @@ namespace ViewpointSystems.Svn.SvnThings
                 sa.RetrieveAllEntries = true; //the new line
                 Collection<SvnStatusEventArgs> statuses;
 
-                svnClient.GetStatus(repo, sa, out statuses);
+                _svnClient.GetStatus(_repo, sa, out statuses);
                 foreach (var item in statuses)
                 {
                     if (item.LocalContentStatus == SvnStatus.Added || item.LocalContentStatus == SvnStatus.Modified)
                     {
-                        svnClient.Commit(item.FullPath, args);
+                        _svnClient.Commit(item.FullPath, args);
                     }
                 }
                 return true;
@@ -297,7 +325,7 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool IsWorkingCopy(string path)
         {
-            var uri = svnClient.GetUriFromWorkingCopy(path);
+            var uri = _svnClient.GetUriFromWorkingCopy(path);
             return uri != null;
         }
 
@@ -308,7 +336,7 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public string GetRoot(string path)
         {
-            var workingCopyRoot = svnClient.GetWorkingCopyRoot(path);
+            var workingCopyRoot = _svnClient.GetWorkingCopyRoot(path);
             return workingCopyRoot;
         }
 
@@ -318,21 +346,27 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool CheckOut(string localRepo)
         {
-            var localUri = svnClient.GetUriFromWorkingCopy(localRepo);
+            var localUri = _svnClient.GetUriFromWorkingCopy(localRepo);
             var svnUriTarget = new SvnUriTarget(localUri);   //TODO: why is this the only place URI is used?
-            repo = localRepo;
-            return svnClient.CheckOut(svnUriTarget, repo);
+            _repo = localRepo;
+            return _svnClient.CheckOut(svnUriTarget, _repo);
         }
 
+        /// <summary>
+        /// Helper function for unit tests
+        /// </summary>
+        /// <param name="workingPath"></param>
+        /// <param name="unitTestDirectory"></param>
+        /// <returns></returns>
         public bool BuildUnitTestRepo(string workingPath, string unitTestDirectory )
         {
             var unitTestPath = Path.Combine(workingPath, unitTestDirectory);
-            var x = Directory.Exists(unitTestPath);
-            if (!x)
+            var pathExists = Directory.Exists(unitTestPath);
+            if (!pathExists)
             {
                 if (IsWorkingCopy(workingPath))
                 {
-                    if (svnClient.CreateDirectory(unitTestPath))
+                    if (_svnClient.CreateDirectory(unitTestPath))
                     {
                         CommitChosenFiles(unitTestPath, "Unit Test");
                         return true;

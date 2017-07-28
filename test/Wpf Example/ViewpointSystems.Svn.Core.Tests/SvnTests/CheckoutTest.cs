@@ -18,13 +18,13 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         {
             // Arrange
             bool assertVal = false;
-            SvnManagement.BuildUnitTestRepo(MainViewModel.LocalWorkingLocation, UnitTestFolder);
+            SvnManager.BuildUnitTestRepo(MainViewModel.LocalWorkingLocation, UnitTestFolder);
 
             // Act
             
-            if (SvnManagement.CheckOut(UnitTestPath))
+            if (SvnManager.CheckOut(UnitTestPath))
             {
-                SvnManagement.LoadCurrentSvnItemsInLocalRepository(UnitTestPath);
+                SvnManager.LoadCurrentSvnItemsInLocalRepository(UnitTestPath);
                 assertVal = true;
             }
             

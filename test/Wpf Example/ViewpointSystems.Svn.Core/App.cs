@@ -27,7 +27,7 @@ namespace ViewpointSystems.Svn.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            Mvx.RegisterSingleton<SvnManagement>(new SvnManagement());
+            Mvx.RegisterSingleton<SvnManager>(new SvnManager());
             //// Start the app with the Main View Model.
             this.RegisterAppStart<MainViewModel>();
         }

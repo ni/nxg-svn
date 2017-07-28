@@ -27,7 +27,7 @@ namespace ViewpointSystems.Svn.Core.Tests
         /// </summary>
         public MockDispatcher MockDispatcher;  
         
-        public SvnManagement SvnManagement;
+        public SvnManager SvnManager;
         
         public string UnitTestFolder = @"UnitTestRepo\";
         public string UnitTestPath = @"";
@@ -48,8 +48,8 @@ namespace ViewpointSystems.Svn.Core.Tests
             Ioc.RegisterSingleton<IMvxStringToTypeParser>(new MvxStringToTypeParser());
             //var messenger = new MvxMessengerHub();
             //Ioc.RegisterSingleton<IMvxMessenger>(messenger);
-            SvnManagement = new SvnManagement();
-            Ioc.RegisterSingleton<SvnManagement>(SvnManagement);
+            SvnManager = new SvnManager();
+            Ioc.RegisterSingleton<SvnManager>(SvnManager);
             MainViewModel = new MainViewModel();
             UnitTestPath = Path.Combine(MainViewModel.LocalWorkingLocation, UnitTestFolder);
             Ioc.RegisterSingleton<IMvxTrace>(new TestTrace());

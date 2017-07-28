@@ -35,24 +35,8 @@ namespace ViewpointSystems.Svn.Plugin.History
         {
             //how to launch a tools window, via guid
             var historyToolWindow = site.ShowToolWindow(new Guid("b7e7ce66-d3fa-4c19-a7c9-8834e91a31f3"), true);
-            ((HistoryViewModel) (historyToolWindow.DataContext)).DocumentName = "not hotdog";
-            //var lockWindow = new LockView();
-            //lockWindow.Owner = (Window)site.RootVisual;
-            //lockWindow.ShowDialog();
-
-            //var svnManager = host.GetSharedExportedValue<SvnManager>();
-            //MessageBoxResult result = MessageBox.Show("Do you want to close this window?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            //if (result == MessageBoxResult.Yes)
-            //{
-
-            //}
-            //var activeDefinition = site?.EditControl?.Document?.Envoy?.ReferenceDefinition;
-            //if (activeDefinition != null)
-            //{
-            //    var fileName = Path.GetTempFileName();
-            //    File.WriteAllText(fileName, MergeScriptBuilder.Create(activeDefinition.ToEnumerable(), host).ToString());
-            //    Process.Start("Notepad.exe", fileName);
-            //}
+            //TODO: grab name of file that was right clicked to provide to HistoryViewModel
+            ((HistoryViewModel) (historyToolWindow.DataContext)).DocumentName = "provide name of document here";            
         }
 
        
@@ -69,6 +53,7 @@ namespace ViewpointSystems.Svn.Plugin.History
                         var viDocument = loadedEnvoy.ReferenceDefinition as VirtualInstrument;
                         if (loadedEnvoy.ReferenceDefinition != null)
                         {
+                            //TODO: decide if history command should be shown based on if file is in SVN
                             context.Add(HistoryShellRelayCommand);       
                         }
                     }

@@ -13,9 +13,9 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void LoadRepository_WorkingCopy_IsValid()
         {
             // Arrange
-            SvnManagement.BuildUnitTestRepo(MainViewModel.LocalWorkingLocation, UnitTestFolder);
+            SvnManager.BuildUnitTestRepo(MainViewModel.LocalWorkingLocation, UnitTestFolder);
             // Act
-            var isWorkingCopy = SvnManagement.IsWorkingCopy(SvnManagement.GetRoot(UnitTestPath));
+            var isWorkingCopy = SvnManager.IsWorkingCopy(SvnManager.GetRoot(UnitTestPath));
 
             // Assert
             isWorkingCopy.Should().BeTrue();
@@ -25,15 +25,15 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void LoadRepository_Load_IsValid()
         {
             // Arrange
-            var rootPath = SvnManagement.GetRoot(UnitTestPath);
+            var rootPath = SvnManager.GetRoot(UnitTestPath);
             // Act
-            var isWorkingCopy = SvnManagement.IsWorkingCopy(rootPath);
+            var isWorkingCopy = SvnManager.IsWorkingCopy(rootPath);
             if (isWorkingCopy)
             {
-                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
+                SvnManager.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappedItems = SvnManagement.GetMappings();
+            var mappedItems = SvnManager.GetMappings();
 
             // Assert
             isWorkingCopy.Should().BeTrue();

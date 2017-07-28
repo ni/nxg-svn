@@ -16,6 +16,7 @@ using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
 using NationalInstruments.VI.SourceModel;
+using ViewpointSystems.Svn.SvnThings;
 
 
 namespace ViewpointSystems.Svn.Plugin.Lock
@@ -32,8 +33,12 @@ namespace ViewpointSystems.Svn.Plugin.Lock
         
         public static void TakeLock(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {
-            //TODO: provide which VI was locked to UI
-            var svnManager = host.GetSharedExportedValue<SvnManager>();
+            //TODO: provide which VI was locked to Lock UI
+            //TODO: proper way to generate modal dialog
+            //TODO: proper way to create view model
+            //TODO: Read settings and decide if user even wants to see lock dialog, skip or show
+            //TODO: Settings
+            var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
             var lockWindow = new LockView();
             lockWindow.Owner = (Window)site.RootVisual;
             lockWindow.ShowDialog();
@@ -52,7 +57,8 @@ namespace ViewpointSystems.Svn.Plugin.Lock
                     {
                         var viDocument = loadedEnvoy.ReferenceDefinition as VirtualInstrument;
                         if (loadedEnvoy.ReferenceDefinition != null)
-                        {                            
+                        {                     
+                            //TODO: decide if lock command should be shown or not                            
                             context.Add(TakeLockShellRelayCommand);
                         }
                     }

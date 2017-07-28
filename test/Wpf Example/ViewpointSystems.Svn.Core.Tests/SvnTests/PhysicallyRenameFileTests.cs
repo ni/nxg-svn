@@ -15,15 +15,15 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_PhysicallyRenameNormal_isValid()
         {
             // Arrange
-            var rootPath = SvnManagement.GetRoot(UnitTestPath);
+            var rootPath = SvnManager.GetRoot(UnitTestPath);
             // Act
 
-            if (SvnManagement.IsWorkingCopy(rootPath))
+            if (SvnManager.IsWorkingCopy(rootPath))
             {
-                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
+                SvnManager.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = SvnManagement.GetMappings();
+            var mappingsBefore = SvnManager.GetMappings();
             int countBefore = mappingsBefore.Count;
             var physicalRenameFile = new FileInfo(Path.Combine(UnitTestPath, countBefore + "_PhysicallyRenameNormal.txt"));
             var physicalRenameFileNew = new FileInfo(Path.Combine(UnitTestPath, (countBefore + 1) + "Renamed" + "_PhysicallyRenameNormalRenamed.txt"));
@@ -32,15 +32,15 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
             myFile.Close();
             Thread.Sleep(2000);
 
-            SvnManagement.Add(physicalRenameFile.ToString());
+            SvnManager.Add(physicalRenameFile.ToString());
 
             Thread.Sleep(500);
-            SvnManagement.CommitChosenFiles(physicalRenameFile.ToString(), "Unit Test");
+            SvnManager.CommitChosenFiles(physicalRenameFile.ToString(), "Unit Test");
             Thread.Sleep(2000);
 
             System.IO.File.Move(physicalRenameFile.ToString(), physicalRenameFileNew.ToString());
             Thread.Sleep(2000);
-            var mappingsAfter = SvnManagement.GetMappings();
+            var mappingsAfter = SvnManager.GetMappings();
             int countAfter = mappingsAfter.Count;
 
             // Assert
@@ -62,15 +62,15 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_PhysicallyRenameAdded_isValid()
         {
             // Arrange
-            var rootPath = SvnManagement.GetRoot(UnitTestPath);
+            var rootPath = SvnManager.GetRoot(UnitTestPath);
             // Act
 
-            if (SvnManagement.IsWorkingCopy(rootPath))
+            if (SvnManager.IsWorkingCopy(rootPath))
             {
-                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
+                SvnManager.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = SvnManagement.GetMappings();
+            var mappingsBefore = SvnManager.GetMappings();
             int countBefore = mappingsBefore.Count;
             var physicallyRenameAddedFile = new FileInfo(Path.Combine(UnitTestPath, countBefore + ".txt"));
             var physicallyRenameAddedFileNew = new FileInfo(Path.Combine(UnitTestPath, (countBefore + 1) + ".txt"));
@@ -79,13 +79,13 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
             myFile.Close();
             Thread.Sleep(2000);
 
-            SvnManagement.Add(physicallyRenameAddedFile.ToString());
+            SvnManager.Add(physicallyRenameAddedFile.ToString());
 
             Thread.Sleep(500);
 
             System.IO.File.Move(physicallyRenameAddedFile.ToString(), physicallyRenameAddedFileNew.ToString());
             Thread.Sleep(2000);
-            var mappingsAfter = SvnManagement.GetMappings();
+            var mappingsAfter = SvnManager.GetMappings();
             int countAfter = mappingsAfter.Count;
 
             // Assert

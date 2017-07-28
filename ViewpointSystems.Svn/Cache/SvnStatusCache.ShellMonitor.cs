@@ -71,10 +71,10 @@ namespace ViewpointSystems.Svn.Cache
             {
                 SvnItem item;
 
-                if (!string.IsNullOrEmpty(path1) && _map.TryGetValue(path1, out item))
+                if (!string.IsNullOrEmpty(path1) && Map.TryGetValue(path1, out item))
                     item.MarkDirty();
 
-                if (!string.IsNullOrEmpty(path2) && _map.TryGetValue(path2, out item))
+                if (!string.IsNullOrEmpty(path2) && Map.TryGetValue(path2, out item))
                     item.MarkDirty();
             }
         }

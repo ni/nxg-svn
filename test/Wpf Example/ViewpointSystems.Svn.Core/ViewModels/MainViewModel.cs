@@ -16,7 +16,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private SvnManagement _svnManagement = Mvx.Resolve<SvnManagement>();
+        private SvnManager _svnManager = Mvx.Resolve<SvnManager>();
 
         private string repository;
         public string Repository
@@ -83,7 +83,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                     arrAllFiles = dialog.FileNames; //used when Multiselect = true           
                 }
 
-                var mappings = _svnManagement.GetMappings();
+                var mappings = _svnManager.GetMappings();
 
                 foreach (var item in arrAllFiles)
                 {
@@ -101,7 +101,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                 }
                                 else
                                 {
-                                    _svnManagement.Add(directory);
+                                    _svnManager.Add(directory);
                                     directoryAdded = true;
                                 }
                             }
@@ -122,7 +122,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                 {
                                     if (subItem.Value.Status.LocalNodeStatus == SvnStatus.NotVersioned)
                                     {
-                                        _svnManagement.Add(file);
+                                        _svnManager.Add(file);
                                         ReportOut("Files added!");
                                     }
                                 }
@@ -163,7 +163,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                     arrAllFiles = dialog.FileNames; //used when Multiselect = true           
                 }
 
-                var mappings = _svnManagement.GetMappings();
+                var mappings = _svnManager.GetMappings();
 
                 foreach (var item in arrAllFiles)
                 {
@@ -197,7 +197,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                     normalNotifier = true;
                                     if (!string.IsNullOrEmpty(Message))
                                     {
-                                        _svnManagement.SvnLock(item, Message);
+                                        _svnManager.SvnLock(item, Message);
                                     }
                                     else
                                     {
@@ -271,7 +271,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                     arrAllFiles = dialog.FileNames; //used when Multiselect = true           
                 }
 
-                var mappings = _svnManagement.GetMappings();
+                var mappings = _svnManager.GetMappings();
 
                 foreach (var item in arrAllFiles)
                 {
@@ -306,7 +306,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                     if (subItem.Value.Status.IsLockedLocal)
                                     {
                                         itemLocked = true;
-                                        _svnManagement.SvnUnlock(item);
+                                        _svnManager.SvnUnlock(item);
                                     }
                                     else
                                     {
@@ -379,7 +379,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                     arrAllFiles = dialog.FileNames; //used when Multiselect = true           
                 }
 
-                var mappings = _svnManagement.GetMappings();
+                var mappings = _svnManager.GetMappings();
 
                 foreach (var item in arrAllFiles)
                 {
@@ -411,7 +411,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                 if (subItem.Value.Status.LocalNodeStatus == SvnStatus.Normal)
                                 {
                                     SvnFileHistory = new Collection<SvnLogEventArgs>();
-                                    SvnFileHistory = _svnManagement.GetHistory(item);
+                                    SvnFileHistory = _svnManager.GetHistory(item);
                                 }
                                 else
                                 {
@@ -462,7 +462,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                     arrAllFiles = dialog.FileNames; //used when Multiselect = true           
                 }
 
-                var mappings = _svnManagement.GetMappings();
+                var mappings = _svnManager.GetMappings();
 
                 foreach (var item in arrAllFiles)
                 {
@@ -477,7 +477,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                 {
                                     if (!string.IsNullOrEmpty(Message))
                                     {
-                                        _svnManagement.CommitChosenFiles(directory, Message);
+                                        _svnManager.CommitChosenFiles(directory, Message);
                                         directoryAdded = true;
                                     }
                                     else
@@ -513,7 +513,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                 {
                                     if (!string.IsNullOrEmpty(Message))
                                     {
-                                        _svnManagement.CommitChosenFiles(item, Message);
+                                        _svnManager.CommitChosenFiles(item, Message);
                                     }
                                     else
                                     {
@@ -573,10 +573,10 @@ namespace ViewpointSystems.Svn.Core.ViewModels
         /// </summary>
         private void DoCheckOutCommand()
         {
-            if (_svnManagement.CheckOut(LocalWorkingLocation))
+            if (_svnManager.CheckOut(LocalWorkingLocation))
             {
                 ReportOut("Successful Checkout");
-                _svnManagement.LoadCurrentSvnItemsInLocalRepository(LocalWorkingLocation);
+                _svnManager.LoadCurrentSvnItemsInLocalRepository(LocalWorkingLocation);
             }
             else
             {
@@ -620,9 +620,9 @@ namespace ViewpointSystems.Svn.Core.ViewModels
         {            
             if (Directory.Exists(LocalWorkingLocation))
             {
-                if (_svnManagement.IsWorkingCopy(LocalWorkingLocation))
+                if (_svnManager.IsWorkingCopy(LocalWorkingLocation))
                 {
-                    _svnManagement.LoadCurrentSvnItemsInLocalRepository(LocalWorkingLocation);
+                    _svnManager.LoadCurrentSvnItemsInLocalRepository(LocalWorkingLocation);
                     ReportOut("Loaded current working copy in directory " + LocalWorkingLocation);
                 }
                 else

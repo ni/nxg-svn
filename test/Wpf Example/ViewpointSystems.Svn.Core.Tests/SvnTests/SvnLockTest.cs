@@ -15,15 +15,15 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void SvnStatus_SvnLock_IsValid()
         {
             // Arrange
-            var rootPath = SvnManagement.GetRoot(UnitTestPath);
+            var rootPath = SvnManager.GetRoot(UnitTestPath);
             // Act
 
-            if (SvnManagement.IsWorkingCopy(rootPath))
+            if (SvnManager.IsWorkingCopy(rootPath))
             {
-                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
+                SvnManager.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = SvnManagement.GetMappings();
+            var mappingsBefore = SvnManager.GetMappings();
             int countBefore = mappingsBefore.Count;
             var svnLock = new FileInfo(Path.Combine(UnitTestPath, countBefore + "_SvnLock.txt"));
 
@@ -31,13 +31,13 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
             myFile.Close();
             Thread.Sleep(2000);
 
-            SvnManagement.Add(svnLock.ToString());
+            SvnManager.Add(svnLock.ToString());
 
             Thread.Sleep(500);
-            SvnManagement.CommitChosenFiles(svnLock.ToString(), "Unit Test lock");
+            SvnManager.CommitChosenFiles(svnLock.ToString(), "Unit Test lock");
             Thread.Sleep(2000);
-            SvnManagement.SvnLock(svnLock.ToString(), "Locking Test");
-            var mappingsAfter = SvnManagement.GetMappings();
+            SvnManager.SvnLock(svnLock.ToString(), "Locking Test");
+            var mappingsAfter = SvnManager.GetMappings();
             int countAfter = mappingsAfter.Count;
 
             // Assert
@@ -56,15 +56,15 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void SvnStatus_SvnUnLock_IsValid()
         {
             // Arrange
-            var rootPath = SvnManagement.GetRoot(UnitTestPath);
+            var rootPath = SvnManager.GetRoot(UnitTestPath);
             // Act
 
-            if (SvnManagement.IsWorkingCopy(rootPath))
+            if (SvnManager.IsWorkingCopy(rootPath))
             {
-                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
+                SvnManager.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = SvnManagement.GetMappings();
+            var mappingsBefore = SvnManager.GetMappings();
             int countBefore = mappingsBefore.Count;
             var svnUnLock = new FileInfo(Path.Combine(UnitTestPath, countBefore + "_SvnUnLock.txt"));
 
@@ -72,15 +72,15 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
             myFile.Close();
             Thread.Sleep(2000);
 
-            SvnManagement.Add(svnUnLock.ToString());
+            SvnManager.Add(svnUnLock.ToString());
 
             Thread.Sleep(500);
-            SvnManagement.CommitChosenFiles(svnUnLock.ToString(), "Unit Test lock");
+            SvnManager.CommitChosenFiles(svnUnLock.ToString(), "Unit Test lock");
             Thread.Sleep(2000);
-            SvnManagement.SvnLock(svnUnLock.ToString(), "Locking Test");
+            SvnManager.SvnLock(svnUnLock.ToString(), "Locking Test");
             Thread.Sleep(1000);
 
-            var mappingsAfter = SvnManagement.GetMappings();
+            var mappingsAfter = SvnManager.GetMappings();
             int countAfter = mappingsAfter.Count;
 
             foreach (var item in mappingsAfter)
@@ -89,7 +89,7 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
                 {
                     if (item.Value.Status.IsLockedLocal)
                     {
-                        SvnManagement.SvnUnlock(svnUnLock.ToString());
+                        SvnManager.SvnUnlock(svnUnLock.ToString());
                     }
                 }
             }

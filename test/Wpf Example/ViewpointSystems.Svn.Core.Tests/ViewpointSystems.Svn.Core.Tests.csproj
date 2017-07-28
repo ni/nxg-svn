@@ -118,8 +118,8 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MSTest.TestFramework.1.1.18\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.7.63.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Moq.4.7.63\lib\net45\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.7.99.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Moq.4.7.99\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="MvvmCross.Core, Version=5.0.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MvvmCross.Core.5.0.6\lib\net45\MvvmCross.Core.dll</HintPath>
@@ -136,11 +136,11 @@
     <Reference Include="MvvmCross.Wpf, Version=5.0.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MvvmCross.Core.5.0.6\lib\net45\MvvmCross.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="SharpSvn, Version=1.9005.3957.231, Culture=neutral, PublicKeyToken=d729672594885a28, processorArchitecture=x86">
-      <HintPath>..\..\..\packages\SharpSvn.1.9-x86.1.9005.3957.231\lib\net40\SharpSvn.dll</HintPath>
+    <Reference Include="SharpSvn, Version=1.9005.3957.231, Culture=neutral, PublicKeyToken=d729672594885a28, processorArchitecture=AMD64">
+      <HintPath>..\..\..\packages\SharpSvn.1.9-x64.1.9005.3957.231\lib\net40\SharpSvn.dll</HintPath>
     </Reference>
     <Reference Include="SharpSvn.UI, Version=1.9005.3957.231, Culture=neutral, PublicKeyToken=33789aa53ca44aa9, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SharpSvn.1.9-x86.1.9005.3957.231\lib\net40\SharpSvn.UI.dll</HintPath>
+      <HintPath>..\..\..\packages\SharpSvn.1.9-x64.1.9005.3957.231\lib\net40\SharpSvn.UI.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />

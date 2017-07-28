@@ -15,15 +15,15 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_SvnCommit_IsValid()
         {
             // Arrange
-            var rootPath = SvnManagement.GetRoot(UnitTestPath);
+            var rootPath = SvnManager.GetRoot(UnitTestPath);
             // Act
 
-            if (SvnManagement.IsWorkingCopy(rootPath))
+            if (SvnManager.IsWorkingCopy(rootPath))
             {
-                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
+                SvnManager.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = SvnManagement.GetMappings();
+            var mappingsBefore = SvnManager.GetMappings();
             int countBefore = mappingsBefore.Count;
             var svnCommit = new FileInfo(Path.Combine(UnitTestPath, countBefore + "_SvnCommit.txt"));
 
@@ -31,12 +31,12 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
             myFile.Close();
             Thread.Sleep(2000);
 
-            SvnManagement.Add(svnCommit.ToString());
+            SvnManager.Add(svnCommit.ToString());
 
             Thread.Sleep(500);
-            SvnManagement.CommitChosenFiles(svnCommit.ToString(), "Unit Test");
+            SvnManager.CommitChosenFiles(svnCommit.ToString(), "Unit Test");
             Thread.Sleep(2000);
-            var mappingsAfter = SvnManagement.GetMappings();
+            var mappingsAfter = SvnManager.GetMappings();
             int countAfter = mappingsAfter.Count;
 
             // Assert

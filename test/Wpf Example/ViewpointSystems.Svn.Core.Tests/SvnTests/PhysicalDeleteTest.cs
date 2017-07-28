@@ -16,15 +16,15 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_PhysicalDeleteNormal_IsValid()
         {
             // Arrange
-            var rootPath = SvnManagement.GetRoot(UnitTestPath);
+            var rootPath = SvnManager.GetRoot(UnitTestPath);
             // Act
 
-            if (SvnManagement.IsWorkingCopy(rootPath))
+            if (SvnManager.IsWorkingCopy(rootPath))
             {
-                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
+                SvnManager.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = SvnManagement.GetMappings();
+            var mappingsBefore = SvnManager.GetMappings();
             int countBefore = mappingsBefore.Count;
             var physicalDeleteNormalFile = new FileInfo(Path.Combine(UnitTestPath, countBefore +  "_PhysicalDeleteNormal.txt"));
 
@@ -34,7 +34,7 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
 
             physicalDeleteNormalFile.Delete();
             Thread.Sleep(2000);
-            var mappings = SvnManagement.GetMappings();
+            var mappings = SvnManager.GetMappings();
 
             // Assert
 
@@ -52,27 +52,27 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
         public void StatusCache_PhysicalDeleteAdded_IsValid()
         {
             // Arrange
-            var rootPath = SvnManagement.GetRoot(UnitTestPath);
+            var rootPath = SvnManager.GetRoot(UnitTestPath);
             // Act
 
-            if (SvnManagement.IsWorkingCopy(rootPath))
+            if (SvnManager.IsWorkingCopy(rootPath))
             {
-                SvnManagement.LoadCurrentSvnItemsInLocalRepository(rootPath);
+                SvnManager.LoadCurrentSvnItemsInLocalRepository(rootPath);
             }
 
-            var mappingsBefore = SvnManagement.GetMappings();
+            var mappingsBefore = SvnManager.GetMappings();
             int countBefore = mappingsBefore.Count;
             var physicalDeleteAddedFile = new FileInfo(Path.Combine(UnitTestPath, countBefore +  "_PhysicalDeleteAdded.txt"));
 
             var myFile = File.Create(physicalDeleteAddedFile.ToString());
             myFile.Close();
 
-            SvnManagement.Add(physicalDeleteAddedFile.ToString());
+            SvnManager.Add(physicalDeleteAddedFile.ToString());
             Thread.Sleep(500);
 
             physicalDeleteAddedFile.Delete();
             Thread.Sleep(2000);
-            var mappings = SvnManagement.GetMappings();
+            var mappings = SvnManager.GetMappings();
 
             // Assert
 

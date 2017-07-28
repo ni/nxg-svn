@@ -8,6 +8,8 @@ namespace ViewpointSystems.Svn.Plugin.History
 {
     public class HistoryViewModel : IToolWindowViewModel// ToolWindowViewModelBase
     {
+        //TODO: grab SvnManagerPlugin and call History
+
         private ToolWindowEditSite _editSite;
 
         public HistoryViewModel(ToolWindowEditSite site)

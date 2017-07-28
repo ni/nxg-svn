@@ -20,7 +20,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
     /// </summary>
     public class StatusViewModel : BaseViewModel
     {
-        private SvnManagement _svnManagement = Mvx.Resolve<SvnManagement>();
+        private SvnManager _svnManager = Mvx.Resolve<SvnManager>();
         
         /// <summary>
         /// True, actively monitor for changes
@@ -42,10 +42,10 @@ namespace ViewpointSystems.Svn.Core.ViewModels
             base.Start();                                    
             Monitor = true;
             MonitorStatus();
-            _svnManagement.RemoveItemFromViewer += SvnManagement_RemoveItemFromViewer;
+            _svnManager.RemoveItemFromViewer += SvnManagerRemoveItemFromViewer;
         }
 
-        private void SvnManagement_RemoveItemFromViewer(object sender, EventArgs e)
+        private void SvnManagerRemoveItemFromViewer(object sender, EventArgs e)
         {
             foreach (var item in FileStatus)
             {
@@ -107,7 +107,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                     Application.Current.Dispatcher.BeginInvoke(
                                 DispatcherPriority.Background,
                                 new Action(() => {
-                                    var x = _svnManagement.GetMappings();
+                                    var x = _svnManager.GetMappings();
                                     if (FileStatus.Count != x.Count)
                                     {
                                         foreach (var item in x)
