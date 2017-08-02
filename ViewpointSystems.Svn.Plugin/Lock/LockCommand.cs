@@ -17,7 +17,7 @@ using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
 using NationalInstruments.VI.SourceModel;
 using ViewpointSystems.Svn.SvnThings;
-
+using NationalInstruments.SourceModel.Envoys;
 
 namespace ViewpointSystems.Svn.Plugin.Lock
 {
@@ -33,16 +33,20 @@ namespace ViewpointSystems.Svn.Plugin.Lock
         
         public static void TakeLock(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {
-            //TODO: provide which VI was locked to Lock UI
-            //TODO: proper way to generate modal dialog
+            //TODO Done: provide which VI was locked to Lock UI
+            //TODO Done: proper way to generate modal dialog
             //TODO: proper way to create view model
-            //TODO: Read settings and decide if user even wants to see lock dialog, skip or show
+            //TODO Done: Read settings and decide if user even wants to see lock dialog, skip or show
             //TODO: Settings
+
+            string filePath = ((Envoy)parameter.Parameter).GetFilePath();
             var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
-            var lockWindow = new LockView();
-            lockWindow.Owner = (Window)site.RootVisual;
-            lockWindow.ShowDialog();
-                      
+            if (SvnPreferences.PromptToLock)
+            {
+                var lockWindow = new LockView();
+                lockWindow.Owner = (Window)site.RootVisual;
+                lockWindow.ShowDialog();
+            }         
         }
 
         public override void CreateContextMenuContent(ICommandPresentationContext context, PlatformVisual sourceVisual)
@@ -59,7 +63,7 @@ namespace ViewpointSystems.Svn.Plugin.Lock
                         if (loadedEnvoy.ReferenceDefinition != null)
                         {                     
                             //TODO: decide if lock command should be shown or not                            
-                            context.Add(TakeLockShellRelayCommand);
+                            context.Add(new ShellCommandInstance(TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
                         }
                     }
                 }
