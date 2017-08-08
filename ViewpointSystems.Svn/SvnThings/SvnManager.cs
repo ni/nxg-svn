@@ -189,7 +189,7 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <param name="target"></param>
         /// <param name="comment"></param>
         /// <returns></returns>
-        public bool SvnLock(string target, string comment)
+        public bool Lock(string target, string comment)
         {
             //TODO: confirm pre-conditions for lock
             //try

@@ -20,14 +20,24 @@ namespace ViewpointSystems.Svn.Plugin
         public SvnManagerPlugin()
         {
             _svnManager = new SvnManager();
-            if (_svnManager.IsWorkingCopy("")) //TODO: Fill in with working path
+            if (_svnManager.IsWorkingCopy(@"C:\svnTesting\Adder")) //TODO: Fill in with working path...obtain from system project root?
             {
-                _svnManager.LoadCurrentSvnItemsInLocalRepository(""); //TODO: Fill in with working path
+                _svnManager.LoadCurrentSvnItemsInLocalRepository(@"C:\svnTesting\Adder"); //TODO: Fill in with working path
                 //TODO: Update UI with latest status of items in SVN
-            }
-            
+            }            
         }
 
         //TODO: listen to add file, update cache
+
+        /// <summary>
+        /// Lock the file
+        /// </summary>
+        /// <param name="filename">file to lock</param>
+        /// <param name="comment">optional lock comment</param>
+        /// <returns></returns>
+        public bool Lock(string filename, string comment = "")
+        {
+            return _svnManager.Lock(filename, comment);
+        }
     }
 }

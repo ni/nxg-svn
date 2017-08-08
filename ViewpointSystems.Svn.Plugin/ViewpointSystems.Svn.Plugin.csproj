@@ -54,6 +54,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NationalInstruments.Common, Version=13.0.40.190, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -154,8 +157,8 @@
   <PropertyGroup>
     <PostBuildEvent>
       mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
-      xcopy /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.dll" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
-      xcopy /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.pdb" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+      xcopy /F /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.dll" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+      xcopy /F /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.pdb" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

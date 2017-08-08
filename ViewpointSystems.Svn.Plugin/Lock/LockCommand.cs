@@ -32,25 +32,28 @@ namespace ViewpointSystems.Svn.Plugin.Lock
 
         
         public static void TakeLock(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
-        {
-            //TODO Done: provide which VI was locked to Lock UI
-            //TODO Done: proper way to generate modal dialog
-            //TODO: proper way to create view model
-            //TODO Done: Read settings and decide if user even wants to see lock dialog, skip or show
-            //TODO: Settings
-
-            string filePath = ((Envoy)parameter.Parameter).GetFilePath();
-            var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
+        {            
+            //TODO: proper way to create view model            
+            
+            var filePath = ((Envoy)parameter.Parameter).GetFilePath();            
             if (SvnPreferences.PromptToLock)
             {
                 var lockWindow = new LockView();
                 lockWindow.Owner = (Window)site.RootVisual;
                 lockWindow.ShowDialog();
-            }         
+            }
+            else
+            {
+                var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
+                //TODO: Console/output of what happened?  i.e. file lock success, or failure?                
+                svnManager.Lock(filePath);
+            }
         }
 
         public override void CreateContextMenuContent(ICommandPresentationContext context, PlatformVisual sourceVisual)
         {
+            //TODO: right now option on menu is only shown if the VI is loaded in the editor, it should be 'possible' to be shown in all instances
+
             var projectItem = sourceVisual.DataContext as ProjectItemViewModel;
             if (projectItem != null && projectItem.Envoy != null)
             {
