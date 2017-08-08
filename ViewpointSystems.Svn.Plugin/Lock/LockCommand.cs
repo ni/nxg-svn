@@ -18,6 +18,7 @@ using NationalInstruments.SourceModel;
 using NationalInstruments.VI.SourceModel;
 using ViewpointSystems.Svn.SvnThings;
 using NationalInstruments.SourceModel.Envoys;
+using ViewpointSystems.Svn.Plugin.UserPreferences;
 
 namespace ViewpointSystems.Svn.Plugin.Lock
 {
@@ -32,15 +33,14 @@ namespace ViewpointSystems.Svn.Plugin.Lock
 
         
         public static void TakeLock(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
-        {            
-            //TODO: proper way to create view model            
-            
+        {                        
             var filePath = ((Envoy)parameter.Parameter).GetFilePath();            
             if (SvnPreferences.PromptToLock)
             {
                 var lockWindow = new LockView();
                 lockWindow.Owner = (Window)site.RootVisual;
                 lockWindow.ShowDialog();
+                //TODO: flush out View / ViewModel for lock - bsh todo
             }
             else
             {

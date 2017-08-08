@@ -1,12 +1,11 @@
-﻿using NationalInstruments.Core;
-using NationalInstruments.Shell;
+﻿using NationalInstruments.Shell;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewpointSystems.Svn.Plugin
+namespace ViewpointSystems.Svn.Plugin.UserPreferences
 {
     /// <summary>
     /// User preferences page factory export
@@ -27,15 +26,6 @@ namespace ViewpointSystems.Svn.Plugin
         public override IUserPreferencesPage CreatePage()
         {
             return Host.CreateInstance<SvnPreferencesPage>();
-        }
-    }
-
-    public class SvnPreferences
-    {
-        public static bool PromptToLock
-        {
-            get { return PreferencesHelper.GetPreference(typeof(SvnPreferences), nameof(PromptToLock), true); }
-            set { PreferencesHelper.SetPreference(typeof(SvnPreferences), nameof(PromptToLock), value); }
         }
     }
 }
