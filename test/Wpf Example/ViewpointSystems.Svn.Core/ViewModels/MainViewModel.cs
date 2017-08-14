@@ -197,7 +197,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                     normalNotifier = true;
                                     if (!string.IsNullOrEmpty(Message))
                                     {
-                                        _svnManager.SvnLock(item, Message);
+                                        _svnManager.Lock(item, Message);
                                     }
                                     else
                                     {

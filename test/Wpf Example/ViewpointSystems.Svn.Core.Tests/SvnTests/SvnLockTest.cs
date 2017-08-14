@@ -36,7 +36,7 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
             Thread.Sleep(500);
             SvnManager.CommitChosenFiles(svnLock.ToString(), "Unit Test lock");
             Thread.Sleep(2000);
-            SvnManager.SvnLock(svnLock.ToString(), "Locking Test");
+            SvnManager.Lock(svnLock.ToString(), "Locking Test");
             var mappingsAfter = SvnManager.GetMappings();
             int countAfter = mappingsAfter.Count;
 
@@ -77,7 +77,7 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
             Thread.Sleep(500);
             SvnManager.CommitChosenFiles(svnUnLock.ToString(), "Unit Test lock");
             Thread.Sleep(2000);
-            SvnManager.SvnLock(svnUnLock.ToString(), "Locking Test");
+            SvnManager.Lock(svnUnLock.ToString(), "Locking Test");
             Thread.Sleep(1000);
 
             var mappingsAfter = SvnManager.GetMappings();

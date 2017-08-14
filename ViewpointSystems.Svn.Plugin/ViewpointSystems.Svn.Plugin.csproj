@@ -54,6 +54,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NationalInstruments.Common, Version=13.0.40.190, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -108,6 +111,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileWatcher\FilenameWatcherServiceFactory.cs" />
     <Compile Include="History\HistoryCommand.cs" />
     <Compile Include="History\HistoryType.cs" />
     <Compile Include="History\HistoryView.xaml.cs">
@@ -119,13 +123,21 @@
       <DependentUpon>LockView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Lock\LockViewModel.cs" />
+    <Compile Include="Overlay\ProjectItemOveralyService.cs" />
+    <Compile Include="Overlay\ProjectItemOverlayServiceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SourceModel\NamespaceSchema.cs" />
     <Compile Include="SvnManagerPlugin.cs" />
-    <Compile Include="SvnPreferencesPage.xaml.cs">
+    <Compile Include="UserPreferences\SvnPreferences.cs" />
+    <Compile Include="UserPreferences\SvnPreferencesPage.xaml.cs">
       <DependentUpon>SvnPreferencesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserPreferences.cs" />
+    <Compile Include="UserPreferences\SvnPropertiesPageProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -139,7 +151,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SvnPreferencesPage.xaml">
+    <Page Include="UserPreferences\SvnPreferencesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,12 +162,30 @@
       <Name>ViewpointSystems.Svn</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Lock.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Unlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LockControls.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\test.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
       mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
-      xcopy /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.dll" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
-      xcopy /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.pdb" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+      xcopy /F /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.dll" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+      xcopy /F /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.pdb" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

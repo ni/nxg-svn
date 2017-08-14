@@ -67,6 +67,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpSvn, Version=1.9005.3957.231, Culture=neutral, PublicKeyToken=d729672594885a28, processorArchitecture=AMD64">
       <HintPath>..\packages\SharpSvn.1.9-x64.1.9005.3957.231\lib\net40\SharpSvn.dll</HintPath>
@@ -123,7 +126,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
-      xcopy /F /R /Y "$(TargetDir)*.*" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+xcopy /F /R /Y "$(TargetDir)*.*" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
