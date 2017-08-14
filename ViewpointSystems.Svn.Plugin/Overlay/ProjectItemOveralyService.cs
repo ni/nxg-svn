@@ -15,12 +15,17 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
     {
         private readonly PlatformImage _lockOverlay;
         private readonly PlatformImage _redOverlay;
+        
+        
+        private readonly SvnManagerPlugin _svnManager;
 
         public ProjectItemOverlayService()
-        {
-            //TODO: Help - cannot seem to properly load icon
+        {            
             _lockOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/LockControls.png");
             //_redOverlay = ResourceHelpers.LoadBitmapImage(typeof(ProjectItemOverlayService), "Resources/Red_8x8.png");
+
+            //TODO: proper method to get reference to SVN manager?
+            _svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
         }
 
         public PlatformImage TopLeftOverlay => PlatformImage.NullImage;
@@ -30,18 +35,15 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
         {
             get
             {
-                IReferencedFileService fileService = AssociatedEnvoy.GetReferencedFileService();
-                if (fileService == null)
-                {
-                    return PlatformImage.NullImage;
-                }
-                if (fileService.HasSetLocation())
-                {
+                var returnValue = PlatformImage.NullImage;
+                var fileService = AssociatedEnvoy.GetReferencedFileService();               
+                if (null != fileService && fileService.HasSetLocation())
+                {                    
                     //TODO: evaluate what icon should be shown here
                     // fileService.StoragePath is the path to the file 
                     return _lockOverlay;
                 }
-                return PlatformImage.NullImage;
+                return returnValue;
             }
         }
 

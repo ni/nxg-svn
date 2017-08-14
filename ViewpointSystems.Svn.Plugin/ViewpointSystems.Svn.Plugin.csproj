@@ -167,19 +167,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
+  </ItemGroup>  
   <ItemGroup>
-    <None Include="Resources\Lock.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Unlock.png" />
+    <Resource Include="Resources\Unlock.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\LockControls.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\test.png" />
-  </ItemGroup>
+  </ItemGroup>  
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
