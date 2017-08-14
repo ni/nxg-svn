@@ -18,7 +18,6 @@ using NationalInstruments.SourceModel;
 using NationalInstruments.VI.SourceModel;
 using NationalInstruments.SourceModel.Envoys;
 using ViewpointSystems.Svn.Plugin.UserPreferences;
-using ViewpointSystems.Svn.SvnThings;
 
 namespace ViewpointSystems.Svn.Plugin.Lock
 {
