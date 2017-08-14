@@ -175,7 +175,7 @@
     <None Include="Resources\Unlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LockControls.png" />
+    <Resource Include="Resources\LockControls.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\test.png" />

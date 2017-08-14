@@ -16,9 +16,9 @@ using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
 using NationalInstruments.VI.SourceModel;
-using ViewpointSystems.Svn.SvnThings;
 using NationalInstruments.SourceModel.Envoys;
 using ViewpointSystems.Svn.Plugin.UserPreferences;
+using ViewpointSystems.Svn.SvnThings;
 
 namespace ViewpointSystems.Svn.Plugin.Lock
 {
@@ -59,15 +59,11 @@ namespace ViewpointSystems.Svn.Plugin.Lock
             {
                 try
                 {
-                    var loadedEnvoy = projectItem.Envoy.Project.GetLinkedEnvoys(projectItem.Envoy).Where(e => e.ReferenceDefinition != null).FirstOrDefault();
-                    if (loadedEnvoy != null)
+                    var envoy = projectItem.Envoy;
+                    if (envoy != null)
                     {
-                        var viDocument = loadedEnvoy.ReferenceDefinition as VirtualInstrument;
-                        if (loadedEnvoy.ReferenceDefinition != null)
-                        {                     
-                            //TODO: decide if lock command should be shown or not                            
-                            context.Add(new ShellCommandInstance(TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                        }
+                        //TODO: decide if lock command should be shown or not                            
+                        context.Add(new ShellCommandInstance(TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
                     }
                 }
                 catch (Exception)

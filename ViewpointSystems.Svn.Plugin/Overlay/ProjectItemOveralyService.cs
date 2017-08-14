@@ -19,7 +19,7 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
         public ProjectItemOverlayService()
         {
             //TODO: Help - cannot seem to properly load icon
-            _lockOverlay = ResourceHelpers.LoadBitmapImage(typeof(ProjectItemOverlayService), "Resources/LockControls.png");
+            _lockOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/LockControls.png");
             //_redOverlay = ResourceHelpers.LoadBitmapImage(typeof(ProjectItemOverlayService), "Resources/Red_8x8.png");
         }
 
