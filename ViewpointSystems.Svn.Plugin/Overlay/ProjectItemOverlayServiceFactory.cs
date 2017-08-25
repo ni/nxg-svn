@@ -13,7 +13,7 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
     {
         protected override EnvoyService CreateService()
         {
-            return new ProjectItemOverlayService();
+            return new ProjectItemOverlayService(Host);
         }
     }
 }

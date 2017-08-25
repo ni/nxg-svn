@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NationalInstruments.Core;
 using NationalInstruments.Restricted.SourceModel.Envoys;
 using NationalInstruments.SourceModel.Envoys;
+using NationalInstruments.SourceModel;
 
 namespace ViewpointSystems.Svn.Plugin.FileWatcher
 {
@@ -34,6 +35,23 @@ namespace ViewpointSystems.Svn.Plugin.FileWatcher
                 {
                     var path = ((SourceFileReference)transaction.TargetElement).StoragePath;
                     Log.WriteLine(path);
+                }
+                foreach (var objectChange in e.Transactions.OfType<OwnerComponentTransactionItem>())
+                {
+                    var element = objectChange.TargetElement as FileReference;
+                    if (element != null)
+                    {
+                        if (objectChange.NewOwner != null)
+                        {
+                            // This is an add, process the element
+                            var path = element.StoragePath;
+                        }
+                        if (objectChange.NewOwner == null)
+                        {
+                            // This is a remove, process the element
+                            var path = element.StoragePath;
+                        }
+                    }
                 }
             }
         }
