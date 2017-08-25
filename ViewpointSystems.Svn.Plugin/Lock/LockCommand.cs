@@ -18,7 +18,6 @@ using NationalInstruments.SourceModel;
 using NationalInstruments.VI.SourceModel;
 using NationalInstruments.SourceModel.Envoys;
 using ViewpointSystems.Svn.Plugin.UserPreferences;
-using ViewpointSystems.Svn.SvnThings;
 
 namespace ViewpointSystems.Svn.Plugin.Lock
 {
@@ -45,23 +44,24 @@ namespace ViewpointSystems.Svn.Plugin.Lock
             else
             {
                 var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
-                //TODO: Console/output of what happened?  i.e. file lock success, or failure?                
+                //TODO: Console/output of what happened?  bsh todo              
                 svnManager.Lock(filePath);
             }
         }
 
         public override void CreateContextMenuContent(ICommandPresentationContext context, PlatformVisual sourceVisual)
-        {
-            //TODO: right now option on menu is only shown if the VI is loaded in the editor, it should be 'possible' to be shown in all instances
-
+        {            
             var projectItem = sourceVisual.DataContext as ProjectItemViewModel;
-            if (projectItem != null && projectItem.Envoy != null)
+            if (projectItem?.Envoy != null)
             {
                 try
                 {
                     var envoy = projectItem.Envoy;
                     if (envoy != null)
                     {
+                        //TODO: how to get reference to SVN manager?
+                        var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
+                        
                         //TODO: decide if lock command should be shown or not                            
                         context.Add(new ShellCommandInstance(TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
                     }
