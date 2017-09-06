@@ -46,9 +46,15 @@ namespace ViewpointSystems.Svn.Plugin.Lock
             }
             else
             {
-                var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
-                //TODO: Console/output of what happened?  bsh todo              
-                svnManager.Lock(filePath);
+                var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();                              
+                var success = svnManager.Lock(filePath);
+                var debugHost = host.GetSharedExportedValue<IDebugHost>();
+                if(success)
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Lock {filePath}" ));
+                else
+                {
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Lock {filePath}"));
+                }
             }
         }
 
@@ -61,12 +67,11 @@ namespace ViewpointSystems.Svn.Plugin.Lock
                 {
                     var envoy = projectItem.Envoy;
                     if (envoy != null)
-                    {
-                        //TODO: how to get reference to SVN manager?
+                    {                                                
                         var svnManager = Host.GetSharedExportedValue<SvnManagerPlugin>();
-                        
-                        //TODO: decide if lock command should be shown or not                            
-                        context.Add(new ShellCommandInstance(TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                        var status = svnManager.Status(projectItem.FullPath);
+                        if (!status.IsLocked)
+                            context.Add(new ShellCommandInstance(TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });                        
                     }
                 }
                 catch (Exception)

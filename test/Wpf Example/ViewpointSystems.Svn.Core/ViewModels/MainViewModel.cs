@@ -306,7 +306,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                     if (subItem.Value.Status.IsLockedLocal)
                                     {
                                         itemLocked = true;
-                                        _svnManager.SvnUnlock(item);
+                                        _svnManager.ReleaseLock(item);
                                     }
                                     else
                                     {

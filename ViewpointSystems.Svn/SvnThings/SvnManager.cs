@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SharpSvn;
 //using SharpSvnTest.Core.ViewModels;
 using ViewpointSystems.Svn.Cache;
+using ViewpointSystems.Svn.SccThings;
 
 namespace ViewpointSystems.Svn.SvnThings
 {
@@ -109,6 +110,19 @@ namespace ViewpointSystems.Svn.SvnThings
         }
 
         /// <summary>
+        /// Get the status of a single file
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public SvnItem GetSingleItemStatus(string filename)
+        {
+            var returnValue = new SvnItem(string.Empty, NoSccStatus.Unknown, SvnNodeKind.Unknown);
+            if (_statusCache.Map.ContainsKey(filename))
+                returnValue = _statusCache.Map[filename];
+            return returnValue;
+        }
+
+        /// <summary>
         /// Remove item from status cache and viewer
         /// </summary>
         public void Remove(string path)
@@ -204,14 +218,13 @@ namespace ViewpointSystems.Svn.SvnThings
             //}       
         }
 
-
-
+        
         /// <summary>
-        /// Unlock a locked file.
+        /// Release a locked file.
         /// </summary>
         /// <param name="target"></param>
         /// <returns></returns>
-        public bool SvnUnlock(string target)
+        public bool ReleaseLock(string target)
         {
             //TODO: confirm pre-conditions for unlock
             //try

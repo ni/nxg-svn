@@ -66,12 +66,11 @@ namespace ViewpointSystems.Svn.Plugin
             {
                 // Unsaved project
                 return;
-            }
-            // TODO: Switch to repo
+            }            
             _svnManager = new SvnManager();
-            if (_svnManager.IsWorkingCopy(@"C:\svnTesting\Adder")) //TODO: Fill in with working path...obtain from system project root?
+            if (_svnManager.IsWorkingCopy(Path.GetDirectoryName(storagePath))) 
             {
-                _svnManager.LoadCurrentSvnItemsInLocalRepository(Path.GetDirectoryName(storagePath)); //TODO DONE: Fill in with working path
+                _svnManager.LoadCurrentSvnItemsInLocalRepository(Path.GetDirectoryName(storagePath)); 
                 //TODO: Update UI with latest status of items in SVN
             }
         }
@@ -88,6 +87,21 @@ namespace ViewpointSystems.Svn.Plugin
         public bool Lock(string filename, string comment = "")
         {
             return _svnManager.Lock(filename, comment);
+        }
+
+        public bool ReleaseLock(string filename)
+        {
+            return _svnManager.ReleaseLock(filename);
+        }
+
+        /// <summary>
+        /// Status of a single file
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public SvnItem Status(string filename)
+        {
+            return _svnManager.GetSingleItemStatus(filename);
         }
     }
 }

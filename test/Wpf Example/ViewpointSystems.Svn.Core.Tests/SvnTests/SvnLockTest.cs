@@ -89,7 +89,7 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
                 {
                     if (item.Value.Status.IsLockedLocal)
                     {
-                        SvnManager.SvnUnlock(svnUnLock.ToString());
+                        SvnManager.ReleaseLock(svnUnLock.ToString());
                     }
                 }
             }

@@ -24,8 +24,8 @@ namespace ViewpointSystems.Svn.SccThings
 
         protected SccItem(string fullPath)
         {
-            if (string.IsNullOrEmpty(fullPath))
-                throw new ArgumentNullException("fullPath");
+            //if (string.IsNullOrEmpty(fullPath))
+            //    throw new ArgumentNullException("fullPath");
 
             _fullPath = fullPath;
         }

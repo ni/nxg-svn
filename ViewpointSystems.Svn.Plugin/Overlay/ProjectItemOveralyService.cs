@@ -41,10 +41,11 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
                 var returnValue = PlatformImage.NullImage;
                 var fileService = AssociatedEnvoy.GetReferencedFileService();               
                 if (null != fileService && fileService.HasSetLocation())
-                {                    
-                    //TODO: evaluate what icon should be shown here
-                    // fileService.StoragePath is the path to the file 
-                    return _lockOverlay;
+                {
+                    //TODO: evaluate other icons                    
+                    var status = _svnManager.Status(fileService.StoragePath);
+                    if (status.IsLocked)
+                        returnValue = _lockOverlay;                    
                 }
                 return returnValue;
             }
