@@ -8,6 +8,7 @@ using NationalInstruments.Core;
 using NationalInstruments.ProjectExplorer;
 using NationalInstruments.SourceModel.Envoys;
 using ViewpointSystems.Svn.Plugin.Properties;
+using NationalInstruments.Composition;
 
 namespace ViewpointSystems.Svn.Plugin.Overlay
 {
@@ -18,14 +19,16 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
         
         
         private readonly SvnManagerPlugin _svnManager;
+        private readonly ICompositionHost _host;
 
-        public ProjectItemOverlayService()
-        {            
+        public ProjectItemOverlayService(ICompositionHost host)
+        {
+            _host = host;
             _lockOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/LockControls.png");
             //_redOverlay = ResourceHelpers.LoadBitmapImage(typeof(ProjectItemOverlayService), "Resources/Red_8x8.png");
 
             //TODO: proper method to get reference to SVN manager?
-            _svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
+            _svnManager = _host.GetSharedExportedValue<SvnManagerPlugin>();
         }
 
         public PlatformImage TopLeftOverlay => PlatformImage.NullImage;

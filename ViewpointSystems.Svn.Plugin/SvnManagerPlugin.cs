@@ -8,24 +8,74 @@ using System.Threading.Tasks;
 using NationalInstruments.Composition;
 using NationalInstruments.Core;
 using ViewpointSystems.Svn.SvnThings;
+using NationalInstruments.Shell;
+using System.IO;
+using NationalInstruments.SourceModel.Envoys;
 
 namespace ViewpointSystems.Svn.Plugin
 {
-    [System.ComponentModel.Composition.Export(typeof(SvnManagerPlugin))]
-    [PartMetadata(ExportIdentifier.RootContainerKey, "")]
-    public class SvnManagerPlugin
+    [Export(typeof(SvnManagerPlugin))]
+    //[PartMetadata(ExportIdentifier.RootContainerKey, "")] // This has project afinity so we need to create one per Project
+    public class SvnManagerPlugin : IPartImportsSatisfiedNotification
     {
         private SvnManager _svnManager;
+        private IDocumentManager _documentManager;
+        private Project _currentProject;
 
         public SvnManagerPlugin()
         {
+        }
+
+        [Import]
+        public ICompositionHost Host { get; set; }
+
+        public void OnImportsSatisfied()
+        {
+            _documentManager = Host.GetSharedExportedValue<IDocumentManager>();
+            _documentManager.PropertyChanged += HandleDocumentManagerPropertyChanged;
+            ConnectToProject();
+
+        }
+
+        private void HandleDocumentManagerPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == DocumentManagerExtensions.ActiveProjectPropertyChangedName)
+            {
+                ConnectToProject();
+            }
+        }
+
+        private void ConnectToProject()
+        {
+            _currentProject = _documentManager.ActiveProject;
+            _currentProject.PropertyChanged += HandleProjectPropertyChanged;
+            ConnectToRepository(_currentProject.StoragePath);
+        }
+
+        private void HandleProjectPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == Project.StoragePathPropertyChangedName)
+            {
+                ConnectToRepository(_currentProject.StoragePath);
+            }
+        }
+
+        private void ConnectToRepository(string storagePath)
+        {
+            if (string.IsNullOrEmpty(storagePath))
+            {
+                // Unsaved project
+                return;
+            }
+            // TODO: Switch to repo
             _svnManager = new SvnManager();
             if (_svnManager.IsWorkingCopy(@"C:\svnTesting\Adder")) //TODO: Fill in with working path...obtain from system project root?
             {
-                _svnManager.LoadCurrentSvnItemsInLocalRepository(@"C:\svnTesting\Adder"); //TODO: Fill in with working path
+                _svnManager.LoadCurrentSvnItemsInLocalRepository(Path.GetDirectoryName(storagePath)); //TODO DONE: Fill in with working path
                 //TODO: Update UI with latest status of items in SVN
-            }            
+            }
         }
+
 
         //TODO: listen to add file, update cache
 

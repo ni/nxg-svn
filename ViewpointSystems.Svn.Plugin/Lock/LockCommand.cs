@@ -18,6 +18,7 @@ using NationalInstruments.SourceModel;
 using NationalInstruments.VI.SourceModel;
 using NationalInstruments.SourceModel.Envoys;
 using ViewpointSystems.Svn.Plugin.UserPreferences;
+using System.ComponentModel.Composition;
 
 namespace ViewpointSystems.Svn.Plugin.Lock
 {
@@ -30,6 +31,8 @@ namespace ViewpointSystems.Svn.Plugin.Lock
             LabelTitle = "Lock",
         };
 
+        [Import]
+        public ICompositionHost Host { get; set; }
         
         public static void TakeLock(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {                        
@@ -60,7 +63,7 @@ namespace ViewpointSystems.Svn.Plugin.Lock
                     if (envoy != null)
                     {
                         //TODO: how to get reference to SVN manager?
-                        var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
+                        var svnManager = Host.GetSharedExportedValue<SvnManagerPlugin>();
                         
                         //TODO: decide if lock command should be shown or not                            
                         context.Add(new ShellCommandInstance(TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
