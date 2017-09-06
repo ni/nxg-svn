@@ -36,17 +36,18 @@ namespace ViewpointSystems.Svn.Plugin.Lock
         
         public static void TakeLock(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {                        
-            var filePath = ((Envoy)parameter.Parameter).GetFilePath();            
-            if (SvnPreferences.PromptToLock)
-            {
-                var lockWindow = new LockView();
-                lockWindow.Owner = (Window)site.RootVisual;
-                lockWindow.ShowDialog();
-                //TODO: flush out View / ViewModel for lock - bsh todo
-            }
-            else
-            {
-                var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();                              
+            var filePath = ((Envoy)parameter.Parameter).GetFilePath();
+            //TODO: flush out View / ViewModel for lock - bsh todo
+            //if (SvnPreferences.PromptToLock)
+            //{
+            //    var lockWindow = new LockView();
+            //    lockWindow.Owner = (Window)site.RootVisual;
+            //    lockWindow.ShowDialog();
+            //    
+            //}
+            //else
+            //{
+            var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();                              
                 var success = svnManager.Lock(filePath);
                 var debugHost = host.GetSharedExportedValue<IDebugHost>();
                 if(success)
@@ -55,7 +56,7 @@ namespace ViewpointSystems.Svn.Plugin.Lock
                 {
                     debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Lock {filePath}"));
                 }
-            }
+           // }
         }
 
         public override void CreateContextMenuContent(ICommandPresentationContext context, PlatformVisual sourceVisual)
