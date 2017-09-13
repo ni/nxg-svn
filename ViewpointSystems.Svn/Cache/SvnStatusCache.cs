@@ -192,7 +192,7 @@ namespace ViewpointSystems.Svn.Cache
 
             if (DirectoryMap.TryGetValue(item.FullPath, out dir))
             {
-                ((ISvnDirectoryUpdate)dir).Store(item);
+                ((ISvnDirectoryUpdate) dir)?.Store(item);
             }
         }
 
