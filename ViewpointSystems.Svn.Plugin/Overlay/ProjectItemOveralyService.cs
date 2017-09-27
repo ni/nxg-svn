@@ -44,7 +44,7 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
                 {
                     //TODO: evaluate other icons                    
                     var status = _svnManager.Status(fileService.StoragePath);
-                    if (status.IsLocked)
+                    if (status.IsVersioned && status.IsLocked)
                         returnValue = _lockOverlay;                    
                 }
                 return returnValue;

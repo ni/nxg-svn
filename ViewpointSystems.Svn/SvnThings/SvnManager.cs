@@ -116,7 +116,7 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public SvnItem GetSingleItemStatus(string filename)
         {
-            var returnValue = new SvnItem(string.Empty, NoSccStatus.Unknown, SvnNodeKind.Unknown);
+            var returnValue = new SvnItem(filename, SvnStatusData.NotExisting);
             if (_statusCache.Map.ContainsKey(filename))
                 returnValue = _statusCache.Map[filename];
             return returnValue;
