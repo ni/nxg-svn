@@ -24,7 +24,7 @@ namespace ViewpointSystems.Svn.Plugin.Lock
 {
     [ExportPushCommandContent]
     public class LockCommand : PushCommandContent
-    {       
+    {
         public static readonly ICommandEx TakeLockShellRelayCommand = new ShellRelayCommand(TakeLock)
         {
             UniqueId = "ViewpointSystems.Svn.Plugin.Lock.TakeLockShellRelayCommand",
@@ -33,9 +33,9 @@ namespace ViewpointSystems.Svn.Plugin.Lock
 
         [Import]
         public ICompositionHost Host { get; set; }
-        
+
         public static void TakeLock(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
-        {                        
+        {
             var filePath = ((Envoy)parameter.Parameter).GetFilePath();
             //TODO: flush out View / ViewModel for lock - bsh todo
             //if (SvnPreferences.PromptToLock)
@@ -47,20 +47,20 @@ namespace ViewpointSystems.Svn.Plugin.Lock
             //}
             //else
             //{
-            var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();                              
-                var success = svnManager.Lock(filePath);
-                var debugHost = host.GetSharedExportedValue<IDebugHost>();
-                if(success)
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Lock {filePath}" ));
-                else
-                {
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Lock {filePath}"));
-                }
-           // }
+            var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
+            var success = svnManager.Lock(filePath);
+            var debugHost = host.GetSharedExportedValue<IDebugHost>();
+            if (success)
+                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Lock {filePath}"));
+            else
+            {
+                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Lock {filePath}"));
+            }
+            // }
         }
 
         public override void CreateContextMenuContent(ICommandPresentationContext context, PlatformVisual sourceVisual)
-        {            
+        {
             var projectItem = sourceVisual.DataContext as ProjectItemViewModel;
             if (projectItem?.Envoy != null)
             {
@@ -68,17 +68,17 @@ namespace ViewpointSystems.Svn.Plugin.Lock
                 {
                     var envoy = projectItem.Envoy;
                     if (envoy != null)
-                    {                                                
+                    {
                         var svnManager = Host.GetSharedExportedValue<SvnManagerPlugin>();
                         var status = svnManager.Status(projectItem.FullPath);
                         if (status.IsVersioned && !status.IsLocked)
-                            context.Add(new ShellCommandInstance(TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });                        
+                            context.Add(new ShellCommandInstance(TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
                     }
                 }
                 catch (Exception)
                 {
                 }
-            }            
+            }
             base.CreateContextMenuContent(context, sourceVisual);
         }
     }

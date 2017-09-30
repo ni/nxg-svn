@@ -12,8 +12,8 @@ using ViewpointSystems.Svn.SccThings;
 
 namespace ViewpointSystems.Svn.SvnThings
 {
-    public class SvnManager 
-    {                
+    public class SvnManager
+    {
         private string _repo;
         private readonly SvnStatusCache _statusCache;
         private readonly SvnClient _svnClient;
@@ -21,7 +21,7 @@ namespace ViewpointSystems.Svn.SvnThings
         // This event is what is used to notify the main UI that the connection to the camera has been established.
         public event EventHandler RemoveItemFromViewer;
         public SvnManager()
-        {            
+        {
             _statusCache = new SvnStatusCache(false, this);
             _svnClient = new SvnClient();
         }
@@ -77,17 +77,17 @@ namespace ViewpointSystems.Svn.SvnThings
             try
             {
                 if (_svnClient.GetStatus(_repo, new SvnStatusArgs
-            {
-                Depth = SvnDepth.Infinity,
-                RetrieveAllEntries = true
-            }, out Collection<SvnStatusEventArgs> statusContents))
-            {
-                foreach (var content in statusContents)
                 {
-                    var contentStatusData = new SvnStatusData(content);
-                    _statusCache.StoreItem(_statusCache.CreateItem(content.FullPath, contentStatusData));
+                    Depth = SvnDepth.Infinity,
+                    RetrieveAllEntries = true
+                }, out Collection<SvnStatusEventArgs> statusContents))
+                {
+                    foreach (var content in statusContents)
+                    {
+                        var contentStatusData = new SvnStatusData(content);
+                        _statusCache.StoreItem(_statusCache.CreateItem(content.FullPath, contentStatusData));
+                    }
                 }
-            }
             }
             catch (Exception e)
             {
@@ -200,42 +200,60 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Lock a committed file
         /// </summary>
-        /// <param name="target"></param>
+        /// <param name="filename"></param>
         /// <param name="comment"></param>
         /// <returns></returns>
-        public bool Lock(string target, string comment)
+        public bool Lock(string filename, string comment)
         {
             //TODO: confirm pre-conditions for lock
-            //try
-            //{
-            return _svnClient.Lock(target, comment);
+            var returnValue = false;
+            try
+            {                
+                var status = GetSingleItemStatus(filename);
+                if (!status.IsLocked)
+                {
+                    returnValue = _svnClient.Lock(filename, comment);
+                    if (returnValue)
+                    {
+                        _statusCache.RefreshItem(status, status.NodeKind);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);                
+            }
 
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    throw e;
-            //}       
+            return returnValue;
         }
 
-        
+
         /// <summary>
         /// Release a locked file.
         /// </summary>
-        /// <param name="target"></param>
+        /// <param name="filename"></param>
         /// <returns></returns>
-        public bool ReleaseLock(string target)
+        public bool ReleaseLock(string filename)
         {
-            //TODO: confirm pre-conditions for unlock
-            //try
-            //{
-            return _svnClient.Unlock(target);
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    throw e;
-            //}
+            var returnValue = false;
+            try
+            {
+                var status = GetSingleItemStatus(filename);
+                if (status.IsLocked)
+                {
+                    returnValue = _svnClient.Unlock(filename); 
+                    if (returnValue)
+                    {
+                        _statusCache.RefreshItem(status, status.NodeKind);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return returnValue;
         }
 
         /// <summary>
@@ -247,7 +265,7 @@ namespace ViewpointSystems.Svn.SvnThings
         public bool SvnRename(string oldPath, string newPath)
         {
             //TODO: ensure file exists, protect for overwriting an existing file
-           //try
+            //try
             //{
             return _svnClient.Move(oldPath, newPath);
             //}
@@ -371,7 +389,7 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <param name="workingPath"></param>
         /// <param name="unitTestDirectory"></param>
         /// <returns></returns>
-        public bool BuildUnitTestRepo(string workingPath, string unitTestDirectory )
+        public bool BuildUnitTestRepo(string workingPath, string unitTestDirectory)
         {
             var unitTestPath = Path.Combine(workingPath, unitTestDirectory);
             var pathExists = Directory.Exists(unitTestPath);
