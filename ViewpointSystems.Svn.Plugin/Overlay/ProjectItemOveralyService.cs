@@ -15,9 +15,12 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
     public class ProjectItemOverlayService : EnvoyService, IProjectItemOverlaySupport
     {
         private readonly PlatformImage _lockOverlay;
-        private readonly PlatformImage _redOverlay;
-        
-        
+        private readonly PlatformImage _modifiedOverlay;
+        private readonly PlatformImage _unmodifiedOverlay;
+        private readonly PlatformImage _lockedModifiedOverlay;
+        private readonly PlatformImage _lockedUnmodifiedOverlay;
+
+
         private readonly SvnManagerPlugin _svnManager;
         private readonly ICompositionHost _host;
 
@@ -25,16 +28,18 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
         {
             _host = host;
             _lockOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/LockControls.png");
-            //_redOverlay = ResourceHelpers.LoadBitmapImage(typeof(ProjectItemOverlayService), "Resources/Red_8x8.png");
+            _modifiedOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/Modified.png");
+            _unmodifiedOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/Unmodified.png");
 
-            //TODO: proper method to get reference to SVN manager?
+            _lockedModifiedOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/LockedModified.png");
+            _lockedUnmodifiedOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/LockedUnmodified.png");
             _svnManager = _host.GetSharedExportedValue<SvnManagerPlugin>();
         }
 
         public PlatformImage TopLeftOverlay => PlatformImage.NullImage;
 
-        //TODO: fix location to another corner once bug fix from NI
-        public PlatformImage BottomLeftOverlay
+        
+        public PlatformImage TopRightOverlay
         {
             get
             {
@@ -44,15 +49,34 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
                 {
                     //TODO: evaluate other icons                    
                     var status = _svnManager.Status(fileService.StoragePath);
-                    if (status.IsVersioned && status.IsLocked)
-                        returnValue = _lockOverlay;                    
+                    if (status.IsVersioned)
+                    {
+                        if (status.IsLocked)
+                        {
+                            if (status.IsModified)
+                                returnValue = _lockedModifiedOverlay;
+                            else
+                            {
+                                returnValue = _lockedUnmodifiedOverlay;
+                            }
+                        }
+                        else
+                        {
+                            if(status.IsModified)
+                                returnValue = _modifiedOverlay;
+                            else
+                            {
+                                returnValue = _unmodifiedOverlay;
+                            }
+                        }
+                    }                        
                 }
                 return returnValue;
             }
         }
 
-        public PlatformImage TopRightOverlay => PlatformImage.NullImage;
+        public PlatformImage BottomRightOverlay=> PlatformImage.NullImage;
 
-        public PlatformImage BottomRightOverlay => PlatformImage.NullImage;
+        public PlatformImage BottomLeftOverlay => PlatformImage.NullImage;
     }
 }

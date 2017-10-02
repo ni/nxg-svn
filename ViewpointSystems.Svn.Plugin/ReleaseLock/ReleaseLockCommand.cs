@@ -41,7 +41,9 @@ namespace ViewpointSystems.Svn.Plugin.ReleaseLock
             var success = svnManager.ReleaseLock(filePath);
             var debugHost = host.GetSharedExportedValue<IDebugHost>();
             if (success)
+            {                
                 debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Release Lock {filePath}"));
+            }
             else
             {
                 debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Release Lock {filePath}"));
