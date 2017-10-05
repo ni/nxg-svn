@@ -51,7 +51,23 @@ namespace ViewpointSystems.Svn.Plugin.Lock
             var success = svnManager.Lock(filePath);
             var debugHost = host.GetSharedExportedValue<IDebugHost>();
             if (success)
+            {
+                var envoy = ((Envoy)parameter.Parameter);
+                var projectItem = envoy.GetProjectItemViewModel(site);
+                if (null != projectItem)
+                {
+                    projectItem.RefreshIcon();
+                }
+
+                //var envoy = ((Envoy)parameter.Parameter);
+                //ProjectItemViewModel projectItem = envoy.GetProjectItemViewModel(site);
+                //if (null != projectItem)
+                //{
+                //    projectItem.RefreshIcon();
+                //}
+
                 debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Lock {filePath}"));
+            }
             else
             {
                 debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Lock {filePath}"));
