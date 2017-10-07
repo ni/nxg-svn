@@ -24,6 +24,12 @@ namespace ViewpointSystems.Svn.SvnThings
         {
             _statusCache = new SvnStatusCache(false, this);
             _svnClient = new SvnClient();
+            _statusCache.SvnItemsChanged += _statusCache_SvnItemsChanged;
+        }
+
+        private void _statusCache_SvnItemsChanged(object sender, SvnItemsEventArgs e)
+        {
+            var x = 9;
         }
 
         /// <summary>
@@ -156,6 +162,22 @@ namespace ViewpointSystems.Svn.SvnThings
         }
 
         /// <summary>
+        /// Update the cache for a given file
+        /// </summary>
+        /// <param name="fullPath"></param>
+        public void UpdateCache(string fullPath)
+        {
+            if (_statusCache.Map.ContainsKey(fullPath))
+            {
+                var svnItem = _statusCache.Map[fullPath];
+                _statusCache.RefreshItem(svnItem, svnItem.NodeKind);
+                //XXX stopped here
+                //throttle and throw event
+                
+            }
+        }
+
+        /// <summary>
         /// Get all of the SvnItems that we have stored with their statuses
         /// </summary>
         /// <returns></returns>
@@ -208,7 +230,7 @@ namespace ViewpointSystems.Svn.SvnThings
             //TODO: confirm pre-conditions for lock
             var returnValue = false;
             try
-            {                
+            {
                 var status = GetSingleItemStatus(filename);
                 if (!status.IsLocked)
                 {
@@ -221,7 +243,7 @@ namespace ViewpointSystems.Svn.SvnThings
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);                
+                Console.WriteLine(e);
             }
 
             return returnValue;
@@ -241,7 +263,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 var status = GetSingleItemStatus(filename);
                 if (status.IsLocked)
                 {
-                    returnValue = _svnClient.Unlock(filename); 
+                    returnValue = _svnClient.Unlock(filename);
                     if (returnValue)
                     {
                         _statusCache.RefreshItem(status, status.NodeKind);

@@ -70,8 +70,7 @@ namespace ViewpointSystems.Svn.Plugin
             _svnManager = new SvnManager();
             if (_svnManager.IsWorkingCopy(Path.GetDirectoryName(storagePath))) 
             {
-                _svnManager.LoadCurrentSvnItemsInLocalRepository(Path.GetDirectoryName(storagePath)); 
-                //TODO: Update UI with latest status of items in SVN
+                _svnManager.LoadCurrentSvnItemsInLocalRepository(Path.GetDirectoryName(storagePath));                
             }
         }
 

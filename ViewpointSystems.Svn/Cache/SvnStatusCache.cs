@@ -33,7 +33,7 @@ namespace ViewpointSystems.Svn.Cache
             _usingShell = shell;
             if (_usingShell)
             {
-                InitializeShellMonitor();
+                //InitializeShellMonitor();
             }
             else
             {
@@ -60,7 +60,7 @@ namespace ViewpointSystems.Svn.Cache
             {
                 if (_usingShell)
                 {
-                    ReleaseShellMonitor(disposing);
+                    //ReleaseShellMonitor(disposing);
                 }
 
                 _client.Dispose();
