@@ -10,6 +10,8 @@ using NationalInstruments.Core;
 using ViewpointSystems.Svn.SvnThings;
 using NationalInstruments.Shell;
 using System.IO;
+using NationalInstruments.Design;
+using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.SourceModel.Envoys;
 
 namespace ViewpointSystems.Svn.Plugin
@@ -82,9 +84,15 @@ namespace ViewpointSystems.Svn.Plugin
         /// <param name="svnStatusUpdatedEventArgs"></param>
         private void SvnManagerOnSvnStatusUpdatedEvent(object sender, SvnStatusUpdatedEventArgs svnStatusUpdatedEventArgs)
         {
-            //help
-            //TODO Refresh icon here
-            var x = 9;
+            var activeEditor = DesignerEditControl.GetActiveDesigner(Host);
+            if (null != activeEditor)
+            {
+                var editSite = DocumentEditSite.GetEditSite(activeEditor.EditControl);
+                // check editSite != null just in case
+                var projectExplorerViewModel = editSite?.GetProjectExplorerViewModelFromEditSite();
+                var projectItem = projectExplorerViewModel?.FindProjectItemByFullPath(svnStatusUpdatedEventArgs.FullFilePath);
+                projectItem?.RefreshIcon();
+            }
         }
 
 
