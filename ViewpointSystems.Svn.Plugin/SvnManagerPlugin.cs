@@ -72,6 +72,19 @@ namespace ViewpointSystems.Svn.Plugin
             {
                 _svnManager.LoadCurrentSvnItemsInLocalRepository(Path.GetDirectoryName(storagePath));                
             }
+            _svnManager.SvnStatusUpdatedEvent += SvnManagerOnSvnStatusUpdatedEvent;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="svnStatusUpdatedEventArgs"></param>
+        private void SvnManagerOnSvnStatusUpdatedEvent(object sender, SvnStatusUpdatedEventArgs svnStatusUpdatedEventArgs)
+        {
+            //help
+            //TODO Refresh icon here
+            var x = 9;
         }
 
 

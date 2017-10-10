@@ -18,19 +18,23 @@ namespace ViewpointSystems.Svn.SvnThings
         private readonly SvnStatusCache _statusCache;
         private readonly SvnClient _svnClient;
 
-        // This event is what is used to notify the main UI that the connection to the camera has been established.
-        public event EventHandler RemoveItemFromViewer;
+        /// <summary>
+        /// Thrown when an item is removed from the project
+        /// </summary>
+        public event EventHandler RemoveItemFromProjectEvent;
+
+        /// <summary>
+        /// Thrown when the status of a file has been updated
+        /// </summary>
+        public event EventHandler<SvnStatusUpdatedEventArgs> SvnStatusUpdatedEvent; 
+
         public SvnManager()
         {
             _statusCache = new SvnStatusCache(false, this);
-            _svnClient = new SvnClient();
-            _statusCache.SvnItemsChanged += _statusCache_SvnItemsChanged;
+            _svnClient = new SvnClient();            
         }
 
-        private void _statusCache_SvnItemsChanged(object sender, SvnItemsEventArgs e)
-        {
-            var x = 9;
-        }
+        
 
         /// <summary>
         /// Loads the current SVN Items from the repository, and builds a StatusCache object
@@ -56,14 +60,14 @@ namespace ViewpointSystems.Svn.SvnThings
                     if (itemOfChoice.Status.LocalNodeStatus == SvnStatus.NotVersioned)
                     {
                         Remove(old);
-                        RemoveItemFromViewer?.Invoke(itemOfChoice, new EventArgs());
+                        RemoveItemFromProjectEvent?.Invoke(itemOfChoice, new EventArgs());
                         AddToCache(snew);
                     }
                     else if (itemOfChoice.Status.LocalNodeStatus == SvnStatus.Added)
                     {
                         UpdateCache();
                         Remove(old);
-                        RemoveItemFromViewer?.Invoke(itemOfChoice, new EventArgs());
+                        RemoveItemFromProjectEvent?.Invoke(itemOfChoice, new EventArgs());
                     }
                     else if (itemOfChoice.Status.LocalNodeStatus == SvnStatus.Normal)
                     {
@@ -137,7 +141,7 @@ namespace ViewpointSystems.Svn.SvnThings
             {
                 if (_statusCache.Map.TryGetValue(path, out SvnItem itemOfChoice))
                 {
-                    RemoveItemFromViewer?.Invoke(itemOfChoice, new EventArgs());
+                    RemoveItemFromProjectEvent?.Invoke(itemOfChoice, new EventArgs());
                     _statusCache.Map.Remove(path);
                 }
             }
@@ -171,9 +175,9 @@ namespace ViewpointSystems.Svn.SvnThings
             {
                 var svnItem = _statusCache.Map[fullPath];
                 _statusCache.RefreshItem(svnItem, svnItem.NodeKind);
-                //XXX stopped here
-                //throttle and throw event
-                
+                //Todo: throttle with Rx
+                var handler = SvnStatusUpdatedEvent;
+                handler?.Invoke(this, new SvnStatusUpdatedEventArgs(svnItem.FullPath));
             }
         }
 

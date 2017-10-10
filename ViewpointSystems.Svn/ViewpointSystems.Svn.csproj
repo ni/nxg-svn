@@ -112,6 +112,7 @@
     <Compile Include="SvnThings\SvnItemState.cs" />
     <Compile Include="SvnThings\SvnManager.cs" />
     <Compile Include="SvnThings\SvnStatusData.cs" />
+    <Compile Include="SvnThings\SvnStatusUpdatedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

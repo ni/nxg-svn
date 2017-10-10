@@ -42,7 +42,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
             base.Start();                                    
             Monitor = true;
             MonitorStatus();
-            _svnManager.RemoveItemFromViewer += SvnManagerRemoveItemFromViewer;
+            _svnManager.RemoveItemFromProjectEvent += SvnManagerRemoveItemFromViewer;
         }
 
         private void SvnManagerRemoveItemFromViewer(object sender, EventArgs e)
