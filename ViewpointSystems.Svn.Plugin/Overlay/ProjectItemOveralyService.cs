@@ -9,6 +9,8 @@ using NationalInstruments.ProjectExplorer;
 using NationalInstruments.SourceModel.Envoys;
 using ViewpointSystems.Svn.Plugin.Properties;
 using NationalInstruments.Composition;
+using NationalInstruments.Shell;
+using NationalInstruments.ProjectExplorer.Design;
 
 namespace ViewpointSystems.Svn.Plugin.Overlay
 {
@@ -36,10 +38,11 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
             _svnManager = _host.GetSharedExportedValue<SvnManagerPlugin>();
         }
 
+
         public PlatformImage TopLeftOverlay => PlatformImage.NullImage;
 
-        
-        public PlatformImage TopRightOverlay
+
+        public PlatformImage TopRightOverlay //not implemented in current public build; use BottomLeftOverlay for temp workaround
         {
             get
             {
@@ -77,6 +80,41 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
 
         public PlatformImage BottomRightOverlay=> PlatformImage.NullImage;
 
-        public PlatformImage BottomLeftOverlay => PlatformImage.NullImage;
+        //this is the only implemented overlay in the current public build. Ultimately this won't really be accessible.
+        public PlatformImage BottomLeftOverlay // => PlatformImage.NullImage;
+        {
+            get
+            {
+                var returnValue = PlatformImage.NullImage;
+                var fileService = AssociatedEnvoy.GetReferencedFileService();               
+                if (null != fileService && fileService.HasSetLocation())
+                {
+                    //TODO: evaluate other icons                    
+                    var status = _svnManager.Status(fileService.StoragePath);
+                    if (status.IsVersioned)
+                    {
+                        if (status.IsLocked)
+                        {
+                            if (status.IsModified)
+                                returnValue = _lockedModifiedOverlay;
+                            else
+                            {
+                                returnValue = _lockedUnmodifiedOverlay;
+                            }
+                        }
+                        else
+                        {
+                            if(status.IsModified)
+                                returnValue = _modifiedOverlay;
+                            else
+                            {
+                                returnValue = _unmodifiedOverlay;
+                            }
+                        }
+                    }                        
+                }
+                return returnValue;
+            }
+        }
     }
 }
