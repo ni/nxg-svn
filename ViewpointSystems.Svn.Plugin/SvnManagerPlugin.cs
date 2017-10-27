@@ -51,7 +51,7 @@ namespace ViewpointSystems.Svn.Plugin
         {
             _currentProject = _documentManager.ActiveProject;
             _currentProject.PropertyChanged += HandleProjectPropertyChanged;
-            ConnectToRepository(_currentProject.StoragePath);
+            ConnectToRepository(_currentProject.StoragePath); 
         }
 
         private void HandleProjectPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -76,7 +76,7 @@ namespace ViewpointSystems.Svn.Plugin
             }
             _svnManager.SvnStatusUpdatedEvent += SvnManagerOnSvnStatusUpdatedEvent;
         }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -84,16 +84,21 @@ namespace ViewpointSystems.Svn.Plugin
         /// <param name="svnStatusUpdatedEventArgs"></param>
         private void SvnManagerOnSvnStatusUpdatedEvent(object sender, SvnStatusUpdatedEventArgs svnStatusUpdatedEventArgs)
         {
-            var activeEditor = DesignerEditControl.GetActiveDesigner(Host);
-            if (null != activeEditor)
+            Host.BeginInvoke(() =>
             {
-                var editSite = DocumentEditSite.GetEditSite(activeEditor.EditControl);
-                // check editSite != null just in case
-                var projectExplorerViewModel = editSite?.GetProjectExplorerViewModelFromEditSite();
-                var projectItem = projectExplorerViewModel?.FindProjectItemByFullPath(svnStatusUpdatedEventArgs.FullFilePath);
-                projectItem?.RefreshIcon();
+                var editSite = DocumentEditSite.GuessEditSite(Host); //must Invoke Host; always returns null if not in UI thread
+                    if (null != editSite) // check editSite != null just in case
+                {
+                        var projectExplorerViewModel = editSite?.GetProjectExplorerViewModelFromEditSite();
+                        var projectItem = projectExplorerViewModel?.FindProjectItemByFullPath(svnStatusUpdatedEventArgs.FullFilePath);
+                        projectItem?.RefreshIcon(); //This will only update one window; we're working on a method of updating everything
+                    }
+                            
+            }); 
+
+
+
             }
-        }
 
 
         //TODO: listen to add file, update cache
