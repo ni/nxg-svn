@@ -13,6 +13,7 @@ using System.IO;
 using NationalInstruments.Design;
 using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.SourceModel.Envoys;
+using NationalInstruments.Restricted.Shell;
 
 namespace ViewpointSystems.Svn.Plugin
 {
@@ -86,19 +87,21 @@ namespace ViewpointSystems.Svn.Plugin
         {
             Host.BeginInvoke(() =>
             {
-                var editSite = DocumentEditSite.GuessEditSite(Host); //must Invoke Host; always returns null if not in UI thread
-                    if (null != editSite) // check editSite != null just in case
+                //GetStudioWindows() is in NationalInstruments.Restricted.Shell and may not always be publicly exposed.
+                //This call may need to change at a later date, but should work for now.
+                var studioWindows = StudioWindow.GetStudioWindows(Host); //Get all of the StudioWindows
+                foreach (StudioWindow studioWindow in studioWindows) // use each StudioWindow's EditSite to refresh the appropriate icon
                 {
+                    var editSite = studioWindow.GetEditSite();
+                    if (null != editSite) // check editSite != null just in case
+                    {
                         var projectExplorerViewModel = editSite?.GetProjectExplorerViewModelFromEditSite();
                         var projectItem = projectExplorerViewModel?.FindProjectItemByFullPath(svnStatusUpdatedEventArgs.FullFilePath);
-                        projectItem?.RefreshIcon(); //This will only update one window; we're working on a method of updating everything
+                        projectItem?.RefreshIcon();
                     }
-                            
+                }
             }); 
-
-
-
-            }
+        }
 
 
         //TODO: listen to add file, update cache
