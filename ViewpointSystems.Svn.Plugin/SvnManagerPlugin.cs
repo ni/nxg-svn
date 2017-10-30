@@ -47,7 +47,7 @@ namespace ViewpointSystems.Svn.Plugin
                 ConnectToProject();
             }
         }
-
+       
         private void ConnectToProject()
         {
             _currentProject = _documentManager.ActiveProject;
@@ -117,9 +117,24 @@ namespace ViewpointSystems.Svn.Plugin
             return _svnManager.Lock(filename, comment);
         }
 
-        public bool ReleaseLock(string filename)
+        /// <summary>
+        /// Release lock
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns>true if success, false otherwise</returns>
+        public bool ReleaseLock(string filePath)
         {
-            return _svnManager.ReleaseLock(filename);
+            return _svnManager.ReleaseLock(filePath);
+        }
+
+        /// <summary>
+        /// Revert File
+        /// </summary>
+        /// <param name="filePath">path to file</param>
+        /// <returns></returns>
+        public bool Revert(string filePath)
+        {
+            return _svnManager.Revert(filePath);
         }
 
         /// <summary>

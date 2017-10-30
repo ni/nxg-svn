@@ -80,10 +80,10 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Add a file to the cache
         /// </summary>
-        /// <param name="path"></param>
-        public void AddToCache(string path)
+        /// <param name="filePath"></param>
+        public void AddToCache(string filePath)
         {
-            _repo = path;
+            _repo = filePath;
             try
             {
                 if (_svnClient.GetStatus(_repo, new SvnStatusArgs
@@ -122,29 +122,57 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Get the status of a single file
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
-        public SvnItem GetSingleItemStatus(string filename)
+        public SvnItem GetSingleItemStatus(string filePath)
         {
-            var returnValue = new SvnItem(filename, SvnStatusData.NotExisting);
-            if (_statusCache.Map.ContainsKey(filename))
-                returnValue = _statusCache.Map[filename];
+            var returnValue = new SvnItem(filePath, SvnStatusData.NotExisting);
+            if (_statusCache.Map.ContainsKey(filePath))
+                returnValue = _statusCache.Map[filePath];
             return returnValue;
         }
 
         /// <summary>
         /// Remove item from status cache and viewer
         /// </summary>
-        public void Remove(string path)
+        public void Remove(string filePath)
         {
-            if (_statusCache.Map.ContainsKey(path))
+            if (_statusCache.Map.ContainsKey(filePath))
             {
-                if (_statusCache.Map.TryGetValue(path, out SvnItem itemOfChoice))
+                if (_statusCache.Map.TryGetValue(filePath, out SvnItem itemOfChoice))
                 {
                     RemoveItemFromProjectEvent?.Invoke(itemOfChoice, new EventArgs());
-                    _statusCache.Map.Remove(path);
+                    _statusCache.Map.Remove(filePath);
                 }
             }
+        }
+
+        /// <summary>
+        /// Revert 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns>true success, false otherwise</returns>
+        public bool Revert(string filePath)
+        {
+            var returnValue = false;
+            try
+            {
+                var status = GetSingleItemStatus(filePath);
+                if (status.IsModified)
+                {
+                    returnValue = _svnClient.Revert(filePath);
+                    if (returnValue)
+                    {
+                        _statusCache.RefreshItem(status, status.NodeKind);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return returnValue;
         }
 
         /// <summary>
@@ -168,12 +196,12 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Update the cache for a given file
         /// </summary>
-        /// <param name="fullPath"></param>
-        public void UpdateCache(string fullPath)
+        /// <param name="filePath"></param>
+        public void UpdateCache(string filePath)
         {
-            if (_statusCache.Map.ContainsKey(fullPath))
+            if (_statusCache.Map.ContainsKey(filePath))
             {
-                var svnItem = _statusCache.Map[fullPath];
+                var svnItem = _statusCache.Map[filePath];
                 _statusCache.RefreshItem(svnItem, svnItem.NodeKind);
                 //Todo: throttle with Rx
                 var handler = SvnStatusUpdatedEvent;
@@ -193,18 +221,18 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Adds a file to be committed 
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
-        public bool Add(string path)
+        public bool Add(string filePath)
         {
             var args = new SvnAddArgs();
             args.Depth = SvnDepth.Empty;
-            Console.Out.WriteLine(path);
+            Console.Out.WriteLine(filePath);
             args.AddParents = true;
 
             try
             {
-                return _svnClient.Add(path, args);
+                return _svnClient.Add(filePath, args);
             }
             catch (Exception ex)
             {
@@ -226,19 +254,19 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Lock a committed file
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filePath"></param>
         /// <param name="comment"></param>
         /// <returns></returns>
-        public bool Lock(string filename, string comment)
+        public bool Lock(string filePath, string comment)
         {
             //TODO: confirm pre-conditions for lock
             var returnValue = false;
             try
             {
-                var status = GetSingleItemStatus(filename);
+                var status = GetSingleItemStatus(filePath);
                 if (!status.IsLocked)
                 {
-                    returnValue = _svnClient.Lock(filename, comment);
+                    returnValue = _svnClient.Lock(filePath, comment);
                     if (returnValue)
                     {
                         _statusCache.RefreshItem(status, status.NodeKind);
@@ -257,17 +285,17 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Release a locked file.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
-        public bool ReleaseLock(string filename)
+        public bool ReleaseLock(string filePath)
         {
             var returnValue = false;
             try
             {
-                var status = GetSingleItemStatus(filename);
+                var status = GetSingleItemStatus(filePath);
                 if (status.IsLocked)
                 {
-                    returnValue = _svnClient.Unlock(filename);
+                    returnValue = _svnClient.Unlock(filePath);
                     if (returnValue)
                     {
                         _statusCache.RefreshItem(status, status.NodeKind);
@@ -305,10 +333,10 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Commit
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="filePath"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public bool CommitChosenFiles(string path, string message)
+        public bool CommitChosenFiles(string filePath, string message)
         {
             var args = new SvnCommitArgs();
 
@@ -320,7 +348,7 @@ namespace ViewpointSystems.Svn.SvnThings
 
             try
             {
-                return _svnClient.Commit(path, args);
+                return _svnClient.Commit(filePath, args);
             }
             catch (Exception e)
             {
