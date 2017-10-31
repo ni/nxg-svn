@@ -80,41 +80,42 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
 
         public PlatformImage BottomRightOverlay=> PlatformImage.NullImage;
 
+        public PlatformImage BottomLeftOverlay => PlatformImage.NullImage;
         //this is the only implemented overlay in the current public build. Ultimately this won't really be accessible.
-        public PlatformImage BottomLeftOverlay // => PlatformImage.NullImage;
-        {
-            get
-            {
-                var returnValue = PlatformImage.NullImage;
-                var fileService = AssociatedEnvoy.GetReferencedFileService();               
-                if (null != fileService && fileService.HasSetLocation())
-                {
-                    //TODO: evaluate other icons                    
-                    var status = _svnManager.Status(fileService.StoragePath);
-                    if (status.IsVersioned)
-                    {
-                        if (status.IsLocked)
-                        {
-                            if (status.IsModified)
-                                returnValue = _lockedModifiedOverlay;
-                            else
-                            {
-                                returnValue = _lockedUnmodifiedOverlay;
-                            }
-                        }
-                        else
-                        {
-                            if(status.IsModified)
-                                returnValue = _modifiedOverlay;
-                            else
-                            {
-                                returnValue = _unmodifiedOverlay;
-                            }
-                        }
-                    }                        
-                }
-                return returnValue;
-            }
-        }
+        //public PlatformImage BottomLeftOverlay // => PlatformImage.NullImage;
+        //{
+        //    get
+        //    {
+        //        var returnValue = PlatformImage.NullImage;
+        //        var fileService = AssociatedEnvoy.GetReferencedFileService();               
+        //        if (null != fileService && fileService.HasSetLocation())
+        //        {
+        //            //TODO: evaluate other icons                    
+        //            var status = _svnManager.Status(fileService.StoragePath);
+        //            if (status.IsVersioned)
+        //            {
+        //                if (status.IsLocked)
+        //                {
+        //                    if (status.IsModified)
+        //                        returnValue = _lockedModifiedOverlay;
+        //                    else
+        //                    {
+        //                        returnValue = _lockedUnmodifiedOverlay;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    if(status.IsModified)
+        //                        returnValue = _modifiedOverlay;
+        //                    else
+        //                    {
+        //                        returnValue = _unmodifiedOverlay;
+        //                    }
+        //                }
+        //            }                        
+        //        }
+        //        return returnValue;
+        //    }
+        //}
     }
 }

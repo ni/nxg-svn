@@ -123,6 +123,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Revert\RevertCommand.cs" />
     <Compile Include="ReleaseLock\ReleaseLockCommand.cs" />
     <Compile Include="Lock\LockCommand.cs" />
     <Compile Include="Lock\LockView.xaml.cs">
