@@ -55,6 +55,13 @@ namespace ViewpointSystems.Svn.Plugin.ReleaseLock
                     projectItem.RefreshIcon();
                 }
 
+                //This will revert a file once, but you have to close and reopen in order to revert the same file a second time.
+                //If open, you also have to manually close the file and reopen to see the reversion.
+                IReferencedFileService referencedFile = envoy.GetReferencedFileService();
+                referencedFile.RefreshReferencedFileAsync();
+
+
+                
                 //var envoy = ((Envoy)parameter.Parameter);
                 //ProjectItemViewModel projectItem = envoy.GetProjectItemViewModel(site);
                 //if (null != projectItem)
