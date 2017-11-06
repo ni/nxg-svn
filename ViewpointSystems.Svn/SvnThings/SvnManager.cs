@@ -247,7 +247,7 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public Collection<SvnLogEventArgs> GetHistory(string filePath)
         {
-            _svnClient.GetLog(filePath, out Collection<SvnLogEventArgs> logs);
+            _svnClient.GetLog(filePath, out var logs);
             return logs;
         }
 

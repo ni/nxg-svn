@@ -8,6 +8,14 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Grid.Column="1" Margin="10,0,0,0">
         <TextBlock Text="{Binding DocumentName}"  FontSize="16" ></TextBlock>
-        <TextBlock  FontSize="16" x:Name="_documentTypeControl"></TextBlock>
+        <!--<TextBlock  FontSize="16" x:Name="_documentTypeControl"></TextBlock>-->
+        <DataGrid Margin="0,0,0,10" AutoGenerateColumns="False" Name="DataGridTest" CanUserAddRows="False" ItemsSource="{Binding Path=HistoryStatus}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Revision,UpdateSourceTrigger=PropertyChanged}"  Header="Revision" IsReadOnly="True" Width="250"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Author,UpdateSourceTrigger=PropertyChanged}"  Header="Author" IsReadOnly="True" Width="250"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Time,UpdateSourceTrigger=PropertyChanged}"  Header="Date" IsReadOnly="True" Width="250"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=LogMessage,UpdateSourceTrigger=PropertyChanged}"  Header="Message" IsReadOnly="True" Width="250"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
 </UserControl>

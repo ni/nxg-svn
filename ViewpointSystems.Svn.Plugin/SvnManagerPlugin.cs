@@ -14,6 +14,7 @@ using NationalInstruments.Design;
 using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.SourceModel.Envoys;
 using NationalInstruments.Restricted.Shell;
+using SharpSvn;
 
 namespace ViewpointSystems.Svn.Plugin
 {
@@ -109,12 +110,12 @@ namespace ViewpointSystems.Svn.Plugin
         /// <summary>
         /// Lock the file
         /// </summary>
-        /// <param name="filename">file to lock</param>
+        /// <param name="filePath">file to lock</param>
         /// <param name="comment">optional lock comment</param>
         /// <returns></returns>
-        public bool Lock(string filename, string comment = "")
-        {
-            return _svnManager.Lock(filename, comment);
+        public bool Lock(string filePath, string comment = "")
+        {            
+            return _svnManager.Lock(filePath, comment);
         }
 
         /// <summary>
@@ -140,11 +141,21 @@ namespace ViewpointSystems.Svn.Plugin
         /// <summary>
         /// Status of a single file
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
-        public SvnItem Status(string filename)
+        public SvnItem Status(string filePath)
         {
-            return _svnManager.GetSingleItemStatus(filename);
+            return _svnManager.GetSingleItemStatus(filePath);
+        }
+
+        /// <summary>
+        /// History
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public Collection<SvnLogEventArgs> History(string filePath)
+        {            
+            return _svnManager.GetHistory(filePath);
         }
     }
 }

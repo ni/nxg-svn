@@ -1,15 +1,18 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
+using NationalInstruments.Composition;
 using NationalInstruments.Core;
 using NationalInstruments.Shell;
+using SharpSvn;
+using ViewpointSystems.Svn.SvnThings;
 
 namespace ViewpointSystems.Svn.Plugin.History
 {
     public class HistoryViewModel : IToolWindowViewModel// ToolWindowViewModelBase
-    {
-        //TODO: grab SvnManagerPlugin and call History
-
+    {        
         private ToolWindowEditSite _editSite;
 
         public HistoryViewModel(ToolWindowEditSite site)
@@ -26,9 +29,23 @@ namespace ViewpointSystems.Svn.Plugin.History
             set
             {
                 documentName = value;
+                var svnManager = _editSite.Host.GetSharedExportedValue<SvnManagerPlugin>();
+                HistoryStatus = svnManager.History(documentName);
                 OnPropertyChanged();
             }
         }
+
+        private Collection<SvnLogEventArgs> historyStatus = new Collection<SvnLogEventArgs>();
+        public Collection<SvnLogEventArgs> HistoryStatus
+        {
+            get { return historyStatus; }
+            set
+            {
+                historyStatus = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         /// <summary>
         /// Called when the active document changes
