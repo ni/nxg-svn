@@ -39,6 +39,7 @@ namespace ViewpointSystems.Svn.Plugin.History
             // This creates our View.  Standard WPF thing.
             InitializeComponent();
 
+           // historyDataGrid.style
             // Here we are getting the "User interface" framework object and registering
             // for selection and document change notifications
             //site.RootEditSite.ActiveDocumentChanged += HandleActiveDocumentChanged;

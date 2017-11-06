@@ -9,12 +9,12 @@
     <StackPanel Grid.Column="1" Margin="10,0,0,0">
         <TextBlock Text="{Binding DocumentName}"  FontSize="16" ></TextBlock>
         <!--<TextBlock  FontSize="16" x:Name="_documentTypeControl"></TextBlock>-->
-        <DataGrid Margin="0,0,0,10" AutoGenerateColumns="False" Name="DataGridTest" CanUserAddRows="False" ItemsSource="{Binding Path=HistoryStatus}">
+        <DataGrid Name="historyDataGrid" HeadersVisibility="Column" CanUserSortColumns="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" Margin="0,0,0,10" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Path=HistoryStatus}" CanUserReorderColumns="False" CanUserResizeColumns="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=Revision,UpdateSourceTrigger=PropertyChanged}"  Header="Revision" IsReadOnly="True" Width="250"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=Author,UpdateSourceTrigger=PropertyChanged}"  Header="Author" IsReadOnly="True" Width="250"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=Time,UpdateSourceTrigger=PropertyChanged}"  Header="Date" IsReadOnly="True" Width="250"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=LogMessage,UpdateSourceTrigger=PropertyChanged}"  Header="Message" IsReadOnly="True" Width="250"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Revision,UpdateSourceTrigger=PropertyChanged}"  Header="Revision" IsReadOnly="True" Width="1*"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Author,UpdateSourceTrigger=PropertyChanged}"  Header="Author" IsReadOnly="True" Width="2*"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Time,UpdateSourceTrigger=PropertyChanged}"  Header="Date" IsReadOnly="True" Width="2*"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=LogMessage,UpdateSourceTrigger=PropertyChanged}"  Header="Message" Width="5*" IsReadOnly="True" ></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>
