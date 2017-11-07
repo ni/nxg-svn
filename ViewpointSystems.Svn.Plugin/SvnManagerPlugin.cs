@@ -169,9 +169,26 @@ namespace ViewpointSystems.Svn.Plugin
             return _svnManager.UpdateToRevision(filePath, revision);
         }
 
+        /// <summary>
+        /// Revert to revsision from history
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="startRevision"></param>
+        /// <param name="endRevision"></param>
+        /// <returns></returns>
         public bool ReverseMerge(string filePath, long startRevision, long endRevision)
         {
             return _svnManager.ReverseMerge(filePath, startRevision, endRevision);
+        }
+
+        /// <summary>
+        /// Obtain a file from SVN and place it in this location
+        /// </summary>
+        /// <param name="tempFilePathOldVersion"></param>
+        /// <returns></returns>
+        public bool Write(string localFilePath, string tempFilePathOldVersion, long revision)
+        {
+            return _svnManager.Write(localFilePath, tempFilePathOldVersion, revision);
         }
     }
 }

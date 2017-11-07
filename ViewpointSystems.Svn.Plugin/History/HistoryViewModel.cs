@@ -14,6 +14,7 @@ using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using SharpSvn;
 using ViewpointSystems.Svn.SvnThings;
+using System.IO;
 
 namespace ViewpointSystems.Svn.Plugin.History
 {
@@ -68,7 +69,20 @@ namespace ViewpointSystems.Svn.Plugin.History
         {
             if (null != SelectedHistoryRow)
             {
-                var x = 9;
+                var svnManager = _editSite.Host.GetSharedExportedValue<SvnManagerPlugin>();
+                var tempFilePathOldVersion = Path.Combine(Path.GetTempPath(), Path.GetFileName(FilePath));                
+                var success = svnManager.Write(FilePath, tempFilePathOldVersion, SelectedHistoryRow.Revision);
+                var debugHost = _editSite.Host.GetSharedExportedValue<IDebugHost>();
+                if (success)
+                {
+                    //TODO: how to call compare
+
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Compare to revision {SelectedHistoryRow.Revision} {filePath}"));
+                }
+                else
+                {
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to revision {SelectedHistoryRow.Revision} {filePath}"));
+                }
             }
         }
 

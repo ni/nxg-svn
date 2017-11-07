@@ -451,17 +451,21 @@ namespace ViewpointSystems.Svn.SvnThings
             return _svnClient.Update(filePath, svnUpdateArgs);
         }
 
+        /// <summary>
+        /// Update to revision performs a reverse merge
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="startRevision"></param>
+        /// <param name="endRevision"></param>
+        /// <returns></returns>
         public bool ReverseMerge(string filePath, long startRevision, long endRevision)
         {
-            var svnRange = new SvnRevisionRange(startRevision, endRevision);
-            //var x = GetSingleItemStatus(filePath);
-            
-            var y = new SvnPathTarget(filePath);
-            //var svnUpdateArgs = new SvnUpdateArgs();
-            //var svnRevision = new SvnRevision(revision);
-            //svnUpdateArgs.Revision = svnRevision;
-            return _svnClient.Merge(filePath, y, svnRange);
+            var svnRange = new SvnRevisionRange(startRevision, endRevision);                        
+            var svnPathTarget = new SvnPathTarget(filePath);            
+            return _svnClient.Merge(filePath, svnPathTarget, svnRange);
         }
+
+        
 
         /// <summary>
         /// Helper function for unit tests
@@ -497,6 +501,29 @@ namespace ViewpointSystems.Svn.SvnThings
                 return true;
             }
 
+        }
+
+        public bool Write(string localFilePath, string tempFilePathOldVersion, long revision)
+        {
+            var returnValue = false;
+            if (File.Exists(tempFilePathOldVersion))
+            {
+                File.SetAttributes(tempFilePathOldVersion, FileAttributes.Normal);
+                File.Delete(tempFilePathOldVersion);
+            }
+            var local = GetSingleItemStatus(localFilePath);            
+            var svnPathTarget = new SvnUriTarget(local.Uri, revision);
+            using (var memoryStream = new MemoryStream())
+            using (var fileStream = File.Create(tempFilePathOldVersion))
+            {
+                if (_svnClient.Write(svnPathTarget, memoryStream))
+                {
+                    //memoryStream.Seek(0, SeekOrigin.Begin);
+                    memoryStream.WriteTo(fileStream);
+                    returnValue = true;
+                }                               
+            }
+            return returnValue;
         }
     }
 }
