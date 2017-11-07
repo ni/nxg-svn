@@ -4,12 +4,6 @@ using NationalInstruments.Composition;
 
 namespace ViewpointSystems.Svn.Plugin.History
 {
-
-    /// <summary>
-    /// Factory class for our Selection Tracking Tool
-    /// Performs registration with the framework with all of this metadata
-    /// And factories new instances on demand
-    /// </summary>
     [Export(typeof(IToolWindowType))]
     [ExportMetadata("UniqueID", "b7e7ce66-d3fa-4c19-a7c9-8834e91a31f3")]
     [Name("SVN History")]
