@@ -99,7 +99,11 @@ namespace ViewpointSystems.Svn.Plugin.History
         //    }
         //}
 
-       
+
+        //private void CompareWithWorkingCopyClick(object sender, RoutedEventArgs e)
+        //{
+        //    var x = 9;
+        //}
     }
 
    

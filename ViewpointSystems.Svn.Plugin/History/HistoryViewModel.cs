@@ -1,41 +1,94 @@
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using System.Windows.Media;
+using NationalInstruments;
 using NationalInstruments.Composition;
 using NationalInstruments.Core;
+using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
+using NationalInstruments.SourceModel.Envoys;
 using SharpSvn;
 using ViewpointSystems.Svn.SvnThings;
 
 namespace ViewpointSystems.Svn.Plugin.History
 {
-    public class HistoryViewModel : IToolWindowViewModel// ToolWindowViewModelBase
+    public class HistoryViewModel : IToolWindowViewModel
     {        
         private ToolWindowEditSite _editSite;
+
+        public ICommand CompareWithWorkingCopyCommand { get; set; }
+        public ICommand RevertToThisRevisionCommand { get; set; }
+
 
         public HistoryViewModel(ToolWindowEditSite site)
         {
             _editSite = site;
-            
-            //site.RootEditSite.ActiveDocumentChanged += HandleActiveDocumentChanged;
+            CompareWithWorkingCopyCommand = new RelayCommand(DoComapreWithWorkingCopyCommand);
+            RevertToThisRevisionCommand = new RelayCommand(DoRevertToThisRevisionCommand);            
         }
 
-        private string documentName;
-        public string DocumentName
+        /// <summary>
+        /// Revert to this version
+        /// </summary>
+        /// <param name="obj"></param>
+        private void DoRevertToThisRevisionCommand(object obj)
         {
-            get { return documentName; }
+            if (null != SelectedHistoryRow)
+            {
+                var svnManager = _editSite.Host.GetSharedExportedValue<SvnManagerPlugin>();                
+                var success = svnManager.ReverseMerge(FilePath, HistoryStatus.First().Revision, SelectedHistoryRow.Revision);
+                var debugHost = _editSite.Host.GetSharedExportedValue<IDebugHost>();
+                if (success)
+                {                    
+                    ////TODO: needs to be addressed before go live
+                    ////This will revert a file once, but you have to close and reopen in order to revert the same file a second time.
+                    ////If open, you also have to manually close the file and reopen to see the reversion.
+                    //var referencedFile = envoy.GetReferencedFileService();
+                    //referencedFile.RefreshReferencedFileAsync();
+
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Revert to revision {SelectedHistoryRow.Revision} {filePath}"));
+                }
+                else
+                {
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to revert revision {SelectedHistoryRow.Revision} {filePath}"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compare selected version with working version
+        /// </summary>
+        /// <param name="obj"></param>
+        private void DoComapreWithWorkingCopyCommand(object obj)
+        {
+            if (null != SelectedHistoryRow)
+            {
+                var x = 9;
+            }
+        }
+
+        private string filePath;
+        public string FilePath
+        {
+            get { return filePath; }
             set
             {
-                documentName = value;
+                filePath = value;
                 var svnManager = _editSite.Host.GetSharedExportedValue<SvnManagerPlugin>();
-                HistoryStatus = svnManager.History(documentName);
+                HistoryStatus = svnManager.History(filePath);
                 OnPropertyChanged();
             }
         }
 
         private Collection<SvnLogEventArgs> historyStatus = new Collection<SvnLogEventArgs>();
+        /// <summary>
+        /// Listing of history for given file
+        /// </summary>
         public Collection<SvnLogEventArgs> HistoryStatus
         {
             get { return historyStatus; }
@@ -45,6 +98,21 @@ namespace ViewpointSystems.Svn.Plugin.History
                 OnPropertyChanged();
             }
         }
+
+        private SvnLogEventArgs selectedHistoryRow;
+        /// <summary>
+        /// Selected row from history table
+        /// </summary>
+        public SvnLogEventArgs SelectedHistoryRow
+        {
+            get { return selectedHistoryRow; }
+            set
+            {
+                selectedHistoryRow = value;
+                OnPropertyChanged();
+            }
+        }
+
 
 
         /// <summary>
@@ -57,18 +125,18 @@ namespace ViewpointSystems.Svn.Plugin.History
 
             if (args.ActiveDocument == null)
             {
-                DocumentName = "No Selection";
+                FilePath = "No Selection";
                 //_documentTypeControl.Text = "No Selection";
                 return;
             }
             var name = args.ActiveDocument.DocumentName;
             var type = args.ActiveDocument.Envoy.ModelDefinitionType.ToString();
 
-            DocumentName = name;
+            FilePath = name;
             //_documentTypeControl.Text = type;
         }
 
-
+        
 
         public object Model
         {

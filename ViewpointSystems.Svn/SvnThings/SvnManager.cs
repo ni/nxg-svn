@@ -31,7 +31,7 @@ namespace ViewpointSystems.Svn.SvnThings
         public SvnManager()
         {
             _statusCache = new SvnStatusCache(false, this);
-            _svnClient = new SvnClient();            
+            _svnClient = new SvnClient();           
         }
 
         
@@ -406,22 +406,22 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Checks to see if the directory is the working local copy
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
-        public bool IsWorkingCopy(string path)
+        public bool IsWorkingCopy(string filePath)
         {
-            var uri = _svnClient.GetUriFromWorkingCopy(path);
+            var uri = _svnClient.GetUriFromWorkingCopy(filePath);
             return uri != null;
         }
 
         /// <summary>
         /// Returns the working copy root directory string
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
-        public string GetRoot(string path)
+        public string GetRoot(string filePath)
         {
-            var workingCopyRoot = _svnClient.GetWorkingCopyRoot(path);
+            var workingCopyRoot = _svnClient.GetWorkingCopyRoot(filePath);
             return workingCopyRoot;
         }
 
@@ -435,6 +435,32 @@ namespace ViewpointSystems.Svn.SvnThings
             var svnUriTarget = new SvnUriTarget(localUri);   //TODO: why is this the only place URI is used?
             _repo = localRepo;
             return _svnClient.CheckOut(svnUriTarget, _repo);
+        }
+
+        /// <summary>
+        /// Update a file to a revision
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="revision"></param>
+        /// <returns></returns>
+        public bool UpdateToRevision(string filePath, long revision)
+        {
+            var svnUpdateArgs = new SvnUpdateArgs();
+            var svnRevision = new SvnRevision(revision);
+            svnUpdateArgs.Revision = svnRevision;
+            return _svnClient.Update(filePath, svnUpdateArgs);
+        }
+
+        public bool ReverseMerge(string filePath, long startRevision, long endRevision)
+        {
+            var svnRange = new SvnRevisionRange(startRevision, endRevision);
+            //var x = GetSingleItemStatus(filePath);
+            
+            var y = new SvnPathTarget(filePath);
+            //var svnUpdateArgs = new SvnUpdateArgs();
+            //var svnRevision = new SvnRevision(revision);
+            //svnUpdateArgs.Revision = svnRevision;
+            return _svnClient.Merge(filePath, y, svnRange);
         }
 
         /// <summary>

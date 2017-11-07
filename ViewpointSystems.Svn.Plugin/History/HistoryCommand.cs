@@ -40,7 +40,7 @@ namespace ViewpointSystems.Svn.Plugin.History
         {
             //how to launch a tools window, via guid
             var historyToolWindow = site.ShowToolWindow(new Guid("b7e7ce66-d3fa-4c19-a7c9-8834e91a31f3"), true);            
-            ((HistoryViewModel) (historyToolWindow.DataContext)).DocumentName = ((Envoy)parameter.Parameter).GetFilePath();
+            ((HistoryViewModel) (historyToolWindow.DataContext)).FilePath = ((Envoy)parameter.Parameter).GetFilePath();
         }
 
        
