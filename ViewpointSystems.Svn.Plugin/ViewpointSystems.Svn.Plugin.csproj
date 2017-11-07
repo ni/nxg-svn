@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileWatcher\FilenameWatcherServiceFactory.cs" />
+    <Compile Include="Add\AddCommand.cs" />
     <Compile Include="History\HistoryCommand.cs" />
     <Compile Include="History\HistoryType.cs" />
     <Compile Include="History\HistoryView.xaml.cs">

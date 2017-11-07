@@ -225,14 +225,13 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool Add(string filePath)
         {
-            var args = new SvnAddArgs();
-            args.Depth = SvnDepth.Empty;
-            Console.Out.WriteLine(filePath);
-            args.AddParents = true;
+            var svnAddArgs = new SvnAddArgs();
+            svnAddArgs.Depth = SvnDepth.Empty;            
+            svnAddArgs.AddParents = true;
 
             try
             {
-                return _svnClient.Add(filePath, args);
+                return _svnClient.Add(filePath, svnAddArgs);
             }
             catch (Exception ex)
             {

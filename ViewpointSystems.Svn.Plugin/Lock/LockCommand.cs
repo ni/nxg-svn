@@ -87,7 +87,7 @@ namespace ViewpointSystems.Svn.Plugin.Lock
                     {
                         var svnManager = Host.GetSharedExportedValue<SvnManagerPlugin>();
                         var status = svnManager.Status(projectItem.FullPath);
-                        if (status.IsVersioned && !status.IsLocked)
+                        if (status.IsVersioned && !status.IsLocked && !status.IsAdded)
                             context.Add(new ShellCommandInstance(TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
                     }
                 }

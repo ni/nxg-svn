@@ -19,28 +19,46 @@ using NationalInstruments.SourceModel;
 using NationalInstruments.SourceModel.Envoys;
 using NationalInstruments.VI.SourceModel;
 
-namespace ViewpointSystems.Svn.Plugin.History
+namespace ViewpointSystems.Svn.Plugin.Add
 {
     [ExportPushCommandContent]
-    public class HistoryCommand : PushCommandContent
+    public class AddCommand : PushCommandContent
     {
-        public static readonly ICommandEx HistoryShellRelayCommand = new ShellRelayCommand(ViewHistory)
+        public static readonly ICommandEx AddShellRelayCommand = new ShellRelayCommand(Add)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.History.HistoryShellRelayCommand",
-            LabelTitle = "View History",
+            UniqueId = "ViewpointSystems.Svn.Plugin.Add.AddShellRelayCommand",
+            LabelTitle = "Add",
         };
 
         [Import]
         public ICompositionHost Host { get; set; }
 
         /// <summary>
-        /// Command handler to view history
+        /// Command handler to add file to SVN
         /// </summary>
-        public static void ViewHistory(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
+        public static void Add(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {
-            //how to launch a tools window, via guid
-            var historyToolWindow = site.ShowToolWindow(new Guid("b7e7ce66-d3fa-4c19-a7c9-8834e91a31f3"), true);            
-            ((HistoryViewModel) (historyToolWindow.DataContext)).FilePath = ((Envoy)parameter.Parameter).GetFilePath();
+            var filePath = ((Envoy)parameter.Parameter).GetFilePath();
+            var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
+            var success = svnManager.Add(filePath);
+            var debugHost = host.GetSharedExportedValue<IDebugHost>();
+            if (success)
+            {
+                var envoy = ((Envoy)parameter.Parameter);
+                var projectItem = envoy.GetProjectItemViewModel(site);
+                if (null != projectItem)
+                {
+                    projectItem.RefreshIcon();
+                }
+
+               
+
+                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Add {filePath}"));
+            }
+            else
+            {
+                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Add {filePath}"));
+            }
         }
 
        
@@ -56,8 +74,8 @@ namespace ViewpointSystems.Svn.Plugin.History
                     {
                         var svnManager = Host.GetSharedExportedValue<SvnManagerPlugin>();
                         var status = svnManager.Status(projectItem.FullPath);
-                        if (status.IsVersioned && !status.IsAdded)
-                            context.Add(new ShellCommandInstance(HistoryShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                        if (status.IsVersionable && !status.IsVersioned)
+                            context.Add(new ShellCommandInstance(AddShellRelayCommand) { CommandParameter = projectItem.Envoy });
                     }
                 }
                 catch (Exception)

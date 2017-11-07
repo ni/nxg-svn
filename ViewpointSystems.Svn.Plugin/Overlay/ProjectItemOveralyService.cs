@@ -21,7 +21,7 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
         private readonly PlatformImage _unmodifiedOverlay;
         private readonly PlatformImage _lockedModifiedOverlay;
         private readonly PlatformImage _lockedUnmodifiedOverlay;
-
+        private readonly PlatformImage _addedOverlay;
 
         private readonly SvnManagerPlugin _svnManager;
         private readonly ICompositionHost _host;
@@ -35,6 +35,8 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
 
             _lockedModifiedOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/LockedModified.png");
             _lockedUnmodifiedOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/LockedUnmodified.png");
+
+            _addedOverlay = ResourceHelpers.LoadBitmapImage(typeof(SvnManagerPlugin), "Resources/Added.png");
             _svnManager = _host.GetSharedExportedValue<SvnManagerPlugin>();
         }
 
@@ -65,14 +67,16 @@ namespace ViewpointSystems.Svn.Plugin.Overlay
                         }
                         else
                         {
-                            if(status.IsModified)
+                            if (status.IsAdded)
+                                returnValue = _addedOverlay;
+                            else if (status.IsModified)
                                 returnValue = _modifiedOverlay;
                             else
                             {
                                 returnValue = _unmodifiedOverlay;
                             }
                         }
-                    }                        
+                    }                    
                 }
                 return returnValue;
             }

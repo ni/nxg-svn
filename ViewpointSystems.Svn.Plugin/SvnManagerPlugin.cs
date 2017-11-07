@@ -190,5 +190,15 @@ namespace ViewpointSystems.Svn.Plugin
         {
             return _svnManager.Write(localFilePath, tempFilePathOldVersion, revision);
         }
+
+        /// <summary>
+        /// Add file to SVN
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public bool Add(string filePath)
+        {
+            return _svnManager.Add(filePath);
+        }
     }
 }
