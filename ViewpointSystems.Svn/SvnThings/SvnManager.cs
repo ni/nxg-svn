@@ -225,18 +225,26 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool Add(string filePath)
         {
+            var returnValue = false;
             var svnAddArgs = new SvnAddArgs();
             svnAddArgs.Depth = SvnDepth.Empty;            
             svnAddArgs.AddParents = true;
 
             try
             {
-                return _svnClient.Add(filePath, svnAddArgs);
+                var status = GetSingleItemStatus(filePath);
+                if (status.IsVersionable && !status.IsVersioned)
+                {
+                    returnValue = _svnClient.Add(filePath, svnAddArgs);
+                    if (returnValue)
+                        _statusCache.RefreshItem(status, status.NodeKind);
+                }
             }
             catch (Exception ex)
             {
-                return false;
+                returnValue = false;
             }
+            return returnValue;
         }
 
         /// <summary>
@@ -363,43 +371,49 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Commits the Staged/Added files
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="filePath"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public bool Commit(string path, string message)
+        public bool Commit(string filePath, string message)
         {
+            var returnValue = false;
             var args = new SvnCommitArgs();
 
             args.LogMessage = message;
             args.ThrowOnError = true;
             args.ThrowOnCancel = true;
-
+            args.Depth = SvnDepth.Empty;
             try
             {
-                var sa = new SvnStatusArgs();
-                sa.Depth = SvnDepth.Infinity;
-                sa.RetrieveAllEntries = true; //the new line
-                Collection<SvnStatusEventArgs> statuses;
-
-                _svnClient.GetStatus(_repo, sa, out statuses);
-                foreach (var item in statuses)
+                //
+                var status = GetSingleItemStatus(filePath);
+                if (status.IsVersioned && status.IsModified)
                 {
-                    if (item.LocalContentStatus == SvnStatus.Added || item.LocalContentStatus == SvnStatus.Modified)
+                    returnValue = _svnClient.Commit(filePath, args);
+                    if (returnValue)
                     {
-                        _svnClient.Commit(item.FullPath, args);
+                        _statusCache.RefreshItem(status, status.NodeKind);
                     }
                 }
-                return true;
+                //var sa = new SvnStatusArgs();
+                //sa.Depth = SvnDepth.Infinity;
+                //sa.RetrieveAllEntries = true; //the new line
+                //Collection<SvnStatusEventArgs> statuses;
+
+                //_svnClient.GetStatus(_repo, sa, out statuses);
+                //foreach (var item in statuses)
+                //{
+                //    if (item.LocalContentStatus == SvnStatus.Added || item.LocalContentStatus == SvnStatus.Modified)
+                //    {
+                
+                //    }
+                //}                
             }
             catch (Exception e)
             {
-                if (e.InnerException != null)
-                {
-                    throw new Exception(e.InnerException.Message, e);
-                }
-
-                throw e;
+                
             }
+            return returnValue;
         }
 
         /// <summary>

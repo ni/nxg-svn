@@ -18,23 +18,23 @@ using NationalInstruments.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
 
-namespace ViewpointSystems.Svn.Plugin.History
+namespace ViewpointSystems.Svn.Plugin.PendingChanges
 {
     /// <summary>
     /// Interaction logic for HistoryView.xaml
     /// </summary>
-    public partial class HistoryView : UserControl
+    public partial class PendingChangesView : UserControl
     {               
         /// <summary>
         /// The constructor
         /// </summary>
         /// <param name="host">The composition host this window is associated with</param>
-        public HistoryView(ToolWindowEditSite site, HistoryViewModel historyViewModel)
+        public PendingChangesView(ToolWindowEditSite site, PendingChangesViewModel pendingChangesViewModel)
         {
             // Set up a few things
             //_host = host;
            // SelectedItems = new ObservableCollection<SelectionDisplayInfo>();
-            DataContext = historyViewModel;
+            DataContext = pendingChangesViewModel;
 
             // This creates our View.  Standard WPF thing.
             InitializeComponent();
@@ -97,7 +97,7 @@ namespace ViewpointSystems.Svn.Plugin.History
         //            SelectedItems.Add(info);
         //        }
         //    }
-        //}
+        //}        
     }
 
    

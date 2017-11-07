@@ -56,6 +56,8 @@ namespace ViewpointSystems.Svn.Plugin
             ConnectToRepository(_currentProject.StoragePath); 
         }
 
+        
+
         private void HandleProjectPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == Project.StoragePathPropertyChangedName)
@@ -199,6 +201,11 @@ namespace ViewpointSystems.Svn.Plugin
         public bool Add(string filePath)
         {
             return _svnManager.Add(filePath);
+        }
+
+        public bool Commit(string filePath, string commitMessage)
+        {
+            return _svnManager.Commit(filePath, commitMessage);
         }
     }
 }
