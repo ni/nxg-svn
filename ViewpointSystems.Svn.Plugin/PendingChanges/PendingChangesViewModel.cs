@@ -15,22 +15,84 @@ using NationalInstruments.SourceModel.Envoys;
 using SharpSvn;
 using ViewpointSystems.Svn.SvnThings;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace ViewpointSystems.Svn.Plugin.PendingChanges
 {
     public class PendingChangesViewModel : IToolWindowViewModel
-    {        
+    {
         private ToolWindowEditSite _editSite;
 
         //public ICommand CompareWithWorkingCopyCommand { get; set; }
-        
+
+        /// <summary>
+        /// True, actively monitor for changes
+        /// </summary>
+        public bool Monitor = true;
+
+        private SvnManagerPlugin _svnManager;
+
         public PendingChangesViewModel(ToolWindowEditSite site)
         {
             _editSite = site;
+            //Monitor = true;
+            // MonitorStatus();
+            _svnManager = _editSite.Host.GetSharedExportedValue<SvnManagerPlugin>();
+            InitialLoad();
+            _svnManager.SvnStatusUpdatedEvent += SvnManagerOnSvnStatusUpdatedEvent;
             //CompareWithWorkingCopyCommand = new RelayCommand(DoComapreWithWorkingCopyCommand);            
         }
-       
-        
+
+        /// <summary>
+        /// Grab all items svn manager knows about to populate pending changes 
+        /// </summary>
+        private void InitialLoad()
+        {
+            var mappings = _svnManager.GetMappings();
+
+            foreach (var item in mappings)
+            {
+                if (item.Value.IsFile)
+                {
+                    FileStatus.Add(new PendingChange()
+                    {
+                        Path = item.Value.FullPath,
+                        Status = item.Value.Status.CombinedStatus.ToString()
+                    });
+                }
+            }            
+        }
+
+        /// <summary>
+        /// update based on 'things happening' via svn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SvnManagerOnSvnStatusUpdatedEvent(object sender, SvnStatusUpdatedEventArgs e)
+        {
+            var status = _svnManager.Status(e.FullFilePath);
+            if (status.IsFile)
+            {
+                var existingItem = FileStatus.FirstOrDefault(x => x.Path == e.FullFilePath);
+                if (null != existingItem)
+                {
+                    existingItem.Status = status.Status.CombinedStatus.ToString();
+                }
+                else
+                {
+                    FileStatus.Add(new PendingChange()
+                    {
+                        Path = status.FullPath,
+                        Status = status.Status.CombinedStatus.ToString()
+                    });
+                }
+            }
+        }
+
+
         /// <summary>
         /// Compare selected version with working version
         /// </summary>
@@ -56,14 +118,20 @@ namespace ViewpointSystems.Svn.Plugin.PendingChanges
         //    }
         //}
 
-       
-
-
-
-     
-
+        /// <summary>
+        /// list of Filenames, paths and versions which is displayed on the status view data grid.
+        /// </summary>
+        private ObservableCollection<PendingChange> fileStatus = new ObservableCollection<PendingChange>();
+        public ObservableCollection<PendingChange> FileStatus
+        {
+            get { return fileStatus; }
+            set
+            {
+                fileStatus = value;
+                OnPropertyChanged();
+            }
+        }
         
-
         public object Model
         {
             get { return null; }

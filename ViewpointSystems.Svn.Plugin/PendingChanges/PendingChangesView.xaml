@@ -6,21 +6,24 @@
              xmlns:local="clr-namespace:ViewpointSystems.Svn.Plugin.PendingChanges"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Grid.Column="1" Margin="10,0,0,0">
-        <!--<TextBlock Text="{Binding FilePath}"  FontSize="16" ></TextBlock>
-        <DataGrid Name="historyDataGrid" SelectedItem="{Binding Path=SelectedHistoryRow}" HeadersVisibility="Column" CanUserSortColumns="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" Margin="0,0,0,10" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Path=HistoryStatus}" CanUserReorderColumns="False" CanUserResizeColumns="True">
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Compare With Working Copy" Command="{Binding CompareWithWorkingCopyCommand}"  />
-                    <MenuItem Header="Revert to this Revision"   Command="{Binding RevertToThisRevisionCommand}"/>
-                </ContextMenu>
-            </DataGrid.ContextMenu>
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=Revision,UpdateSourceTrigger=PropertyChanged}"  Header="Revision" IsReadOnly="True" Width="1*"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=Author,UpdateSourceTrigger=PropertyChanged}"  Header="Author" IsReadOnly="True" Width="2*"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=Time,UpdateSourceTrigger=PropertyChanged}"  Header="Date" IsReadOnly="True" Width="2*"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=LogMessage,UpdateSourceTrigger=PropertyChanged}"  Header="Message" Width="5*" IsReadOnly="True" ></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>-->
-    </StackPanel>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="10,10,10,10">
+            <Label>Commit Message:</Label>
+            <TextBox Text="{Binding CommitMessage}" KeyboardNavigation.TabIndex="0"
+                 Height="40"
+                 TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled"
+                 VerticalScrollBarVisibility="Auto"></TextBox>
+            <StackPanel Margin="0,10,0,10" Orientation="Horizontal">
+                <Button KeyboardNavigation.TabIndex="1" Width="50">Commit</Button>
+            </StackPanel>
+            <DataGrid VerticalScrollBarVisibility="Auto" HeadersVisibility="Column" CanUserSortColumns="True" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" Margin="0,0,0,10" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Path=FileStatus}" CanUserReorderColumns="False" CanUserResizeColumns="True">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn></DataGridCheckBoxColumn>
+                    <DataGridTextColumn Binding="{Binding Path=Path,UpdateSourceTrigger=PropertyChanged}"  Header="Path" IsReadOnly="True" Width="5*"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Path=Extension,UpdateSourceTrigger=PropertyChanged}"  Header="Extension" IsReadOnly="True" Width="3*"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Path=Status,UpdateSourceTrigger=PropertyChanged}"  Header="Status" IsReadOnly="True" Width="2*"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

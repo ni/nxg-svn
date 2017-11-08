@@ -120,6 +120,7 @@
       <DependentUpon>CommitView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Commit\CommitViewModel.cs" />
+    <Compile Include="PendingChanges\PendingChange.cs" />
     <Compile Include="PendingChanges\PendingChangesType.cs" />
     <Compile Include="PendingChanges\PendingChangesView.xaml.cs">
       <DependentUpon>PendingChangesView.xaml</DependentUpon>

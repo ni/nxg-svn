@@ -162,9 +162,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 {
                     returnValue = _svnClient.Revert(filePath);
                     if (returnValue)
-                    {
-                        _statusCache.RefreshItem(status, status.NodeKind);
-                    }
+                        UpdateCache(filePath);
                 }
             }
             catch (Exception e)
@@ -237,7 +235,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 {
                     returnValue = _svnClient.Add(filePath, svnAddArgs);
                     if (returnValue)
-                        _statusCache.RefreshItem(status, status.NodeKind);
+                        UpdateCache(filePath);                        
                 }
             }
             catch (Exception ex)
@@ -274,10 +272,9 @@ namespace ViewpointSystems.Svn.SvnThings
                 if (!status.IsLocked)
                 {
                     returnValue = _svnClient.Lock(filePath, comment);
-                    if (returnValue)
-                    {
-                        _statusCache.RefreshItem(status, status.NodeKind);
-                    }
+                    if (returnValue)                    
+                        UpdateCache(filePath);
+                    
                 }
             }
             catch (Exception e)
@@ -304,9 +301,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 {
                     returnValue = _svnClient.Unlock(filePath);
                     if (returnValue)
-                    {
-                        _statusCache.RefreshItem(status, status.NodeKind);
-                    }
+                        UpdateCache(filePath);
                 }
             }
             catch (Exception e)
@@ -391,9 +386,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 {
                     returnValue = _svnClient.Commit(filePath, args);
                     if (returnValue)
-                    {
-                        _statusCache.RefreshItem(status, status.NodeKind);
-                    }
+                        UpdateCache(filePath);
                 }
                 //var sa = new SvnStatusArgs();
                 //sa.Depth = SvnDepth.Infinity;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -24,14 +25,15 @@ namespace ViewpointSystems.Svn.Plugin
     {
         private SvnManager _svnManager;
         private IDocumentManager _documentManager;
-        private Project _currentProject;
-
-        public SvnManagerPlugin()
-        {
-        }
+        private Project _currentProject;    
 
         [Import]
         public ICompositionHost Host { get; set; }
+
+        /// <summary>
+        /// Thrown when the status of a file has been updated
+        /// </summary>
+        public event EventHandler<SvnStatusUpdatedEventArgs> SvnStatusUpdatedEvent;
 
         public void OnImportsSatisfied()
         {
@@ -79,6 +81,7 @@ namespace ViewpointSystems.Svn.Plugin
                 _svnManager.LoadCurrentSvnItemsInLocalRepository(Path.GetDirectoryName(storagePath));                
             }
             _svnManager.SvnStatusUpdatedEvent += SvnManagerOnSvnStatusUpdatedEvent;
+
         }
         
         /// <summary>
@@ -103,7 +106,9 @@ namespace ViewpointSystems.Svn.Plugin
                         projectItem?.RefreshIcon();
                     }
                 }
-            }); 
+            });
+            var handler = SvnStatusUpdatedEvent;
+            handler?.Invoke(this, svnStatusUpdatedEventArgs);
         }
 
 
@@ -203,9 +208,24 @@ namespace ViewpointSystems.Svn.Plugin
             return _svnManager.Add(filePath);
         }
 
+        /// <summary>
+        /// Commit a single file
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="commitMessage"></param>
+        /// <returns></returns>
         public bool Commit(string filePath, string commitMessage)
         {
             return _svnManager.Commit(filePath, commitMessage);
+        }
+
+        /// <summary>
+        /// Get all of the SvnItems that we have stored with their statuses
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, SvnItem> GetMappings()
+        {
+            return _svnManager.GetMappings();
         }
     }
 }
