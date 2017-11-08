@@ -18,6 +18,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Threading;
 
 namespace ViewpointSystems.Svn.Plugin.PendingChanges
@@ -26,24 +27,56 @@ namespace ViewpointSystems.Svn.Plugin.PendingChanges
     {
         private ToolWindowEditSite _editSite;
 
-        //public ICommand CompareWithWorkingCopyCommand { get; set; }
-
-        /// <summary>
-        /// True, actively monitor for changes
-        /// </summary>
-        public bool Monitor = true;
-
+        public ICommand CommitCommand { get; set; }
+        
         private SvnManagerPlugin _svnManager;
+        private static object _lock = new object();
+
+        private string commitMessage;
+        /// <summary>
+        /// Commit message
+        /// </summary>
+        public string CommitMessage
+        {
+            get { return commitMessage; }
+            set
+            {
+                commitMessage = value;
+                OnPropertyChanged();
+            }
+        }
 
         public PendingChangesViewModel(ToolWindowEditSite site)
         {
-            _editSite = site;
-            //Monitor = true;
-            // MonitorStatus();
+            _editSite = site;        
             _svnManager = _editSite.Host.GetSharedExportedValue<SvnManagerPlugin>();
             InitialLoad();
             _svnManager.SvnStatusUpdatedEvent += SvnManagerOnSvnStatusUpdatedEvent;
-            //CompareWithWorkingCopyCommand = new RelayCommand(DoComapreWithWorkingCopyCommand);            
+            BindingOperations.EnableCollectionSynchronization(FileStatus, _lock);
+            CommitCommand = new RelayCommand(DoCommitCommand);            
+        }
+
+        /// <summary>
+        /// perform commit
+        /// </summary>
+        /// <param name="obj"></param>
+        private void DoCommitCommand(object obj)
+        {
+            var allFilesToCommit = FileStatus.Where(x => x.Selected).Select(x=>x.Path).ToList();
+            if (allFilesToCommit.Any())
+            {
+                var success = _svnManager.CommitAllFiles(allFilesToCommit, CommitMessage);
+                var debugHost = _editSite.Host.GetSharedExportedValue<IDebugHost>();
+                if (success)
+                {
+                    CommitMessage = string.Empty;
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Commit files"));
+                }
+                else
+                {
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to commit files"));
+                }
+            }
         }
 
         /// <summary>
@@ -53,14 +86,14 @@ namespace ViewpointSystems.Svn.Plugin.PendingChanges
         {
             var mappings = _svnManager.GetMappings();
 
-            foreach (var item in mappings)
+            foreach (var status in mappings)
             {
-                if (item.Value.IsFile)
+                if (status.Value.IsFile && status.Value.IsAdded || status.Value.IsModified)
                 {
                     FileStatus.Add(new PendingChange()
                     {
-                        Path = item.Value.FullPath,
-                        Status = item.Value.Status.CombinedStatus.ToString()
+                        Path = status.Value.FullPath,
+                        Status = status.Value.Status.CombinedStatus.ToString()
                     });
                 }
             }            
@@ -79,15 +112,25 @@ namespace ViewpointSystems.Svn.Plugin.PendingChanges
                 var existingItem = FileStatus.FirstOrDefault(x => x.Path == e.FullFilePath);
                 if (null != existingItem)
                 {
-                    existingItem.Status = status.Status.CombinedStatus.ToString();
+                    if (status.IsAdded || status.IsModified)
+                    {
+                        existingItem.Status = status.Status.CombinedStatus.ToString();
+                    }
+                    else
+                    {
+                        FileStatus.Remove(existingItem);
+                    }
                 }
                 else
                 {
-                    FileStatus.Add(new PendingChange()
+                    if (status.IsAdded || status.IsModified)
                     {
-                        Path = status.FullPath,
-                        Status = status.Status.CombinedStatus.ToString()
-                    });
+                        FileStatus.Add(new PendingChange()
+                        {
+                            Path = status.FullPath,
+                            Status = status.Status.CombinedStatus.ToString()
+                        });
+                    }
                 }
             }
         }

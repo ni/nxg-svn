@@ -14,11 +14,11 @@
                  TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled"
                  VerticalScrollBarVisibility="Auto"></TextBox>
             <StackPanel Margin="0,10,0,10" Orientation="Horizontal">
-                <Button KeyboardNavigation.TabIndex="1" Width="50">Commit</Button>
+                <Button KeyboardNavigation.TabIndex="1" Width="50" Command="{Binding CommitCommand}">Commit</Button>
             </StackPanel>
             <DataGrid VerticalScrollBarVisibility="Auto" HeadersVisibility="Column" CanUserSortColumns="True" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" Margin="0,0,0,10" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Path=FileStatus}" CanUserReorderColumns="False" CanUserResizeColumns="True">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn></DataGridCheckBoxColumn>
+                    <DataGridCheckBoxColumn Binding="{Binding Path=Selected,UpdateSourceTrigger=PropertyChanged}" ></DataGridCheckBoxColumn>
                     <DataGridTextColumn Binding="{Binding Path=Path,UpdateSourceTrigger=PropertyChanged}"  Header="Path" IsReadOnly="True" Width="5*"></DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding Path=Extension,UpdateSourceTrigger=PropertyChanged}"  Header="Extension" IsReadOnly="True" Width="3*"></DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding Path=Status,UpdateSourceTrigger=PropertyChanged}"  Header="Status" IsReadOnly="True" Width="2*"></DataGridTextColumn>

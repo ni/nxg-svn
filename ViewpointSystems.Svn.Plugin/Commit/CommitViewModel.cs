@@ -33,6 +33,9 @@ namespace ViewpointSystems.Svn.Plugin.Commit
         }
 
         private string commitMessage;
+        /// <summary>
+        /// Commit message
+        /// </summary>
         public string CommitMessage
         {
             get { return commitMessage; }

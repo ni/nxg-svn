@@ -109,10 +109,7 @@ namespace ViewpointSystems.Svn.Plugin
             });
             var handler = SvnStatusUpdatedEvent;
             handler?.Invoke(this, svnStatusUpdatedEventArgs);
-        }
-
-
-        //TODO: listen to add file, update cache
+        }        
 
         /// <summary>
         /// Lock the file
@@ -217,6 +214,17 @@ namespace ViewpointSystems.Svn.Plugin
         public bool Commit(string filePath, string commitMessage)
         {
             return _svnManager.Commit(filePath, commitMessage);
+        }
+
+        /// <summary>
+        /// Commit all files
+        /// </summary>
+        /// <param name="filePaths"></param>
+        /// <param name="commitMessage"></param>
+        /// <returns></returns>
+        public bool CommitAllFiles(List<string> filePaths, string commitMessage)
+        {
+            return _svnManager.CommitAllFiles(filePaths, commitMessage);
         }
 
         /// <summary>

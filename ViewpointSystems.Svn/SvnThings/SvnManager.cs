@@ -26,15 +26,15 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <summary>
         /// Thrown when the status of a file has been updated
         /// </summary>
-        public event EventHandler<SvnStatusUpdatedEventArgs> SvnStatusUpdatedEvent; 
+        public event EventHandler<SvnStatusUpdatedEventArgs> SvnStatusUpdatedEvent;
 
         public SvnManager()
         {
             _statusCache = new SvnStatusCache(false, this);
-            _svnClient = new SvnClient();           
+            _svnClient = new SvnClient();
         }
 
-        
+
 
         /// <summary>
         /// Loads the current SVN Items from the repository, and builds a StatusCache object
@@ -96,6 +96,8 @@ namespace ViewpointSystems.Svn.SvnThings
                     {
                         var contentStatusData = new SvnStatusData(content);
                         _statusCache.StoreItem(_statusCache.CreateItem(content.FullPath, contentStatusData));
+                        var handler = SvnStatusUpdatedEvent;
+                        handler?.Invoke(this, new SvnStatusUpdatedEventArgs(content.FullPath));
                     }
                 }
             }
@@ -184,6 +186,8 @@ namespace ViewpointSystems.Svn.SvnThings
             foreach (var item in _statusCache.Map.Values)
             {
                 _statusCache.RefreshItem(item, item.NodeKind);
+                var handler = SvnStatusUpdatedEvent;
+                handler?.Invoke(this, new SvnStatusUpdatedEventArgs(item.FullPath));
                 if (j != _statusCache.Map.Count)
                 {
                     goto DoAgain;
@@ -225,7 +229,7 @@ namespace ViewpointSystems.Svn.SvnThings
         {
             var returnValue = false;
             var svnAddArgs = new SvnAddArgs();
-            svnAddArgs.Depth = SvnDepth.Empty;            
+            svnAddArgs.Depth = SvnDepth.Empty;
             svnAddArgs.AddParents = true;
 
             try
@@ -235,7 +239,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 {
                     returnValue = _svnClient.Add(filePath, svnAddArgs);
                     if (returnValue)
-                        UpdateCache(filePath);                        
+                        UpdateCache(filePath);
                 }
             }
             catch (Exception ex)
@@ -272,9 +276,9 @@ namespace ViewpointSystems.Svn.SvnThings
                 if (!status.IsLocked)
                 {
                     returnValue = _svnClient.Lock(filePath, comment);
-                    if (returnValue)                    
+                    if (returnValue)
                         UpdateCache(filePath);
-                    
+
                 }
             }
             catch (Exception e)
@@ -332,36 +336,7 @@ namespace ViewpointSystems.Svn.SvnThings
             //}
         }
 
-        /// <summary>
-        /// Commit
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public bool CommitChosenFiles(string filePath, string message)
-        {
-            var args = new SvnCommitArgs();
 
-            args.LogMessage = message;
-            args.ThrowOnError = true;
-            args.ThrowOnCancel = true;
-            args.Depth = SvnDepth.Empty;
-
-
-            try
-            {
-                return _svnClient.Commit(filePath, args);
-            }
-            catch (Exception e)
-            {
-                if (e.InnerException != null)
-                {
-                    throw new Exception(e.InnerException.Message, e);
-                }
-
-                throw e;
-            }
-        }
 
         /// <summary>
         /// Commits the Staged/Added files
@@ -398,13 +373,51 @@ namespace ViewpointSystems.Svn.SvnThings
                 //{
                 //    if (item.LocalContentStatus == SvnStatus.Added || item.LocalContentStatus == SvnStatus.Modified)
                 //    {
-                
+
                 //    }
                 //}                
             }
             catch (Exception e)
             {
-                
+
+            }
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Commit all files
+        /// </summary>
+        /// <param name="filePaths"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public bool CommitAllFiles(List<string> filePaths, string message)
+        {
+            var returnValue = false;
+            var args = new SvnCommitArgs();
+
+            args.LogMessage = message;
+            args.ThrowOnError = true;
+            args.ThrowOnCancel = true;
+            args.Depth = SvnDepth.Empty;
+            try
+            {
+                //                
+                //if (status.IsVersioned && status.IsModified)
+                //{
+                returnValue = _svnClient.Commit(filePaths, args);
+                if (returnValue)
+                {
+                    foreach (var filePath in filePaths)
+                    {
+                        UpdateCache(filePath);
+                    }
+                }
+
+                //}                
+            }
+            catch (Exception e)
+            {
+
             }
             return returnValue;
         }
@@ -466,12 +479,12 @@ namespace ViewpointSystems.Svn.SvnThings
         /// <returns></returns>
         public bool ReverseMerge(string filePath, long startRevision, long endRevision)
         {
-            var svnRange = new SvnRevisionRange(startRevision, endRevision);                        
-            var svnPathTarget = new SvnPathTarget(filePath);            
+            var svnRange = new SvnRevisionRange(startRevision, endRevision);
+            var svnPathTarget = new SvnPathTarget(filePath);
             return _svnClient.Merge(filePath, svnPathTarget, svnRange);
         }
 
-        
+
 
         /// <summary>
         /// Helper function for unit tests
@@ -489,7 +502,8 @@ namespace ViewpointSystems.Svn.SvnThings
                 {
                     if (_svnClient.CreateDirectory(unitTestPath))
                     {
-                        CommitChosenFiles(unitTestPath, "Unit Test");
+                        //TODO fix
+                        //CommitAllFiles(unitTestPath, "Unit Test");
                         return true;
                     }
                     else
@@ -517,7 +531,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 File.SetAttributes(tempFilePathOldVersion, FileAttributes.Normal);
                 File.Delete(tempFilePathOldVersion);
             }
-            var local = GetSingleItemStatus(localFilePath);            
+            var local = GetSingleItemStatus(localFilePath);
             var svnPathTarget = new SvnUriTarget(local.Uri, revision);
             using (var memoryStream = new MemoryStream())
             using (var fileStream = File.Create(tempFilePathOldVersion))
@@ -527,7 +541,7 @@ namespace ViewpointSystems.Svn.SvnThings
                     //memoryStream.Seek(0, SeekOrigin.Begin);
                     memoryStream.WriteTo(fileStream);
                     returnValue = true;
-                }                               
+                }
             }
             return returnValue;
         }

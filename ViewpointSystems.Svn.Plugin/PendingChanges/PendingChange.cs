@@ -55,6 +55,20 @@ namespace ViewpointSystems.Svn.Plugin.PendingChanges
             }
         }
 
+        private bool selected;
+        /// <summary>
+        /// Selected
+        /// </summary>
+        public bool Selected
+        {
+            get { return selected; }
+            set
+            {
+                selected = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
