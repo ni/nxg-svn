@@ -1,48 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Windows;
-using NationalInstruments;
+﻿using System.Windows;
 using NationalInstruments.Composition;
 using NationalInstruments.Controls.Shell;
 using NationalInstruments.Core;
-using NationalInstruments.DataTypes;
-using NationalInstruments.Design;
-using NationalInstruments.MocCommon.Design;
-using NationalInstruments.MocCommon.SourceModel;
 using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
-using NationalInstruments.SourceModel;
-using NationalInstruments.VI.SourceModel;
 using NationalInstruments.SourceModel.Envoys;
-using ViewpointSystems.Svn.Plugin.UserPreferences;
 using System.ComponentModel.Composition;
 
 namespace ViewpointSystems.Svn.Plugin.Commit
-{
-    [ExportPushCommandContent]
-    public class CommitCommand : PushCommandContent
+{    
+    public class CommitCommand 
     {
-        public static readonly ICommandEx CommitShellRelayCommand = new ShellRelayCommand(Commit)
-        {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Commint.CommitShellRelayCommand",
-            LabelTitle = "Commit",
-        };
-
         [Import]
         public ICompositionHost Host { get; set; }
 
+        public static readonly ICommandEx CommitShellRelayCommand = new ShellRelayCommand(Commit)
+        {
+            UniqueId = "ViewpointSystems.Svn.Plugin.Commint.CommitShellRelayCommand",
+            LabelTitle = "Commit"
+        };        
+
+        /// <summary>
+        /// SVN Commit
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="host"></param>
+        /// <param name="site"></param>
         public static void Commit(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {
             var filePath = ((Envoy)parameter.Parameter).GetFilePath();
-            //note this is not a great implementation, but right now we do not have a better method
+            //moved up here, after ShowDialog() envoy returns null
+            var envoy = ((Envoy)parameter.Parameter);
+            var projectItem = envoy.GetProjectItemViewModel(site);
+            
+            //note - no built in service to manage creating view/viewmodels, done by hand
             var commitViewModel = new CommitViewModel();
             commitViewModel.FilePath = filePath;
             var commitView = new CommitView(commitViewModel);
             commitView.Owner = (Window)site.RootVisual;
             commitView.ShowDialog();
+
             if (commitViewModel.OkButtonClicked)
             {
                 var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
@@ -50,86 +47,21 @@ namespace ViewpointSystems.Svn.Plugin.Commit
                 var debugHost = host.GetSharedExportedValue<IDebugHost>();
                 if (success)
                 {
-                    //Stopped here...null ref
-                    var envoy = ((Envoy)parameter.Parameter);
-                    var projectItem = envoy.GetProjectItemViewModel(site);
+                    //if uncommented and done here null ref
+                    //var envoy = ((Envoy)parameter.Parameter);
+                    //var projectItem = envoy.GetProjectItemViewModel(site);
                     if (null != projectItem)
                     {
                         projectItem.RefreshIcon();
                     }
-
-                    //var envoy = ((Envoy)parameter.Parameter);
-                    //ProjectItemViewModel projectItem = envoy.GetProjectItemViewModel(site);
-                    //if (null != projectItem)
-                    //{
-                    //    projectItem.RefreshIcon();
-                    //}
-
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Lock {filePath}"));
+                   
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Commit {filePath}"));
                 }
                 else
                 {
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Lock {filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Commit {filePath}"));
                 }
-            }
-            //if (SvnPreferences.PromptToLock)
-            //{
-            //    var lockWindow = new LockView();
-            //    lockWindow.Owner = (Window)site.RootVisual;
-            //    lockWindow.ShowDialog();
-            //    
-            //}
-            //else
-            //{
-            //var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
-            //var success = svnManager.Lock(filePath);
-            //var debugHost = host.GetSharedExportedValue<IDebugHost>();
-            //if (success)
-            //{
-            //    var envoy = ((Envoy)parameter.Parameter);
-            //    var projectItem = envoy.GetProjectItemViewModel(site);
-            //    if (null != projectItem)
-            //    {
-            //        projectItem.RefreshIcon();
-            //    }
-
-            //    //var envoy = ((Envoy)parameter.Parameter);
-            //    //ProjectItemViewModel projectItem = envoy.GetProjectItemViewModel(site);
-            //    //if (null != projectItem)
-            //    //{
-            //    //    projectItem.RefreshIcon();
-            //    //}
-
-            //    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Lock {filePath}"));
-            //}
-            //else
-            //{
-            //    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Lock {filePath}"));
-            //}
-            //// }
-        }
-
-        public override void CreateContextMenuContent(ICommandPresentationContext context, PlatformVisual sourceVisual)
-        {
-            var projectItem = sourceVisual.DataContext as ProjectItemViewModel;
-            if (projectItem?.Envoy != null)
-            {
-                try
-                {
-                    var envoy = projectItem.Envoy;
-                    if (envoy != null)
-                    {
-                        var svnManager = Host.GetSharedExportedValue<SvnManagerPlugin>();
-                        var status = svnManager.Status(projectItem.FullPath);
-                        if (status.IsVersioned && status.IsModified)
-                            context.Add(new ShellCommandInstance(CommitShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
-            base.CreateContextMenuContent(context, sourceVisual);
-        }
+            }            
+        }        
     }
 }

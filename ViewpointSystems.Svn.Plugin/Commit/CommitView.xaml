@@ -14,8 +14,8 @@
                  >
     <StackPanel>
         <TextBlock Margin="10,0,0,0" Text="{Binding FilePath}"  FontSize="16" ></TextBlock>
-        <Label Margin="10,0,0,0">Commit Message: </Label>
-        <TextBox Text="{Binding CommitMessage}" KeyboardNavigation.TabIndex="0" Margin="10,10,10,0"
+        <Label Margin="5,0,0,0">Commit Message: </Label>
+        <TextBox Text="{Binding CommitMessage}" KeyboardNavigation.TabIndex="0" Margin="10,0,10,0"
             Height="100"
                  Width="500" TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled"
                  VerticalScrollBarVisibility="Auto"></TextBox>

@@ -112,6 +112,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextMenu\CreateContextMenus.cs" />
     <Compile Include="FileWatcher\FilenameWatcherServiceFactory.cs" />
     <Compile Include="Add\AddCommand.cs" />
     <Compile Include="Commit\CommitCommand.cs" />
@@ -223,6 +224,7 @@
   <ItemGroup>
     <Resource Include="Resources\Unmodified.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
