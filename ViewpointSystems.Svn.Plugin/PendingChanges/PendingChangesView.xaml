@@ -19,7 +19,6 @@
         <DataGrid DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto" HeadersVisibility="Column" CanUserSortColumns="True" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" Margin="0,0,0,10" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Path=FileStatus}" CanUserReorderColumns="False" CanUserResizeColumns="True">
 
             <DataGrid.Columns>
-                <!--<DataGridCheckBoxColumn Binding="{Binding Path=Selected,UpdateSourceTrigger=PropertyChanged}" ></DataGridCheckBoxColumn>-->
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
