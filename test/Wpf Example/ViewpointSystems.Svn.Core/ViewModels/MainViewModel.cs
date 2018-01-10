@@ -477,7 +477,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                 {
                                     if (!string.IsNullOrEmpty(Message))
                                     {
-                                        _svnManager.CommitChosenFiles(directory, Message);
+                                        _svnManager.Commit(directory, Message);
                                         directoryAdded = true;
                                     }
                                     else
@@ -513,7 +513,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
                                 {
                                     if (!string.IsNullOrEmpty(Message))
                                     {
-                                        _svnManager.CommitChosenFiles(item, Message);
+                                        _svnManager.Commit(item, Message);
                                     }
                                     else
                                     {
