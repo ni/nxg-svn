@@ -62,36 +62,37 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(InstallLocation)\NationalInstruments.Common.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.Compiler, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.Compiler, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(InstallLocation)\NationalInstruments.Compiler.dll</HintPath>
+      <HintPath>..\dlls\NationalInstruments.Compiler.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.Controls, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.Controls, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(InstallLocation)\NationalInstruments.Controls.dll</HintPath>
+      <HintPath>..\dlls\NationalInstruments.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.Controls.LabVIEW.Design">
-      <HintPath>$(InstallLocation)\NationalInstruments.Controls.LabVIEW.Design.dll</HintPath>
-    </Reference>
-    <Reference Include="NationalInstruments.Core, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.Controls.LabVIEW.Design, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(InstallLocation)\NationalInstruments.Core.dll</HintPath>
+      <HintPath>..\dlls\NationalInstruments.Controls.LabVIEW.Design.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.LabVIEW.Compiler.Interfaces, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.Core, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(InstallLocation)\NationalInstruments.LabVIEW.Compiler.Interfaces.dll</HintPath>
+      <HintPath>..\dlls\NationalInstruments.Core.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.LabVIEW.VI, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.LabVIEW.Compiler.Interfaces, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(InstallLocation)\NationalInstruments.LabVIEW.VI.dll</HintPath>
+      <HintPath>..\dlls\NationalInstruments.LabVIEW.Compiler.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.MocCommon, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.LabVIEW.VI, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(InstallLocation)\NationalInstruments.MocCommon.dll</HintPath>
+      <HintPath>..\dlls\NationalInstruments.LabVIEW.VI.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.PlatformFramework, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.MocCommon, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(InstallLocation)\NationalInstruments.PlatformFramework.dll</HintPath>
+      <HintPath>..\dlls\NationalInstruments.MocCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.PlatformFramework, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dlls\NationalInstruments.PlatformFramework.dll</HintPath>
     </Reference>
     <Reference Include="SharpSvn, Version=1.9007.3987.251, Culture=neutral, PublicKeyToken=d729672594885a28, processorArchitecture=AMD64">
       <HintPath>..\packages\SharpSvn.1.9-x64.1.9007.3987.251\lib\net40\SharpSvn.dll</HintPath>
@@ -231,7 +232,9 @@
   <ItemGroup>
     <Resource Include="Resources\Unmodified.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
