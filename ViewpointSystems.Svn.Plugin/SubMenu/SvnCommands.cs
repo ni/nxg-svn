@@ -24,33 +24,9 @@ namespace ViewpointSystems.Svn.Plugin.SubMenu
         /// </summary>
         public static readonly ICommandEx SvnSubMenuCommand = new ShellSelectionRelayCommand(SelectSvnCommand, CanSelectSvnCommand)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.SvnCommandList",
+            UniqueId = "ViewpointSystems.Svn.Plugin.SelectSvnCommand.ShellSelectionRelayCommand",
             LabelTitle = "View Svn Command List",
-            UIType = UITypeForCommand.DropDown
         };
-
-        public static readonly ICommandEx AddShellRelayCommand = new ShellSelectionRelayCommand(AddCommand.Add, CanExecuteCommand, AddAttach)
-        {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Add.AddShellRelayCommand",
-            LabelTitle = "Add",
-
-            // this will inform the system that this command should be parented under the given command in a popup menu
-            PopupMenuParent = SvnSubMenuCommand
-        };
-
-        public static void AddAttach(PlatformVisual visual, ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
-        {
-            if (!parameter.QueryService<ControlCommandParameter>().Any())
-            {
-                parameter.AttachService(new ControlCommandParameter() { Parameter = 0 });
-            }
-        }
-
-        private static bool CanExecuteCommand(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
-        {
-            //alse the command associated with this callback would be disabled. For our commands, we never want a disabled option (assuming we got this far)
-            return true;
-        }
 
         /// <summary>
         /// Command handler to open the list of SVN commands in a Sub-menu

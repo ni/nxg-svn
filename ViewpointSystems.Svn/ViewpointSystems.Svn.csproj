@@ -126,8 +126,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
-xcopy /F /R /Y "$(TargetDir)*.*" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+    <PostBuildEvent>if $(ConfigurationName) == Debug (      mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+xcopy /F /R /Y "$(TargetDir)*.*" "$(InstallLocation)\Addons\ViewpointSystems\Svn")
+
+
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

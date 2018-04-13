@@ -17,15 +17,20 @@ namespace ViewpointSystems.Svn.Plugin.Add
         [Import]
         public ICompositionHost Host { get; set; }
 
-        //public static readonly ICommandEx AddShellRelayCommand = new ShellRelayCommand(Add)
-        //{
-        //    UniqueId = "ViewpointSystems.Svn.Plugin.Add.AddShellRelayCommand",
-        //    LabelTitle = "Add",
+        public static readonly ICommandEx AddShellRelayCommand = new ShellSelectionRelayCommand(Add, CanAdd)
+        {
+            UniqueId = "ViewpointSystems.Svn.Plugin.Add.AddShellRelayCommand",
+            LabelTitle = "Add",
 
-        //    // this will inform the system that this command should be parented under the given command in a popup menu
-        //    PopupMenuParent = SvnCommands.SvnSubMenuCommand
-        //};
-        
+            // this will inform the system that this command should be parented under the given command in a popup menu
+            PopupMenuParent = SvnCommands.SvnSubMenuCommand
+        };
+
+        public static bool CanAdd(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
+        {
+            return true;
+        }
+
         /// <summary>
         /// Command handler to add file to SVN
         /// </summary>
