@@ -17,9 +17,9 @@ namespace ViewpointSystems.Svn.Plugin.Add
         [Import]
         public ICompositionHost Host { get; set; }
 
-        public static readonly ICommandEx AddShellRelayCommand = new ShellSelectionRelayCommand(Add, CanAdd)
+        public static readonly ICommandEx ShellSelectionRelayCommand = new ShellSelectionRelayCommand(Add, CanAdd)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Add.AddShellRelayCommand",
+            UniqueId = "ViewpointSystems.Svn.Plugin.Add.ShellSelectionRelayCommand",
             LabelTitle = "Add",
 
             // this will inform the system that this command should be parented under the given command in a popup menu

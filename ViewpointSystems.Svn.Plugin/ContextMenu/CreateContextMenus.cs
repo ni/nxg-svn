@@ -37,7 +37,7 @@ namespace ViewpointSystems.Svn.Plugin.ContextMenu
                         context.Add(new ShellCommandInstance(SvnCommands.SvnSubMenuCommand) { CommandParameter = projectItem.Envoy });
 
                         if (status.IsVersionable && !status.IsVersioned)
-                            context.Add(new ShellCommandInstance(AddCommand.AddShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                            context.Add(new ShellCommandInstance(AddCommand.ShellSelectionRelayCommand) { CommandParameter = projectItem.Envoy });
 
 
                         //if (status.IsVersioned && status.IsModified)
