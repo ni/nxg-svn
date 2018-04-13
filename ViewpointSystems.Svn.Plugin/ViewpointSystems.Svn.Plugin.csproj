@@ -154,6 +154,7 @@
     <Compile Include="Overlay\ProjectItemOverlayServiceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SourceModel\NamespaceSchema.cs" />
+    <Compile Include="SubMenu\SvnCommands.cs" />
     <Compile Include="SvnManagerPlugin.cs" />
     <Compile Include="UserPreferences\SvnPreferences.cs" />
     <Compile Include="UserPreferences\SvnPreferencesPage.xaml.cs">

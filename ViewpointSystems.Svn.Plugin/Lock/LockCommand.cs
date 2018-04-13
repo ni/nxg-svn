@@ -5,6 +5,7 @@ using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
+using ViewpointSystems.Svn.Plugin.SubMenu;
 
 namespace ViewpointSystems.Svn.Plugin.Lock
 {    
@@ -17,6 +18,9 @@ namespace ViewpointSystems.Svn.Plugin.Lock
         {
             UniqueId = "ViewpointSystems.Svn.Plugin.Lock.TakeLockShellRelayCommand",
             LabelTitle = "Lock",
+
+            // this will inform the system that this command should be parented under the given command in a popup menu
+            PopupMenuParent = SvnCommands.SvnSubMenuCommand
         };
         
         /// <summary>

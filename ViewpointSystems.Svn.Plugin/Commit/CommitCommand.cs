@@ -6,6 +6,7 @@ using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
+using ViewpointSystems.Svn.Plugin.SubMenu;
 
 namespace ViewpointSystems.Svn.Plugin.Commit
 {    
@@ -17,7 +18,10 @@ namespace ViewpointSystems.Svn.Plugin.Commit
         public static readonly ICommandEx CommitShellRelayCommand = new ShellRelayCommand(Commit)
         {
             UniqueId = "ViewpointSystems.Svn.Plugin.Commint.CommitShellRelayCommand",
-            LabelTitle = "Commit"
+            LabelTitle = "Commit",
+
+            // this will inform the system that this command should be parented under the given command in a popup menu
+            PopupMenuParent = SvnCommands.SvnSubMenuCommand
         };        
 
         /// <summary>

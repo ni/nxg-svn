@@ -1,0 +1,13 @@
+Architecture: windows_x64
+CompatibilityVersion: 170500
+Conflicts: ni-package-manager
+Description: End-User License Agreement
+DisplayName: eula-viewpoint-license
+EulaPriority: 0
+EulaTitle: eula-viewpoint-license
+Maintainer: Viewpoint Systems, Inc. <hello@viewpointusa.com>
+Package: eula-viewpoint-license
+Plugin: eula
+Section: Infrastructure
+UserVisible: no
+Version: 2.0.0.4

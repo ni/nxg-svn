@@ -1,0 +1,7 @@
+mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+xcopy /F /R /Y "$(TargetDir)*.*" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+
+
+if $(ConfigurationName) == Debug (      mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+      xcopy /F /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.dll" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+      xcopy /F /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.pdb" "$(InstallLocation)\Addons\ViewpointSystems\Svn")

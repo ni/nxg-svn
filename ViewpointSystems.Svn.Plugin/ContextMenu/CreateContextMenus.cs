@@ -10,6 +10,7 @@ using ViewpointSystems.Svn.Plugin.History;
 using ViewpointSystems.Svn.Plugin.Lock;
 using ViewpointSystems.Svn.Plugin.ReleaseLock;
 using ViewpointSystems.Svn.Plugin.Revert;
+using ViewpointSystems.Svn.Plugin.SubMenu;
 
 namespace ViewpointSystems.Svn.Plugin.ContextMenu
 {
@@ -32,18 +33,24 @@ namespace ViewpointSystems.Svn.Plugin.ContextMenu
                     {
                         var svnManager = Host.GetSharedExportedValue<SvnManagerPlugin>();
                         var status = svnManager.Status(projectItem.FullPath);
+
+                        context.Add(new ShellCommandInstance(SvnCommands.SvnSubMenuCommand) { CommandParameter = projectItem.Envoy });
+
                         if (status.IsVersionable && !status.IsVersioned)
-                            context.Add(new ShellCommandInstance(AddCommand.AddShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                        if (status.IsVersioned && status.IsModified)
-                            context.Add(new ShellCommandInstance(CommitCommand.CommitShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                        if (status.IsVersioned && !status.IsAdded)
-                            context.Add(new ShellCommandInstance(HistoryCommand.HistoryShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                        if (status.IsVersioned && !status.IsLocked && !status.IsAdded)
-                            context.Add(new ShellCommandInstance(LockCommand.TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                        if (status.IsVersioned && status.IsLocked)
-                            context.Add(new ShellCommandInstance(ReleaseLockCommand.ReleaseLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                        if (status.IsVersioned && status.IsModified && !status.IsAdded)
-                            context.Add(new ShellCommandInstance(RevertCommand.RevertShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                            context.Add(new ShellCommandInstance(SvnCommands.AddShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                        //    context.Add(new ShellCommandInstance(AddCommand.AddShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                        //if (status.IsVersioned && status.IsModified)
+                        //    context.Add(new ShellCommandInstance(CommitCommand.CommitShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                        //if (status.IsVersioned && !status.IsAdded)
+                        //    context.Add(new ShellCommandInstance(HistoryCommand.HistoryShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                        //if (status.IsVersioned && !status.IsLocked && !status.IsAdded)
+                        //    context.Add(new ShellCommandInstance(LockCommand.TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                        //if (status.IsVersioned && status.IsLocked)
+                        //    context.Add(new ShellCommandInstance(ReleaseLockCommand.ReleaseLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                        //if (status.IsVersioned && status.IsModified && !status.IsAdded)
+                        //    context.Add(new ShellCommandInstance(RevertCommand.RevertShellRelayCommand) { CommandParameter = projectItem.Envoy });
+
+
                     }
                 }
                 catch (Exception)

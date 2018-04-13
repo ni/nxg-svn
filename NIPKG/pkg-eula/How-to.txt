@@ -1,0 +1,12 @@
+To create a EULA package, which will display EULA text in NI Package Manager when installing your package(s):
+
+1) Replace the text in \eula-src\data\LICENSE.rtf with your EULA
+2) Edit the \eula-src\control\control file
+	i) Modify 'Maintainer:' to represent your company and support/contact email address with the existing format
+		e.g., National Instruments <support@ni.com>
+	ii) Modify 'Package:' to represent your EULA package name by replacing 'company' with your company name
+		e.g., eula-ni-license
+	iii) (Optional) Modify the 'Version:' value to represent your EULA revision/version number
+3) Save changes to the control file
+4) Run 'pack-eula.bat' script to create EULA package
+5) Copy resulting .nipkg file to the 'NIPKG for extensions\repo\' folder

@@ -1,0 +1,1 @@
+"C:\program files\national instruments\ni package manager\nipkg.exe" pack "%cd%\NIPKG\pkg-eula\eula-src" "%cd%\NIPKG\repo" exit /b 0
