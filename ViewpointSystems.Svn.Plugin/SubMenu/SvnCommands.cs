@@ -22,33 +22,10 @@ namespace ViewpointSystems.Svn.Plugin.SubMenu
         /// <summary>
         /// The "top level" command
         /// </summary>
-        public static readonly ICommandEx SvnSubMenuCommand = new ShellSelectionRelayCommand(SelectSvnCommand, CanSelectSvnCommand)
+        public static readonly ICommandEx SvnSubMenuCommand = new ShellRelayCommand()
         {
             UniqueId = "ViewpointSystems.Svn.Plugin.SelectSvnCommand.ShellSelectionRelayCommand",
             LabelTitle = "View Svn Command List",
         };
-
-        /// <summary>
-        /// Command handler to open the list of SVN commands in a Sub-menu
-        /// </summary>
-        private static void SelectSvnCommand(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
-        {
-            var choiceParameter = parameter.QueryService<NationalInstruments.Core.ChoiceCommandParameter>().FirstOrDefault();
-            if (choiceParameter != null)
-            {
-                var model = (VisualModel)((selection.First()).Model);
-                using (var transaction = model.TransactionManager.BeginTransaction("Execute Svn Command", TransactionPurpose.User))
-                {
-                    transaction.Commit();
-                }
-            }
-        }
-
-        public static bool CanSelectSvnCommand(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
-        {
-            return true;
-        }
-
-        
     }
 }
