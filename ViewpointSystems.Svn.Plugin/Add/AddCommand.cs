@@ -17,7 +17,7 @@ namespace ViewpointSystems.Svn.Plugin.Add
         [Import]
         public ICompositionHost Host { get; set; }
 
-        public static readonly ICommandEx ShellSelectionRelayCommand = new ShellSelectionRelayCommand(Add, CanAdd)
+        public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(Add, CanAdd)
         {
             UniqueId = "ViewpointSystems.Svn.Plugin.Add.ShellSelectionRelayCommand",
             LabelTitle = "Add",
@@ -26,7 +26,7 @@ namespace ViewpointSystems.Svn.Plugin.Add
             PopupMenuParent = SvnCommands.SvnSubMenuCommand
         };
 
-        public static bool CanAdd(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
+        public static bool CanAdd(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {
             return true;
         }
@@ -34,7 +34,7 @@ namespace ViewpointSystems.Svn.Plugin.Add
         /// <summary>
         /// Command handler to add file to SVN
         /// </summary>
-        public static void Add(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
+        public static void Add(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {
             var filePath = ((Envoy)parameter.Parameter).GetFilePath();
             var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
