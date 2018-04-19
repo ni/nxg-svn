@@ -11,14 +11,19 @@ namespace ViewpointSystems.Svn.Plugin.History
     [ExportPushCommandContent]
     public class HistoryCommand : PushCommandContent
     {
-        public static readonly ICommandEx HistoryShellRelayCommand = new ShellRelayCommand(ViewHistory)
+        public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(ViewHistory, CanHistory)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.History.HistoryShellRelayCommand",
+            UniqueId = "ViewpointSystems.Svn.Plugin.History.ShellSelectionRelayCommand",
             LabelTitle = "View History",
 
             // this will inform the system that this command should be parented under the given command in a popup menu
             PopupMenuParent = SvnCommands.SvnSubMenuCommand
         };
+
+        public static bool CanHistory(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
+        {
+            return true;
+        }
 
         /// <summary>
         /// Command handler to view history

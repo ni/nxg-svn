@@ -38,18 +38,16 @@ namespace ViewpointSystems.Svn.Plugin.ContextMenu
 
                         if (status.IsVersionable && !status.IsVersioned)
                             context.Add(new ShellCommandInstance(AddCommand.ShellSelectionRelayCommand) { CommandParameter = projectItem.Envoy });
-
-
-                        //if (status.IsVersioned && status.IsModified)
-                        //    context.Add(new ShellCommandInstance(CommitCommand.CommitShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                        //if (status.IsVersioned && !status.IsAdded)
-                        //    context.Add(new ShellCommandInstance(HistoryCommand.HistoryShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                        //if (status.IsVersioned && !status.IsLocked && !status.IsAdded)
-                        //    context.Add(new ShellCommandInstance(LockCommand.TakeLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                        //if (status.IsVersioned && status.IsLocked)
-                        //    context.Add(new ShellCommandInstance(ReleaseLockCommand.ReleaseLockShellRelayCommand) { CommandParameter = projectItem.Envoy });
-                        //if (status.IsVersioned && status.IsModified && !status.IsAdded)
-                        //    context.Add(new ShellCommandInstance(RevertCommand.RevertShellRelayCommand) { CommandParameter = projectItem.Envoy });
+                        if (status.IsVersioned && status.IsModified)
+                            context.Add(new ShellCommandInstance(CommitCommand.ShellSelectionRelayCommand) { CommandParameter = projectItem.Envoy });
+                        if (status.IsVersioned && !status.IsAdded)
+                            context.Add(new ShellCommandInstance(HistoryCommand.ShellSelectionRelayCommand) { CommandParameter = projectItem.Envoy });
+                        if (status.IsVersioned && !status.IsLocked && !status.IsAdded)
+                            context.Add(new ShellCommandInstance(LockCommand.ShellSelectionRelayCommand) { CommandParameter = projectItem.Envoy });
+                        if (status.IsVersioned && status.IsLocked)
+                            context.Add(new ShellCommandInstance(ReleaseLockCommand.ShellSelectionRelayCommand) { CommandParameter = projectItem.Envoy });
+                        if (status.IsVersioned && status.IsModified && !status.IsAdded)
+                            context.Add(new ShellCommandInstance(RevertCommand.ShellSelectionRelayCommand) { CommandParameter = projectItem.Envoy });
 
 
                     }

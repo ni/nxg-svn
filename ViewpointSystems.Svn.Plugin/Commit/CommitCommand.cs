@@ -15,14 +15,19 @@ namespace ViewpointSystems.Svn.Plugin.Commit
         [Import]
         public ICompositionHost Host { get; set; }
 
-        public static readonly ICommandEx CommitShellRelayCommand = new ShellRelayCommand(Commit)
+        public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(Commit, CanCommit)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Commint.CommitShellRelayCommand",
+            UniqueId = "ViewpointSystems.Svn.Plugin.Commint.ShellSelectionRelayCommand",
             LabelTitle = "Commit",
 
             // this will inform the system that this command should be parented under the given command in a popup menu
             PopupMenuParent = SvnCommands.SvnSubMenuCommand
-        };        
+        };
+
+        public static bool CanCommit(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
+        {
+            return true;
+        }
 
         /// <summary>
         /// SVN Commit

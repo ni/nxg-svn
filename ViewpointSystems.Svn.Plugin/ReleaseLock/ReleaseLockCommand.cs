@@ -14,14 +14,19 @@ namespace ViewpointSystems.Svn.Plugin.ReleaseLock
         [Import]
         public ICompositionHost Host { get; set; }
 
-        public static readonly ICommandEx ReleaseLockShellRelayCommand = new ShellRelayCommand(ReleaseLock)
+        public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(ReleaseLock, CanReleaseLock)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.ReleaseLock.ReleaseLockShellRelayCommand",
+            UniqueId = "ViewpointSystems.Svn.Plugin.ReleaseLock.ShellSelectionRelayCommand",
             LabelTitle = "Release Lock",
 
             // this will inform the system that this command should be parented under the given command in a popup menu
             PopupMenuParent = SvnCommands.SvnSubMenuCommand
         };
+
+        public static bool CanReleaseLock(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
+        {
+            return true;
+        }
 
         /// <summary>
         /// Release lock
