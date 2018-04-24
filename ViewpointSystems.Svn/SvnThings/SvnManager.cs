@@ -157,20 +157,20 @@ namespace ViewpointSystems.Svn.SvnThings
         public bool Revert(string filePath)
         {
             var returnValue = false;
-            try
+            //try
+            //{
+            var status = GetSingleItemStatus(filePath);
+            if (status.IsModified)
             {
-                var status = GetSingleItemStatus(filePath);
-                if (status.IsModified)
-                {
-                    returnValue = _svnClient.Revert(filePath);
-                    if (returnValue)
-                        UpdateCache(filePath);
-                }
+                returnValue = _svnClient.Revert(filePath);
+                if (returnValue)
+                    UpdateCache(filePath);
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //}
 
             return returnValue;
         }
@@ -232,20 +232,14 @@ namespace ViewpointSystems.Svn.SvnThings
             svnAddArgs.Depth = SvnDepth.Empty;
             svnAddArgs.AddParents = true;
 
-            try
+            var status = GetSingleItemStatus(filePath);
+            if (status.IsVersionable && !status.IsVersioned)
             {
-                var status = GetSingleItemStatus(filePath);
-                if (status.IsVersionable && !status.IsVersioned)
-                {
-                    returnValue = _svnClient.Add(filePath, svnAddArgs);
-                    if (returnValue)
-                        UpdateCache(filePath);
-                }
+                returnValue = _svnClient.Add(filePath, svnAddArgs);
+                if (returnValue)
+                    UpdateCache(filePath);
             }
-            catch (Exception ex)
-            {
-                returnValue = false;
-            }
+
             return returnValue;
         }
 
@@ -270,21 +264,16 @@ namespace ViewpointSystems.Svn.SvnThings
         {
             //TODO: confirm pre-conditions for lock
             var returnValue = false;
-            try
-            {
-                var status = GetSingleItemStatus(filePath);
-                if (!status.IsLocked)
-                {
-                    returnValue = _svnClient.Lock(filePath, comment);
-                    if (returnValue)
-                        UpdateCache(filePath);
 
-                }
-            }
-            catch (Exception e)
+            var status = GetSingleItemStatus(filePath);
+            if (!status.IsLocked)
             {
-                Console.WriteLine(e);
+                returnValue = _svnClient.Lock(filePath, comment);
+                if (returnValue)
+                    UpdateCache(filePath);
+
             }
+
 
             return returnValue;
         }
@@ -298,19 +287,13 @@ namespace ViewpointSystems.Svn.SvnThings
         public bool ReleaseLock(string filePath)
         {
             var returnValue = false;
-            try
+
+            var status = GetSingleItemStatus(filePath);
+            if (status.IsLocked)
             {
-                var status = GetSingleItemStatus(filePath);
-                if (status.IsLocked)
-                {
-                    returnValue = _svnClient.Unlock(filePath);
-                    if (returnValue)
-                        UpdateCache(filePath);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                returnValue = _svnClient.Unlock(filePath);
+                if (returnValue)
+                    UpdateCache(filePath);
             }
 
             return returnValue;
@@ -353,34 +336,29 @@ namespace ViewpointSystems.Svn.SvnThings
             args.ThrowOnError = true;
             args.ThrowOnCancel = true;
             args.Depth = SvnDepth.Empty;
-            try
+
+            //
+            var status = GetSingleItemStatus(filePath);
+            if (status.IsVersioned && status.IsModified)
             {
-                //
-                var status = GetSingleItemStatus(filePath);
-                if (status.IsVersioned && status.IsModified)
-                {
-                    returnValue = _svnClient.Commit(filePath, args);
-                    if (returnValue)
-                        UpdateCache(filePath);
-                }
-                //var sa = new SvnStatusArgs();
-                //sa.Depth = SvnDepth.Infinity;
-                //sa.RetrieveAllEntries = true; //the new line
-                //Collection<SvnStatusEventArgs> statuses;
-
-                //_svnClient.GetStatus(_repo, sa, out statuses);
-                //foreach (var item in statuses)
-                //{
-                //    if (item.LocalContentStatus == SvnStatus.Added || item.LocalContentStatus == SvnStatus.Modified)
-                //    {
-
-                //    }
-                //}                
+                returnValue = _svnClient.Commit(filePath, args);
+                if (returnValue)
+                    UpdateCache(filePath);
             }
-            catch (Exception e)
-            {
+            //var sa = new SvnStatusArgs();
+            //sa.Depth = SvnDepth.Infinity;
+            //sa.RetrieveAllEntries = true; //the new line
+            //Collection<SvnStatusEventArgs> statuses;
 
-            }
+            //_svnClient.GetStatus(_repo, sa, out statuses);
+            //foreach (var item in statuses)
+            //{
+            //    if (item.LocalContentStatus == SvnStatus.Added || item.LocalContentStatus == SvnStatus.Modified)
+            //    {
+
+            //    }
+            //}                
+
             return returnValue;
         }
 

@@ -1,10 +1,12 @@
-﻿using NationalInstruments.Composition;
+﻿using System;
+using NationalInstruments.Composition;
 using NationalInstruments.Controls.Shell;
 using NationalInstruments.Core;
 using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
+using System.Windows.Forms;
 
 namespace ViewpointSystems.Svn.Plugin.ReleaseLock
 {
@@ -27,25 +29,33 @@ namespace ViewpointSystems.Svn.Plugin.ReleaseLock
         /// <param name="site"></param>
         public static void ReleaseLock(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {
-            var filePath = ((Envoy)parameter.Parameter).GetFilePath();
-            var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
-            var success = svnManager.ReleaseLock(filePath);
             var debugHost = host.GetSharedExportedValue<IDebugHost>();
-            if (success)
+            try
             {
-                var envoy = ((Envoy)parameter.Parameter);
-                var projectItem = envoy.GetProjectItemViewModel(site);
-                if (null != projectItem)
+                var filePath = ((Envoy)parameter.Parameter).GetFilePath();
+                var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
+                var success = svnManager.ReleaseLock(filePath);
+                
+                if (success)
                 {
-                    projectItem.RefreshIcon();
-                }
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Release Lock {filePath}"));
+                    var envoy = ((Envoy)parameter.Parameter);
+                    var projectItem = envoy.GetProjectItemViewModel(site);
+                    if (null != projectItem)
+                    {
+                        projectItem.RefreshIcon();
+                    }
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Release Lock {filePath}"));
+                }                
             }
-            else
-            {
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Release Lock {filePath}"));
-            }
-
+            catch (Exception e)
+            {                
+                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Release Lock {e.Message}"));
+                Console.WriteLine(e);
+                const string caption = "Error SVN";
+                var result = MessageBox.Show(e.Message, caption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }            
         }
     }
 }

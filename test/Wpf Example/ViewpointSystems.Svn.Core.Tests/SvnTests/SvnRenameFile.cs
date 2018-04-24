@@ -36,7 +36,7 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
             SvnManager.Add(svnRenameCommittedFile.ToString());
 
             Thread.Sleep(500);
-            SvnManager.CommitChosenFiles(svnRenameCommittedFile.ToString(), "Unit Test");
+            SvnManager.Commit(svnRenameCommittedFile.ToString(), "Unit Test");
             Thread.Sleep(2000);
             var mappingsAfter = SvnManager.GetMappings();
             int countAfter = mappingsAfter.Count;

@@ -35,7 +35,7 @@ namespace ViewpointSystems.Svn.Core.Tests.SvnTests
             SvnManager.Add(physicalRenameFile.ToString());
 
             Thread.Sleep(500);
-            SvnManager.CommitChosenFiles(physicalRenameFile.ToString(), "Unit Test");
+            SvnManager.Commit(physicalRenameFile.ToString(), "Unit Test");
             Thread.Sleep(2000);
 
             System.IO.File.Move(physicalRenameFile.ToString(), physicalRenameFileNew.ToString());

@@ -1,10 +1,12 @@
-﻿using NationalInstruments.Composition;
+﻿using System;
+using NationalInstruments.Composition;
 using NationalInstruments.Controls.Shell;
 using NationalInstruments.Core;
 using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
+using System.Windows.Forms;
 
 namespace ViewpointSystems.Svn.Plugin.Revert
 {    
@@ -27,31 +29,41 @@ namespace ViewpointSystems.Svn.Plugin.Revert
         /// <param name="site"></param>
         public static void Revert(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {
-            var filePath = ((Envoy)parameter.Parameter).GetFilePath();
-            var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
-            var success = svnManager.Revert(filePath);
             var debugHost = host.GetSharedExportedValue<IDebugHost>();
-            if (success)
+            try
             {
-                var envoy = ((Envoy)parameter.Parameter);
-                var projectItem = envoy.GetProjectItemViewModel(site);
-                if (null != projectItem)
+                var filePath = ((Envoy)parameter.Parameter).GetFilePath();
+                var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
+                var success = svnManager.Revert(filePath);
+                
+                if (success)
                 {
-                    projectItem.RefreshIcon();
-                }
+                    var envoy = ((Envoy)parameter.Parameter);
+                    var projectItem = envoy.GetProjectItemViewModel(site);
+                    if (null != projectItem)
+                    {
+                        projectItem.RefreshIcon();
+                    }
 
-                //TODO: needs to be addressed before go live
-                //This will revert a file once, but you have to close and reopen in order to revert the same file a second time.
-                //If open, you also have to manually close the file and reopen to see the reversion.
-                var referencedFile = envoy.GetReferencedFileService();
-                referencedFile.RefreshReferencedFileAsync();
-             
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Revert {filePath}"));
+                    //TODO: needs to be addressed before go live
+                    //This will revert a file once, but you have to close and reopen in order to revert the same file a second time.
+                    //If open, you also have to manually close the file and reopen to see the reversion.
+                    var referencedFile = envoy.GetReferencedFileService();
+                    referencedFile.RefreshReferencedFileAsync();
+
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Revert {filePath}"));
+                }                
             }
-            else
-            {
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Revert {filePath}"));
+            catch (Exception e)
+            {                
+                Console.WriteLine(e);
+                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Revert {e.Message}"));
+                const string caption = "Error SVN";
+                var result = MessageBox.Show(e.Message, caption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
+            
 
         }       
     }

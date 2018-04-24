@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Windows.Forms;
 using NationalInstruments.Composition;
 using NationalInstruments.Controls.Shell;
 using NationalInstruments.Core;
@@ -25,24 +26,33 @@ namespace ViewpointSystems.Svn.Plugin.Add
         /// </summary>
         public static void Add(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
         {
-            var filePath = ((Envoy)parameter.Parameter).GetFilePath();
-            var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
-            var success = svnManager.Add(filePath);
             var debugHost = host.GetSharedExportedValue<IDebugHost>();
-            if (success)
+            try
             {
-                var envoy = ((Envoy)parameter.Parameter);
-                var projectItem = envoy.GetProjectItemViewModel(site);
-                if (null != projectItem)
+                var filePath = ((Envoy)parameter.Parameter).GetFilePath();
+                var svnManager = host.GetSharedExportedValue<SvnManagerPlugin>();
+                var success = svnManager.Add(filePath);                
+                if (success)
                 {
-                    projectItem.RefreshIcon();
+                    var envoy = ((Envoy)parameter.Parameter);
+                    var projectItem = envoy.GetProjectItemViewModel(site);
+                    if (null != projectItem)
+                    {
+                        projectItem.RefreshIcon();
+                    }
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Add {filePath}"));
                 }                
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Add {filePath}"));
             }
-            else
-            {
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Add {filePath}"));
+            catch (Exception e)
+            {                
+                Console.WriteLine(e);
+                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Add {e.Message}"));
+                const string caption = "Error SVN";
+                var result = MessageBox.Show(e.Message, caption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
+            
         }        
     }
 }
