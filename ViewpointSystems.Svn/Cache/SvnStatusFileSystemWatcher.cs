@@ -52,31 +52,31 @@ namespace ViewpointSystems.Svn.Cache
             }
         }
 
-        private void OnChanged(object sender, FileSystemEventArgs e)
+        private void OnChanged(object sender, FileSystemEventArgs fileSystemEventArgs)
         {
             lock (_lock)
             {
-                if (!e.FullPath.Contains(".cache")) //TODO: confirm this won't affect files names my MyVi.cache.gvi
+                if (!fileSystemEventArgs.FullPath.Contains(".cache")) //TODO: confirm this won't affect files names my MyVi.cache.gvi
                 {
-                    switch (e.ChangeType)
+                    switch (fileSystemEventArgs.ChangeType)
                     {
                         case WatcherChangeTypes.Deleted:
-                            _svnManager.Remove(e.FullPath);
+                            _svnManager.Remove(fileSystemEventArgs.FullPath);
                             _svnManager.UpdateCache();
                             break;
 
                         case WatcherChangeTypes.Created:
                             //Physical add means we and to perform a svn add if we are in the project
-                            string[] s = e.FullPath.Split('\\');
+                            var s = fileSystemEventArgs.FullPath.Split('\\');
                             Array.Resize(ref s, s.Length - 1);
-                            string path = "";
+                            var path = "";
                             foreach (var item in s)
                             {
                                 path = path + item + "\\";
                             }
                             //if (path != svnCommitPath)
                             //{
-                            _svnManager.AddToCache(e.FullPath);
+                            _svnManager.AddToCache(fileSystemEventArgs.FullPath);
                             //}
 
                             break;
@@ -84,7 +84,7 @@ namespace ViewpointSystems.Svn.Cache
                         case WatcherChangeTypes.Changed:
                             //if (e.FullPath == fullPath)
                             //{ 
-                            _svnManager.UpdateCache(e.FullPath);
+                            _svnManager.UpdateCache(fileSystemEventArgs.FullPath);
                             //}
                             break;
                     }

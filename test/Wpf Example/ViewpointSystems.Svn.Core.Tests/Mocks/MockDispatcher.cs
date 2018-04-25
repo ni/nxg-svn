@@ -40,7 +40,7 @@ namespace ViewpointSystems.Svn.Core.Tests.Mocks
         /// <returns>return true.</returns>
         public bool ShowViewModel(MvxViewModelRequest request)
         {
-            this.Requests.Add(request);
+            Requests.Add(request);
             return true;
         }
 

@@ -145,7 +145,7 @@ namespace ViewpointSystems.Svn.SccThings
         /// <remarks>Threadsafe provider of cookie values</remarks>
         internal static int NextCookie()
         {
-            int n = System.Threading.Interlocked.Increment(ref _globalCookieBox); // Wraps on Int32.MaxValue
+            var n = System.Threading.Interlocked.Increment(ref _globalCookieBox); // Wraps on Int32.MaxValue
 
             if (n != 0)
                 return n;
@@ -159,7 +159,7 @@ namespace ViewpointSystems.Svn.SccThings
             if (string.IsNullOrEmpty(path))
                 throw new ArgumentNullException("path");
 
-            int lc = path.LastIndexOf(':');
+            var lc = path.LastIndexOf(':');
             if (lc > 1)
                 return false;
             else if (lc == 1 && path.IndexOf('\\') == 2)

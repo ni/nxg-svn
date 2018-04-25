@@ -55,7 +55,7 @@ namespace ViewpointSystems.Svn.SvnThings
         {
             if (_statusCache.Map.ContainsKey(old))
             {
-                if (_statusCache.Map.TryGetValue(old, out SvnItem itemOfChoice))
+                if (_statusCache.Map.TryGetValue(old, out var itemOfChoice))
                 {
                     if (itemOfChoice.Status.LocalNodeStatus == SvnStatus.NotVersioned)
                     {
@@ -90,7 +90,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 {
                     Depth = SvnDepth.Infinity,
                     RetrieveAllEntries = true
-                }, out Collection<SvnStatusEventArgs> statusContents))
+                }, out var statusContents))
                 {
                     foreach (var content in statusContents)
                     {
@@ -117,7 +117,7 @@ namespace ViewpointSystems.Svn.SvnThings
             {
                 Depth = SvnDepth.Infinity,
                 RetrieveAllEntries = true
-            }, out Collection<SvnStatusEventArgs> statusContents);
+            }, out var statusContents);
             return statusContents;
         }
 
@@ -141,7 +141,7 @@ namespace ViewpointSystems.Svn.SvnThings
         {
             if (_statusCache.Map.ContainsKey(filePath))
             {
-                if (_statusCache.Map.TryGetValue(filePath, out SvnItem itemOfChoice))
+                if (_statusCache.Map.TryGetValue(filePath, out var itemOfChoice))
                 {
                     RemoveItemFromProjectEvent?.Invoke(itemOfChoice, new EventArgs());
                     _statusCache.Map.Remove(filePath);

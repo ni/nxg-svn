@@ -96,8 +96,8 @@ namespace ViewpointSystems.Svn.SvnThings
             _cookie = NextCookie();
             _statusDirty = XBool.False;
 
-            SvnItemState set = SvnItemState.None;
-            SvnItemState unset = SvnItemState.Modified | SvnItemState.Added | SvnItemState.HasCopyOrigin
+            var set = SvnItemState.None;
+            var unset = SvnItemState.Modified | SvnItemState.Added | SvnItemState.HasCopyOrigin
                 | SvnItemState.Deleted | SvnItemState.ContentConflicted | SvnItemState.Ignored
                 | SvnItemState.Obstructed | SvnItemState.Replaced | SvnItemState.Versioned
                 | SvnItemState.SvnDirty | SvnItemState.PropertyModified | SvnItemState.PropertiesConflicted | SvnItemState.Conflicted
@@ -193,9 +193,9 @@ namespace ViewpointSystems.Svn.SvnThings
             // Let's assume status is more recent than our internal property cache
             // Set all caching properties we can
 
-            bool svnDirty = true;
-            bool exists = true;
-            bool provideDiskInfo = true;
+            var svnDirty = true;
+            var exists = true;
+            var provideDiskInfo = true;
             switch (status.LocalNodeStatus)
             {
                 case SvnStatus.None:
@@ -245,7 +245,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 case SvnStatus.Modified:
                 case SvnStatus.Conflicted:
                     {
-                        bool done = false;
+                        var done = false;
                         switch (status.LocalTextStatus)
                         {
                             case SvnStatus.Modified:
@@ -307,7 +307,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 SetState(SvnItemState.None, SvnItemState.Conflicted);
 
 
-            bool hasProperties = true;
+            var hasProperties = true;
             switch (status.LocalPropertyStatus)
             {
                 case SvnStatus.None:
@@ -412,8 +412,8 @@ namespace ViewpointSystems.Svn.SvnThings
             _status = lead._status;
             _statusDirty = lead._statusDirty;
 
-            SvnItemState current = lead._currentState;
-            SvnItemState valid = lead._validState;
+            var current = lead._currentState;
+            var valid = lead._validState;
 
             SetState(current & valid, (~current) & valid);
             _ticked = false;
@@ -581,7 +581,7 @@ namespace ViewpointSystems.Svn.SvnThings
         public void RefreshStatus()
         {
             _statusDirty = XBool.None;
-            ISvnStatusCache statusCache = StatusCache;
+            var statusCache = StatusCache;
 
             try
             {
@@ -776,7 +776,7 @@ namespace ViewpointSystems.Svn.SvnThings
             {
                 _conflicts = e.Conflicts;
 
-                foreach (SvnConflictData d in _conflicts)
+                foreach (var d in _conflicts)
                 {
                     d.Detach();
                 }
@@ -794,7 +794,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 if (_conflicts != null)
                     return _conflicts;
 
-                SvnConflictData[] empty = new SvnConflictData[0];
+                var empty = new SvnConflictData[0];
                 _conflicts = empty;
                 SvnItemState state;
                 if (TryGetState(SvnItemState.Conflicted, out state) && state == 0)
@@ -812,7 +812,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 if (_conflicts != empty)
                 {
                     SetState(SvnItemState.Conflicted, SvnItemState.None);
-                    foreach (SvnConflictData cd in _conflicts)
+                    foreach (var cd in _conflicts)
                     {
                         switch (cd.ConflictType)
                         {
@@ -906,7 +906,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 else if (!Exists)
                     return false;
 
-                SvnItem parent = Parent;
+                var parent = Parent;
                 if (parent != null)
                     return parent.IsIgnored;
                 else
@@ -933,8 +933,8 @@ namespace ViewpointSystems.Svn.SvnThings
             if (items == null)
                 throw new ArgumentNullException("items");
 
-            List<String> paths = new List<string>();
-            foreach (SvnItem item in items)
+            var paths = new List<string>();
+            foreach (var item in items)
             {
                 Debug.Assert(item != null, "SvnItem should not be null");
 
@@ -959,7 +959,7 @@ namespace ViewpointSystems.Svn.SvnThings
 
             SvnItem parent = null;
 
-            foreach (SvnItem i in items)
+            foreach (var i in items)
             {
                 if (parent == null)
                 {
@@ -993,7 +993,7 @@ namespace ViewpointSystems.Svn.SvnThings
             Debug.Assert(_statusDirty != XBool.None, "Recursive refresh call");
 
             if (_statusDirty == XBool.True)
-                this.RefreshStatus();
+                RefreshStatus();
         }
 
         public void Dispose()
@@ -1020,12 +1020,12 @@ namespace ViewpointSystems.Svn.SvnThings
         {
             get
             {
-                string parentDir = Directory;
+                var parentDir = Directory;
 
                 if (string.IsNullOrEmpty(parentDir))
                     return null; // We are the root folder!
 
-                ISvnStatusCache cache = StatusCache;
+                var cache = StatusCache;
 
                 if (cache != null)
                     return cache.GetAlreadyNormalizedItem(parentDir);
@@ -1038,12 +1038,12 @@ namespace ViewpointSystems.Svn.SvnThings
         {
             get
             {
-                string parentDir = Directory;
+                var parentDir = Directory;
 
                 if (string.IsNullOrEmpty(parentDir))
                     return null;
 
-                ISvnStatusCache cache = StatusCache;
+                var cache = StatusCache;
 
                 if (cache == null)
                     return null;
@@ -1093,7 +1093,7 @@ namespace ViewpointSystems.Svn.SvnThings
                 return false;
 
             if (extraChecks)
-                foreach (char c in path)
+                foreach (var c in path)
                     switch (c)
                     {
                         case '<':
@@ -1136,7 +1136,7 @@ namespace ViewpointSystems.Svn.SvnThings
             if (!path.StartsWith(root, StringComparison.OrdinalIgnoreCase))
                 return false;
 
-            int n = path.Length - path.Length;
+            var n = path.Length - path.Length;
 
             if (n > 0)
                 return (path[root.Length] == '\\');
@@ -1191,8 +1191,8 @@ namespace ViewpointSystems.Svn.SvnThings
         [DebuggerStepThrough]
         public static bool operator ==(SvnItem one, SvnItem other)
         {
-            bool n1 = (object)one == null;
-            bool n2 = (object)other == null;
+            var n1 = (object)one == null;
+            var n2 = (object)other == null;
 
             if (n1 || n2)
                 return n1 && n2;
@@ -1230,7 +1230,7 @@ namespace ViewpointSystems.Svn.SvnThings
         {
             get
             {
-                SvnStatusData status = Status;
+                var status = Status;
 
                 return status.Uri;
             }
@@ -1245,7 +1245,7 @@ namespace ViewpointSystems.Svn.SvnThings
             if (!IsDirectory)
                 return null;
 
-            ISvnStatusCache cache = StatusCache;
+            var cache = StatusCache;
 
             if (cache == null)
                 return null;
@@ -1264,21 +1264,21 @@ namespace ViewpointSystems.Svn.SvnThings
             if (string.IsNullOrEmpty(root) || string.IsNullOrEmpty(filename))
                 return filename;
 
-            string[] rootComponents = root.Split(Path.DirectorySeparatorChar);
-            string[] filecomponents = filename.Split(Path.DirectorySeparatorChar);
+            var rootComponents = root.Split(Path.DirectorySeparatorChar);
+            var filecomponents = filename.Split(Path.DirectorySeparatorChar);
 
-            int num = 1;
+            var num = 1;
             while (num < rootComponents.Length && num < filecomponents.Length && !(rootComponents[num] != filecomponents[num]))
             {
                 num++;
             }
-            StringBuilder sb = new StringBuilder();
-            for (int i = num; i < rootComponents.Length - 1; i++)
+            var sb = new StringBuilder();
+            for (var i = num; i < rootComponents.Length - 1; i++)
             {
                 sb.Append("..");
                 sb.Append(Path.DirectorySeparatorChar);
             }
-            for (int j = num; j < filecomponents.Length; j++)
+            for (var j = num; j < filecomponents.Length; j++)
             {
                 sb.Append(filecomponents[j]);
                 if (j < filecomponents.Length - 1)
@@ -1291,15 +1291,15 @@ namespace ViewpointSystems.Svn.SvnThings
 
         public static string MakeRelativeNoCase(string relativeFrom, string path)
         {
-            string rp = MakeRelative(relativeFrom.ToUpperInvariant(), path.ToUpperInvariant());
+            var rp = MakeRelative(relativeFrom.ToUpperInvariant(), path.ToUpperInvariant());
 
             if (string.IsNullOrEmpty(rp) || IsValidPath(rp))
                 return path;
 
-            int back = rp.LastIndexOf("..\\", StringComparison.Ordinal);
+            var back = rp.LastIndexOf("..\\", StringComparison.Ordinal);
             if (back >= 0)
             {
-                int rest = rp.Length - back - 3;
+                var rest = rp.Length - back - 3;
 
                 return rp.Substring(0, back + 3) + path.Substring(path.Length - rest, rest);
             }
@@ -1316,7 +1316,7 @@ namespace ViewpointSystems.Svn.SvnThings
                     return AsDirectory().NeedsCleanup;
                 else
                 {
-                    SvnDirectory dir = ParentDirectory;
+                    var dir = ParentDirectory;
 
                     if (dir != null)
                         return dir.NeedsCleanup;

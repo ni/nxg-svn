@@ -42,7 +42,7 @@ namespace ViewpointSystems.Svn.Wpf
 
         protected void RegisterBindingbuilderCallbacks()
         {
-            Mvx.CallbackWhenRegistered<IMvxValueConverterRegistry>(this.FillValueConverters);
+            Mvx.CallbackWhenRegistered<IMvxValueConverterRegistry>(FillValueConverters);
         }
 
         protected void FillValueConverters(IMvxValueConverterRegistry registry)
@@ -55,7 +55,7 @@ namespace ViewpointSystems.Svn.Wpf
             base.InitializeLastChance();
 
             var builder = new MvxWindowsBindingBuilder();
-            this.RegisterBindingbuilderCallbacks();
+            RegisterBindingbuilderCallbacks();
             builder.DoRegistration();
         }
 

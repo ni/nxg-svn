@@ -112,7 +112,7 @@ namespace ViewpointSystems.Svn.SccThings
             if (string.IsNullOrEmpty(path))
                 throw new ArgumentNullException("path");
 
-            string fullPath = path;
+            var fullPath = path;
 
             if (!path.EndsWith("\\"))
                 path += "\\";
@@ -125,7 +125,7 @@ namespace ViewpointSystems.Svn.SccThings
             }
 
             NativeMethods.WIN32_FIND_DATA data;
-            SafeFindHandle sh = NativeMethods.FindFirstFileW(fullPath, out data);
+            var sh = NativeMethods.FindFirstFileW(fullPath, out data);
 
             if (sh.IsInvalid)
             {
@@ -141,7 +141,7 @@ namespace ViewpointSystems.Svn.SccThings
 
         static IEnumerable<SccFileSystemNode> DoGetDirectoryNodes(SccFileSystemNode result, SafeFindHandle findHandle)
         {
-            string basePath = result._basePath;
+            var basePath = result._basePath;
             using (findHandle)
             {
                 if (!IsDotPath(result.Name))

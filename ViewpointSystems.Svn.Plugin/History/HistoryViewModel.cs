@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -52,11 +52,11 @@ namespace ViewpointSystems.Svn.Plugin.History
                     //var referencedFile = envoy.GetReferencedFileService();
                     //referencedFile.RefreshReferencedFileAsync();
 
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Revert to revision {SelectedHistoryRow.Revision} {filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Revert to revision {SelectedHistoryRow.Revision} {_filePath}"));
                 }
                 else
                 {
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to revert revision {SelectedHistoryRow.Revision} {filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to revert revision {SelectedHistoryRow.Revision} {_filePath}"));
                 }
             }
         }
@@ -77,52 +77,52 @@ namespace ViewpointSystems.Svn.Plugin.History
                 {
                     //TODO: how to call compare
 
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Compare to revision {SelectedHistoryRow.Revision} {filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Compare to revision {SelectedHistoryRow.Revision} {_filePath}"));
                 }
                 else
                 {
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to revision {SelectedHistoryRow.Revision} {filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to revision {SelectedHistoryRow.Revision} {_filePath}"));
                 }
             }
         }
 
-        private string filePath;
+        private string _filePath;
         public string FilePath
         {
-            get { return filePath; }
+            get { return _filePath; }
             set
             {
-                filePath = value;
+                _filePath = value;
                 var svnManager = _editSite.Host.GetSharedExportedValue<SvnManagerPlugin>();
-                HistoryStatus = svnManager.History(filePath);
+                HistoryStatus = svnManager.History(_filePath);
                 OnPropertyChanged();
             }
         }
 
-        private Collection<SvnLogEventArgs> historyStatus = new Collection<SvnLogEventArgs>();
+        private Collection<SvnLogEventArgs> _historyStatus = new Collection<SvnLogEventArgs>();
         /// <summary>
         /// Listing of history for given file
         /// </summary>
         public Collection<SvnLogEventArgs> HistoryStatus
         {
-            get { return historyStatus; }
+            get { return _historyStatus; }
             set
             {
-                historyStatus = value;
+                _historyStatus = value;
                 OnPropertyChanged();
             }
         }
 
-        private SvnLogEventArgs selectedHistoryRow;
+        private SvnLogEventArgs _selectedHistoryRow;
         /// <summary>
         /// Selected row from history table
         /// </summary>
         public SvnLogEventArgs SelectedHistoryRow
         {
-            get { return selectedHistoryRow; }
+            get { return _selectedHistoryRow; }
             set
             {
-                selectedHistoryRow = value;
+                _selectedHistoryRow = value;
                 OnPropertyChanged();
             }
         }

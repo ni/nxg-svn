@@ -78,7 +78,7 @@ namespace ViewpointSystems.Svn.Cache
 
             RefreshPath(item.FullPath, nodeKind);
 
-            ISvnItemUpdate updateItem = (ISvnItemUpdate)item;
+            var updateItem = (ISvnItemUpdate)item;
 
             if (!updateItem.IsStatusClean())
             {
@@ -185,7 +185,7 @@ namespace ViewpointSystems.Svn.Cache
                     ScheduleForCleanup(dir);
             }
 
-            string parentDir = SvnTools.GetNormalizedDirectoryName(item.FullPath);
+            var parentDir = SvnTools.GetNormalizedDirectoryName(item.FullPath);
 
             if (string.IsNullOrEmpty(parentDir) || parentDir == item.FullPath)
                 return; // Skip root directory
@@ -201,7 +201,7 @@ namespace ViewpointSystems.Svn.Cache
             if (item == null)
                 throw new ArgumentNullException("item");
 
-            bool deleted = false;
+            var deleted = false;
             SvnDirectory dir;
             if (DirectoryMap.TryGetValue(item.FullPath, out dir))
             {
@@ -223,7 +223,7 @@ namespace ViewpointSystems.Svn.Cache
             if (!deleted)
                 return;
 
-            string parentDir = SvnTools.GetNormalizedDirectoryName(item.FullPath);
+            var parentDir = SvnTools.GetNormalizedDirectoryName(item.FullPath);
 
             if (string.IsNullOrEmpty(parentDir) || parentDir == item.FullPath)
                 return; // Skip root directory
@@ -253,8 +253,8 @@ namespace ViewpointSystems.Svn.Cache
             if (string.IsNullOrEmpty(path))
                 throw new ArgumentNullException("path");
 
-            string walkPath = path;
-            bool walkingDirectory = false;
+            var walkPath = path;
+            var walkingDirectory = false;
 
             switch (pathKind)
             {
@@ -279,7 +279,7 @@ namespace ViewpointSystems.Svn.Cache
                     break;
             }
 
-            SvnStatusArgs args = new SvnStatusArgs();
+            var args = new SvnStatusArgs();
             args.Depth = SvnDepth.Children;
             args.RetrieveAllEntries = true;
             args.RetrieveIgnoredEntries = true;
@@ -291,7 +291,7 @@ namespace ViewpointSystems.Svn.Cache
                 SvnItem walkItem = null;
 
                 // We get more information for free, lets use that to update other items
-                DirectoryMap.TryGetValue(walkPath, out SvnDirectory directory);
+                DirectoryMap.TryGetValue(walkPath, out var directory);
                 if (null != directory)
                 {
                     updateDir = directory;
@@ -307,8 +307,8 @@ namespace ViewpointSystems.Svn.Cache
 
 
                 bool ok;
-                bool statSelf = false;
-                bool noWcAtAll = false;
+                var statSelf = false;
+                var noWcAtAll = false;
 
                 // Don't retry file open/read operations on failure. These would only delay the result 
                 // (default number of delays = 100)
@@ -340,7 +340,7 @@ namespace ViewpointSystems.Svn.Cache
 
                         if (walkItem == null)
                         {
-                            string truepath = SvnTools.GetTruePath(walkPath); // Gets the on-disk casing if it exists
+                            var truepath = SvnTools.GetTruePath(walkPath); // Gets the on-disk casing if it exists
 
                             StoreItem(walkItem = CreateItem(truepath ?? walkPath,
                                 (truepath != null) ? NoSccStatus.NotVersioned : NoSccStatus.NotExisting, SvnNodeKind.Unknown));
@@ -402,9 +402,9 @@ namespace ViewpointSystems.Svn.Cache
             // Note: There is a lock(_lock) around this in our caller
 
             bool canRead;
-            string adminName = SvnClient.AdministrativeDirectoryName;
-            NoSccStatus noSccStatus = noWcAtAll ? NoSccStatus.NotVersionable : NoSccStatus.NotVersioned;
-            foreach (SccFileSystemNode node in SccFileSystemNode.GetDirectoryNodes(walkPath, out canRead))
+            var adminName = SvnClient.AdministrativeDirectoryName;
+            var noSccStatus = noWcAtAll ? NoSccStatus.NotVersionable : NoSccStatus.NotVersioned;
+            foreach (var node in SccFileSystemNode.GetDirectoryNodes(walkPath, out canRead))
             {
                 if (string.Equals(node.Name, adminName, StringComparison.OrdinalIgnoreCase) || node.IsHiddenOrSystem)
                     continue;
@@ -474,14 +474,14 @@ namespace ViewpointSystems.Svn.Cache
 
                 while (_cleanup.Count > 0)
                 {
-                    SvnDirectory dir = _cleanup[0];
-                    string path = dir.FullPath;
+                    var dir = _cleanup[0];
+                    var path = dir.FullPath;
 
                     _cleanup.RemoveAt(0);
 
-                    for (int i = 0; i < dir.Count; i++)
+                    for (var i = 0; i < dir.Count; i++)
                     {
-                        SvnItem item = dir[i];
+                        var item = dir[i];
                         if (((ISvnItemUpdate)item).ShouldClean())
                         {
                             RemoveItem(item);
@@ -537,8 +537,8 @@ namespace ViewpointSystems.Svn.Cache
         {
             // Note: There is a lock(_lock) around this in our caller
 
-            SvnStatusData status = new SvnStatusData(e);
-            string path = e.FullPath; // Fully normalized
+            var status = new SvnStatusData(e);
+            var path = e.FullPath; // Fully normalized
 
             SvnItem item;
             if (!Map.TryGetValue(path, out item) || !NewFullPathOk(item, path, status))
@@ -546,7 +546,7 @@ namespace ViewpointSystems.Svn.Cache
                 // We only create an item if we don't have an existing
                 // with a valid path. (No casing changes allowed!)
 
-                SvnItem newItem = CreateItem(path, status);
+                var newItem = CreateItem(path, status);
                 StoreItem(newItem);
 
                 if (item != null)
@@ -572,7 +572,7 @@ namespace ViewpointSystems.Svn.Cache
             if (path == null)
                 throw new ArgumentNullException("path");
 
-            string normPath = SvnTools.GetNormalizedFullPath(path);
+            var normPath = SvnTools.GetNormalizedFullPath(path);
 
             lock (_lock)
             {
@@ -592,11 +592,11 @@ namespace ViewpointSystems.Svn.Cache
 
             lock (_lock)
             {
-                List<string> names = new List<string>();
+                var names = new List<string>();
 
-                foreach (SvnItem v in Map.Values)
+                foreach (var v in Map.Values)
                 {
-                    string name = v.FullPath;
+                    var name = v.FullPath;
                     if (v.IsBelowPath(path))
                     {
                         v.MarkDirty();
@@ -612,9 +612,9 @@ namespace ViewpointSystems.Svn.Cache
 
             lock (_lock)
             {
-                List<string> items = new List<string>();
+                var items = new List<string>();
 
-                foreach (SvnItem v in Map.Values)
+                foreach (var v in Map.Values)
                 {
                     if (v.IsBelowPath(path))
                         items.Add(v.FullPath);
@@ -631,11 +631,11 @@ namespace ViewpointSystems.Svn.Cache
 
             lock (_lock)
             {
-                SortedList<string, SvnItem> items = new SortedList<string, SvnItem>(StringComparer.OrdinalIgnoreCase);
+                var items = new SortedList<string, SvnItem>(StringComparer.OrdinalIgnoreCase);
 
-                foreach (string path in paths)
+                foreach (var path in paths)
                 {
-                    foreach (SvnItem v in Map.Values)
+                    foreach (var v in Map.Values)
                     {
                         if (v.IsBelowPath(path))
                             items[v.FullPath] = v;
@@ -657,9 +657,9 @@ namespace ViewpointSystems.Svn.Cache
 
             lock (_lock)
             {
-                foreach (string path in paths)
+                foreach (var path in paths)
                 {
-                    string normPath = SvnTools.GetNormalizedFullPath(path);
+                    var normPath = SvnTools.GetNormalizedFullPath(path);
                     SvnItem item;
 
                     if (Map.TryGetValue(normPath, out item))
@@ -695,7 +695,7 @@ namespace ViewpointSystems.Svn.Cache
 
                 if (!Map.TryGetValue(path, out item))
                 {
-                    string truePath = SvnTools.GetTruePath(path, true);
+                    var truePath = SvnTools.GetTruePath(path, true);
 
                     // Just create an item based on his name. Delay the svn calls as long as we can
                     StoreItem(item = new SvnItem(truePath ?? path, NoSccStatus.Unknown, SvnNodeKind.Unknown));
@@ -714,8 +714,8 @@ namespace ViewpointSystems.Svn.Cache
         {
             lock (_lock)
             {
-                this.DirectoryMap.Clear();
-                this.Map.Clear();
+                DirectoryMap.Clear();
+                Map.Clear();
             }
         }
 
@@ -744,7 +744,7 @@ namespace ViewpointSystems.Svn.Cache
                 if (DirectoryMap.TryGetValue(path, out dir))
                     return dir;
 
-                SvnItem item = this[path];
+                var item = this[path];
 
                 if (item.IsDirectory)
                 {

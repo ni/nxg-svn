@@ -42,8 +42,8 @@ namespace ViewpointSystems.Svn.SccThings
         {
             if (recursive)
             {
-                bool allOk = true;
-                foreach (SccFileSystemNode n in SccFileSystemNode.GetDirectoryNodes(fullPath))
+                var allOk = true;
+                foreach (var n in SccFileSystemNode.GetDirectoryNodes(fullPath))
                 {
                     if (n.IsDirectory)
                     {
@@ -62,7 +62,7 @@ namespace ViewpointSystems.Svn.SccThings
 
         public static bool DeleteNode(string fullPath)
         {
-            uint type = NativeMethods.GetFileAttributes(fullPath);
+            var type = NativeMethods.GetFileAttributes(fullPath);
 
             if (type == NativeMethods.INVALID_FILE_ATTRIBUTES)
                 return true;
