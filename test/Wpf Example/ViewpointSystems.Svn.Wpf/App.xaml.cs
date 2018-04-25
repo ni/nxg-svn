@@ -30,13 +30,13 @@ namespace ViewpointSystems.Svn.Wpf
         {
             var presenter = new MultiWindowPresenter(MainWindow);
 
-            Setup setup = new Setup(this.Dispatcher, presenter);
+            Setup setup = new Setup(Dispatcher, presenter);
             setup.Initialize();
 
             IMvxAppStart start = Mvx.Resolve<IMvxAppStart>();
             start.Start();
 
-            this.setupComplete = true;
+            setupComplete = true;
         }
 
         /// <summary>
@@ -45,9 +45,9 @@ namespace ViewpointSystems.Svn.Wpf
         /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnActivated(EventArgs e)
         {
-            if (!this.setupComplete)
+            if (!setupComplete)
             {
-                this.DoSetup();
+                DoSetup();
             }
 
             base.OnActivated(e);

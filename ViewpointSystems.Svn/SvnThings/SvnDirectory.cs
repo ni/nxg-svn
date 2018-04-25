@@ -54,12 +54,12 @@ namespace ViewpointSystems.Svn.SvnThings
                 else
                 {
                     // Get the item from the status cache
-                    ISvnStatusCache cache = _context;
+                    var cache = _context;
 
                     if (cache == null)
                         return null;
 
-                    SvnItem item = cache[FullPath];
+                    var item = cache[FullPath];
 
                     if (item != null)
                     {
@@ -106,7 +106,7 @@ namespace ViewpointSystems.Svn.SvnThings
         {
             get
             {
-                foreach (SvnItem item in this)
+                foreach (var item in this)
                 {
                     if (((ISvnItemUpdate)item).IsItemTicked())
                         return true;

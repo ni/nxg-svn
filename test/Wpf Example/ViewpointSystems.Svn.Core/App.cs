@@ -22,14 +22,14 @@ namespace ViewpointSystems.Svn.Core
         /// </summary>
         public override void Initialize()
         {
-            this.CreatableTypes()
+            CreatableTypes()
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
             Mvx.RegisterSingleton<SvnManager>(new SvnManager());
             //// Start the app with the Main View Model.
-            this.RegisterAppStart<MainViewModel>();
+            RegisterAppStart<MainViewModel>();
         }
     }
 }

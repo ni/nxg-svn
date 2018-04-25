@@ -15,7 +15,7 @@ namespace ViewpointSystems.Svn.Wpf
         /// </summary>
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

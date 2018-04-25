@@ -22,9 +22,8 @@ namespace ViewpointSystems.Svn.Cache
 
         public void InitializeFileSystemWatcher(string path)
         {
-            var rootPath = _svnManager.GetRoot(path);
             _myFileSystemWatcher = new FileSystemWatcher();
-            _myFileSystemWatcher.Path = rootPath;
+            _myFileSystemWatcher.Path = path;
             _myFileSystemWatcher.NotifyFilter = NotifyFilters.Attributes |
             NotifyFilters.CreationTime |
             NotifyFilters.DirectoryName |
@@ -53,44 +52,42 @@ namespace ViewpointSystems.Svn.Cache
             }
         }
 
-        private void OnChanged(object sender, FileSystemEventArgs e)
+        private void OnChanged(object sender, FileSystemEventArgs fileSystemEventArgs)
         {
             lock (_lock)
             {
-                if (!e.FullPath.Contains(".cache")) //TODO: confirm this won't affect files names my MyVi.cache.gvi
+                if (!fileSystemEventArgs.FullPath.Contains(".cache")) //TODO: confirm this won't affect files names my MyVi.cache.gvi
                 {
-                        switch (e.ChangeType)
-                        {
-                            case WatcherChangeTypes.Deleted:
-                                _svnManager.Remove(e.FullPath);
-                                _svnManager.UpdateCache();
-                                break;
+                    switch (fileSystemEventArgs.ChangeType)
+                    {
+                        case WatcherChangeTypes.Deleted:
+                            _svnManager.Remove(fileSystemEventArgs.FullPath);
+                            _svnManager.UpdateCache();
+                            break;
 
-                            case WatcherChangeTypes.Created:
-                                //Physical add means we and to perform a svn add if we are in the project
-                                string[] s = e.FullPath.Split('\\');
-                                Array.Resize(ref s, s.Length - 1);
-                                string path = "";
-                                foreach (var item in s)
-                                {
-                                    path = path + item + "\\";
-                                }
-                                //if (path != svnCommitPath)
-                                //{
-                                _svnManager.AddToCache(e.FullPath);
-                                //}
+                        case WatcherChangeTypes.Created:
+                            //Physical add means we and to perform a svn add if we are in the project
+                            var s = fileSystemEventArgs.FullPath.Split('\\');
+                            Array.Resize(ref s, s.Length - 1);
+                            var path = "";
+                            foreach (var item in s)
+                            {
+                                path = path + item + "\\";
+                            }
+                            //if (path != svnCommitPath)
+                            //{
+                            _svnManager.AddToCache(fileSystemEventArgs.FullPath);
+                            //}
 
-                                break;
+                            break;
 
-                            case WatcherChangeTypes.Changed:
-                                //if (e.FullPath == fullPath)
-                                //{ 
-                                _svnManager.UpdateCache(e.FullPath);
-                                //}
-                                break;
-                        }
+                        case WatcherChangeTypes.Changed:
+                            //if (e.FullPath == fullPath)
+                            //{ 
+                            _svnManager.UpdateCache(fileSystemEventArgs.FullPath);
+                            //}
+                            break;
                     }
-                    
                 }
                
                 //previousEventType = e.ChangeType;

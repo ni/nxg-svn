@@ -18,48 +18,48 @@ namespace ViewpointSystems.Svn.Core.ViewModels
     {
         private SvnManager _svnManager = Mvx.Resolve<SvnManager>();
 
-        private string repository;
+        private string _repository;
         public string Repository
         {
-            get { return repository; }
-            set { repository = value; RaisePropertyChanged(() => Repository); }
+            get { return _repository; }
+            set { _repository = value; RaisePropertyChanged(() => Repository); }
         }
-        private string localWorkingLocation = @"C:\svnTesting\wpfapp1";
+        private string _localWorkingLocation = @"C:\svnTesting\wpfapp1";
         public string LocalWorkingLocation
         {
-            get { return localWorkingLocation; }
-            set { localWorkingLocation = value; RaisePropertyChanged(() => LocalWorkingLocation); }
+            get { return _localWorkingLocation; }
+            set { _localWorkingLocation = value; RaisePropertyChanged(() => LocalWorkingLocation); }
         }
 
-        private Collection<SvnLogEventArgs> svnFileHistory;
+        private Collection<SvnLogEventArgs> _svnFileHistory;
         public Collection<SvnLogEventArgs> SvnFileHistory
         {
-            get { return svnFileHistory; }
-            set { svnFileHistory = value; RaisePropertyChanged(() => SvnFileHistory); }
+            get { return _svnFileHistory; }
+            set { _svnFileHistory = value; RaisePropertyChanged(() => SvnFileHistory); }
         }
 
 
-        private string report;
+        private string _report;
         public string Report
         {
-            get { return report; }
-            set { report = value; RaisePropertyChanged(() => Report); }
+            get { return _report; }
+            set { _report = value; RaisePropertyChanged(() => Report); }
         }
 
-        private string message;
+        private string _message;
         public string Message
         {
-            get { return message; }
-            set { message = value; RaisePropertyChanged(() => Message); }
+            get { return _message; }
+            set { _message = value; RaisePropertyChanged(() => Message); }
         }
 
-        private MvxCommand addCommand;
+        private MvxCommand _addCommand;
         public MvxCommand AddCommand
         {
             get
             {
-                addCommand = addCommand ?? new MvxCommand(DoAddCommand);
-                return addCommand;
+                _addCommand = _addCommand ?? new MvxCommand(DoAddCommand);
+                return _addCommand;
             }
 
         }
@@ -133,13 +133,13 @@ namespace ViewpointSystems.Svn.Core.ViewModels
             }
         }
 
-        private MvxCommand lockCommand;
+        private MvxCommand _lockCommand;
         public MvxCommand LockCommand
         {
             get
             {
-                lockCommand = lockCommand ?? new MvxCommand(DoLockCommand);
-                return lockCommand;
+                _lockCommand = _lockCommand ?? new MvxCommand(DoLockCommand);
+                return _lockCommand;
             }
 
         }
@@ -240,13 +240,13 @@ namespace ViewpointSystems.Svn.Core.ViewModels
             }
         }
 
-        private MvxCommand unlockCommand;
+        private MvxCommand _unlockCommand;
         public MvxCommand UnLockCommand
         {
             get
             {
-                unlockCommand = unlockCommand ?? new MvxCommand(DoUnlockCommand);
-                return unlockCommand;
+                _unlockCommand = _unlockCommand ?? new MvxCommand(DoUnlockCommand);
+                return _unlockCommand;
             }
 
         }
@@ -350,13 +350,13 @@ namespace ViewpointSystems.Svn.Core.ViewModels
             }
         }
 
-        private MvxCommand historyCommand;
+        private MvxCommand _historyCommand;
         public MvxCommand HistoryCommand
         {
             get
             {
-                historyCommand = historyCommand ?? new MvxCommand(DoHistoryCommand);
-                return historyCommand;
+                _historyCommand = _historyCommand ?? new MvxCommand(DoHistoryCommand);
+                return _historyCommand;
             }
 
         }
@@ -432,13 +432,13 @@ namespace ViewpointSystems.Svn.Core.ViewModels
         }
 
 
-        private MvxCommand commitCommand;
+        private MvxCommand _commitCommand;
         public MvxCommand CommitCommand
         {
             get
             {
-                commitCommand = commitCommand ?? new MvxCommand(DoCommitCommand);
-                return commitCommand;
+                _commitCommand = _commitCommand ?? new MvxCommand(DoCommitCommand);
+                return _commitCommand;
             }
 
         }
@@ -557,13 +557,13 @@ namespace ViewpointSystems.Svn.Core.ViewModels
             
         }
 
-        private MvxCommand checkOutCommand;
+        private MvxCommand _checkOutCommand;
         public MvxCommand CheckOutCommand
         {
             get
             {
-                checkOutCommand = checkOutCommand ?? new MvxCommand(DoCheckOutCommand);
-                return checkOutCommand;
+                _checkOutCommand = _checkOutCommand ?? new MvxCommand(DoCheckOutCommand);
+                return _checkOutCommand;
             }
 
         }
@@ -584,13 +584,13 @@ namespace ViewpointSystems.Svn.Core.ViewModels
             }
         }
 
-        private MvxCommand showStatusViewCommand;
+        private MvxCommand _showStatusViewCommand;
         public MvxCommand ShowStatusViewCommand
         {
             get
             {
-                showStatusViewCommand = showStatusViewCommand ?? new MvxCommand(DoShowStatusViewCommand);
-                return showStatusViewCommand;
+                _showStatusViewCommand = _showStatusViewCommand ?? new MvxCommand(DoShowStatusViewCommand);
+                return _showStatusViewCommand;
             }
 
         }

@@ -48,7 +48,7 @@ namespace ViewpointSystems.Svn.Core.ViewModels
 
             backingStore = value;
 
-            this.RaisePropertyChanged(property);
+            RaisePropertyChanged(property);
         }
 
     }

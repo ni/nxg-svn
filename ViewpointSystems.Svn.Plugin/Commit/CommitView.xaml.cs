@@ -30,12 +30,12 @@ namespace ViewpointSystems.Svn.Plugin.Commit
         private void OkButtonClick(object sender, RoutedEventArgs e)
         {
             ((CommitViewModel) DataContext).OkButtonClicked = true;
-            this.Close();
+            Close();
         }
 
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

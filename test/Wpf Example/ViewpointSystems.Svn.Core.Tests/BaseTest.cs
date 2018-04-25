@@ -64,7 +64,7 @@ namespace ViewpointSystems.Svn.Core.Tests
         [TestCleanup]
         public virtual void TearDown()
         {
-            this.Terminate();
+            Terminate();
         }
 
         /// <summary>

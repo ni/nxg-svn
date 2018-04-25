@@ -22,97 +22,97 @@ namespace ViewpointSystems.Svn.SvnThings
         SvnItemState _validState;
         SvnItemState _onceValid;
 
-        const SvnItemState MaskRefreshTo = SvnItemState.Versioned | SvnItemState.HasLockToken | SvnItemState.Obstructed | SvnItemState.Modified | SvnItemState.PropertyModified | SvnItemState.Added | SvnItemState.HasCopyOrigin
+        const SvnItemState _maskRefreshTo = SvnItemState.Versioned | SvnItemState.HasLockToken | SvnItemState.Obstructed | SvnItemState.Modified | SvnItemState.PropertyModified | SvnItemState.Added | SvnItemState.HasCopyOrigin
             | SvnItemState.Deleted | SvnItemState.Replaced | SvnItemState.HasProperties | SvnItemState.ContentConflicted | SvnItemState.PropertyModified | SvnItemState.SvnDirty | SvnItemState.Ignored | SvnItemState.Conflicted
             | SvnItemState.MovedHere;
 
         public SvnItemState GetState(SvnItemState flagsToGet)
         {
-            SvnItemState unavailable = flagsToGet & ~_validState;
+            var unavailable = flagsToGet & ~_validState;
 
             if (unavailable == 0)
                 return _currentState & flagsToGet; // We have everything we need
 
-            if (0 != (unavailable & MaskRefreshTo))
+            if (0 != (unavailable & _maskRefreshTo))
             {
                 Debug.Assert(_statusDirty != XBool.False);
                 RefreshStatus();
 
                 unavailable = flagsToGet & ~_validState;
 
-                Debug.Assert((~_validState & MaskRefreshTo) == 0, "RefreshMe() set all attributes it should");
+                Debug.Assert((~_validState & _maskRefreshTo) == 0, "RefreshMe() set all attributes it should");
             }
 
-            if (0 != (unavailable & MaskGetAttributes))
+            if (0 != (unavailable & _maskGetAttributes))
             {
                 UpdateAttributeInfo();
 
                 unavailable = flagsToGet & ~_validState;
 
-                Debug.Assert((~_validState & MaskGetAttributes) == 0, "UpdateAttributeInfo() set all attributes it should");
+                Debug.Assert((~_validState & _maskGetAttributes) == 0, "UpdateAttributeInfo() set all attributes it should");
             }
 
-            if (0 != (unavailable & MaskUpdateSolution))
+            if (0 != (unavailable & _maskUpdateSolution))
             {
                 UpdateSolutionInfo();
 
                 unavailable = flagsToGet & ~_validState;
 
-                Debug.Assert((~_validState & MaskUpdateSolution) == 0, "UpdateSolution() set all attributes it should");
+                Debug.Assert((~_validState & _maskUpdateSolution) == 0, "UpdateSolution() set all attributes it should");
             }
 
-            if (0 != (unavailable & MaskDocumentInfo))
+            if (0 != (unavailable & _maskDocumentInfo))
             {
                 UpdateDocumentInfo();
 
                 unavailable = flagsToGet & ~_validState;
 
-                Debug.Assert((~_validState & MaskDocumentInfo) == 0, "UpdateDocumentInfo() set all attributes it should");
+                Debug.Assert((~_validState & _maskDocumentInfo) == 0, "UpdateDocumentInfo() set all attributes it should");
             }
 
-            if (0 != (unavailable & MaskVersionable))
+            if (0 != (unavailable & _maskVersionable))
             {
                 UpdateVersionable();
 
                 unavailable = flagsToGet & ~_validState;
 
-                Debug.Assert((~_validState & MaskVersionable) == 0, "UpdateVersionable() set all attributes it should");
+                Debug.Assert((~_validState & _maskVersionable) == 0, "UpdateVersionable() set all attributes it should");
             }
 
-            if (0 != (unavailable & MaskMustLock))
+            if (0 != (unavailable & _maskMustLock))
             {
                 UpdateMustLock();
 
                 unavailable = flagsToGet & ~_validState;
 
-                Debug.Assert((~_validState & MaskMustLock) == 0, "UpdateMustLock() set all attributes it should");
+                Debug.Assert((~_validState & _maskMustLock) == 0, "UpdateMustLock() set all attributes it should");
             }
 
-            if (0 != (unavailable & MaskTextFile))
+            if (0 != (unavailable & _maskTextFile))
             {
                 UpdateTextFile();
 
                 unavailable = flagsToGet & ~_validState;
 
-                Debug.Assert((~_validState & MaskTextFile) == 0, "UpdateTextFile() set all attributes it should");
+                Debug.Assert((~_validState & _maskTextFile) == 0, "UpdateTextFile() set all attributes it should");
             }
 
-            if (0 != (unavailable & MaskWCRoot))
+            if (0 != (unavailable & _maskWCRoot))
             {
                 UpdateWCRoot();
 
                 unavailable = flagsToGet & ~_validState;
 
-                Debug.Assert((~_validState & MaskWCRoot) == 0, "UpdateWCRoot() set all attributes it should");
+                Debug.Assert((~_validState & _maskWCRoot) == 0, "UpdateWCRoot() set all attributes it should");
             }
 
-            if (0 != (unavailable & MaskIsAdministrativeArea))
+            if (0 != (unavailable & _maskIsAdministrativeArea))
             {
                 UpdateAdministrativeArea();
 
                 unavailable = flagsToGet & ~_validState;
 
-                Debug.Assert((~_validState & MaskIsAdministrativeArea) == 0, "UpdateIsAdministrativeArea() set all attributes it should");
+                Debug.Assert((~_validState & _maskIsAdministrativeArea) == 0, "UpdateIsAdministrativeArea() set all attributes it should");
             }
 
             if (unavailable != 0)
@@ -134,11 +134,11 @@ namespace ViewpointSystems.Svn.SvnThings
                 if (_stateChanged.Count == 0)
                     return null;
 
-                List<SvnItem> modified = new List<SvnItem>(_stateChanged.Count);
+                var modified = new List<SvnItem>(_stateChanged.Count);
                 modified.AddRange(_stateChanged);
                 _stateChanged.Clear();
 
-                foreach (SvnItem i in modified)
+                foreach (var i in modified)
                     i._enqueued = false;
 
 
@@ -155,19 +155,19 @@ namespace ViewpointSystems.Svn.SvnThings
         }
 
         // Mask of states not to broadcast for
-        const SvnItemState NoBroadcastFor = ~(SvnItemState.DocumentDirty | SvnItemState.InSolution);
+        const SvnItemState _noBroadcastFor = ~(SvnItemState.DocumentDirty | SvnItemState.InSolution);
 
         void SetState(SvnItemState set, SvnItemState unset)
         {
             // NOTE: This method is /not/ thread safe, but its callers have race conditions anyway
             // Setting an integer could worst case completely destroy the integer; nothing a refresh can't fix
 
-            SvnItemState st = (_currentState & ~unset) | set;
+            var st = (_currentState & ~unset) | set;
 
             if (st != _currentState)
             {
                 // Calculate whether we have a change or just new information
-                bool changed = (st & _onceValid & NoBroadcastFor) != (_currentState & _onceValid & NoBroadcastFor);
+                var changed = (st & _onceValid & _noBroadcastFor) != (_currentState & _onceValid & _noBroadcastFor);
 
                 if (changed && !_enqueued)
                 {
@@ -204,7 +204,7 @@ namespace ViewpointSystems.Svn.SvnThings
 
         #region Versionable
 
-        const SvnItemState MaskVersionable = SvnItemState.Versionable;
+        const SvnItemState _maskVersionable = SvnItemState.Versionable;
 
         void UpdateVersionable()
         {
@@ -229,7 +229,7 @@ namespace ViewpointSystems.Svn.SvnThings
 
         #region DocumentInfo
 
-        const SvnItemState MaskDocumentInfo = SvnItemState.DocumentDirty;
+        const SvnItemState _maskDocumentInfo = SvnItemState.DocumentDirty;
 
         void UpdateDocumentInfo()
         {
@@ -251,7 +251,7 @@ namespace ViewpointSystems.Svn.SvnThings
         #endregion
 
         #region Solution Info
-        const SvnItemState MaskUpdateSolution = SvnItemState.InSolution;
+        const SvnItemState _maskUpdateSolution = SvnItemState.InSolution;
         void UpdateSolutionInfo()
         {
             //IProjectFileMapper pfm = _context.GetService<IProjectFileMapper>();
@@ -282,7 +282,7 @@ namespace ViewpointSystems.Svn.SvnThings
         #endregion
 
         #region Must Lock
-        const SvnItemState MaskMustLock = SvnItemState.MustLock;
+        const SvnItemState _maskMustLock = SvnItemState.MustLock;
         void UpdateMustLock()
         {
             //SvnItemState fastValue = SvnItemState.IsDiskFile | SvnItemState.ReadOnly;
@@ -324,7 +324,7 @@ namespace ViewpointSystems.Svn.SvnThings
         #endregion
 
         #region TextFile File
-        const SvnItemState MaskTextFile = SvnItemState.IsTextFile;
+        const SvnItemState _maskTextFile = SvnItemState.IsTextFile;
         void UpdateTextFile()
         {
             //SvnItemState value = SvnItemState.IsDiskFile | SvnItemState.Versioned;
@@ -361,13 +361,13 @@ namespace ViewpointSystems.Svn.SvnThings
         #endregion
 
         #region Attribute Info
-        const SvnItemState MaskGetAttributes = SvnItemState.Exists | SvnItemState.ReadOnly | SvnItemState.IsDiskFile | SvnItemState.IsDiskFolder;
+        const SvnItemState _maskGetAttributes = SvnItemState.Exists | SvnItemState.ReadOnly | SvnItemState.IsDiskFile | SvnItemState.IsDiskFolder;
 
         void UpdateAttributeInfo()
         {
             // One call of the kernel's GetFileAttributesW() gives us most info we need
 
-            uint value = NativeMethods.GetFileAttributes(FullPath);
+            var value = NativeMethods.GetFileAttributes(FullPath);
 
             if (value == NativeMethods.INVALID_FILE_ATTRIBUTES)
             {
@@ -379,8 +379,8 @@ namespace ViewpointSystems.Svn.SvnThings
                 return;
             }
 
-            SvnItemState set = SvnItemState.Exists;
-            SvnItemState unset = SvnItemState.None;
+            var set = SvnItemState.Exists;
+            var unset = SvnItemState.None;
 
             if ((value & NativeMethods.FILE_ATTRIBUTE_READONLY) != 0)
                 set |= SvnItemState.ReadOnly;
@@ -403,7 +403,7 @@ namespace ViewpointSystems.Svn.SvnThings
         #endregion
 
         #region Nested Info
-        const SvnItemState MaskWCRoot = SvnItemState.IsWCRoot;
+        const SvnItemState _maskWCRoot = SvnItemState.IsWCRoot;
         public void UpdateWCRoot()
         {
             if (IsDirectory && IsVersioned)
@@ -417,7 +417,7 @@ namespace ViewpointSystems.Svn.SvnThings
         #endregion
 
         #region Administrative Area
-        const SvnItemState MaskIsAdministrativeArea = SvnItemState.IsAdministrativeArea;
+        const SvnItemState _maskIsAdministrativeArea = SvnItemState.IsAdministrativeArea;
         void UpdateAdministrativeArea()
         {
             if (string.Equals(Name, SvnClient.AdministrativeDirectoryName, StringComparison.OrdinalIgnoreCase))
