@@ -59,8 +59,6 @@ namespace ViewpointSystems.Svn.Cache
             {
                 if (!e.FullPath.Contains(".cache")) //TODO: confirm this won't affect files names my MyVi.cache.gvi
                 {
-                    if (!e.FullPath.Contains(".svn"))
-                    {
                         switch (e.ChangeType)
                         {
                             case WatcherChangeTypes.Deleted:
@@ -91,10 +89,6 @@ namespace ViewpointSystems.Svn.Cache
                                 //}
                                 break;
                         }
-                    }
-                    else
-                    {
-                        _svnManager.UpdateCache();
                     }
                     
                 }

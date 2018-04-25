@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,7 @@ namespace ViewpointSystems.Svn.SvnThings
         public SvnManager()
         {
             _statusCache = new SvnStatusCache(false, this);
+            
             _svnClient = new SvnClient();
         }
 
@@ -44,6 +46,7 @@ namespace ViewpointSystems.Svn.SvnThings
             _repo = localRepo;
             AddToCache(_repo);
             _statusCache.StartFileSystemWatcher(_repo);
+            Ignore(".cache");
         }
 
         /// <summary>
@@ -149,6 +152,48 @@ namespace ViewpointSystems.Svn.SvnThings
             }
         }
 
+
+        /// <summary>
+        /// Add to ignore list...
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public bool Ignore(string value)
+        {
+
+            var returnValue = false;
+            
+            try
+            {
+                //Get Uri from file path
+                var uri = _svnClient.GetUriFromWorkingCopy(_repo);
+
+                // To Get the Latest Revision on the Required SVN Folder
+                SvnInfoEventArgs info;
+                _svnClient.GetInfo(uri, out info);
+
+                SvnGetPropertyArgs getPropertyArgs = new SvnGetPropertyArgs()
+                {
+                    Revision = info.Revision
+                };
+
+                _svnClient.GetProperty(uri, "svn:ignore", getPropertyArgs, out SvnTargetPropertyCollection x);
+
+                // Prepare a PropertyArgs object with latest revision and a commit message;
+                SvnSetPropertyArgs setPropertyArgs = new SvnSetPropertyArgs() { BaseRevision = info.Revision, LogMessage = "SVN Ignore" };
+
+                // Set property to file in the svn directory
+                returnValue =_svnClient.RemoteSetProperty(uri, "svn:ignore", value, setPropertyArgs);
+                _svnClient.Update(_repo);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            return returnValue;
+        }
+
         /// <summary>
         /// Revert 
         /// </summary>
@@ -180,6 +225,8 @@ namespace ViewpointSystems.Svn.SvnThings
         /// </summary>
         public void UpdateCache()
         {
+            
+
             DoAgain:
             var j = _statusCache.Map.Count;
 
