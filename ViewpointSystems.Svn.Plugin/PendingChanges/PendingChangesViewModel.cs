@@ -62,21 +62,30 @@ namespace ViewpointSystems.Svn.Plugin.PendingChanges
         /// <param name="obj"></param>
         private void DoCommitCommand(object obj)
         {
-            var allFilesToCommit = FileStatus.Where(x => x.Selected).Select(x=>x.Path).ToList();
-            if (allFilesToCommit.Any())
+            var debugHost = _editSite.Host.GetSharedExportedValue<IDebugHost>();
+            try
             {
-                var success = _svnManager.CommitAllFiles(allFilesToCommit, CommitMessage);
-                var debugHost = _editSite.Host.GetSharedExportedValue<IDebugHost>();
-                if (success)
+                var allFilesToCommit = FileStatus.Where(x => x.Selected).Select(x => x.Path).ToList();
+                if (allFilesToCommit.Any())
                 {
-                    CommitMessage = string.Empty;
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Commit files"));
-                }
-                else
-                {
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to commit files"));
+                    var success = _svnManager.CommitAllFiles(allFilesToCommit, CommitMessage);                    
+                    if (success)
+                    {
+                        CommitMessage = string.Empty;
+                        debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Commit files"));
+                    }
+                    else
+                    {
+                        debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to commit files"));
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to commit files {e.Message}"));
+            }
+            
         }
 
         /// <summary>
