@@ -138,6 +138,7 @@
       <DependentUpon>HistoryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="History\HistoryViewModel.cs" />
+    <Compile Include="SolutionExplorer\RefreshService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

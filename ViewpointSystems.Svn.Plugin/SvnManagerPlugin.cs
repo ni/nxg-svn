@@ -235,5 +235,13 @@ namespace ViewpointSystems.Svn.Plugin
         {
             return _svnManager.GetMappings();
         }
+
+        /// <summary>
+        /// Update the svn status cache
+        /// </summary>
+        public void UpdateCache()
+        {
+            _svnManager.UpdateCache();
+        }
     }
 }
