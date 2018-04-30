@@ -7,6 +7,7 @@ using NationalInstruments.Core;
 using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
+using ViewpointSystems.Svn.Plugin.SubMenu;
 
 namespace ViewpointSystems.Svn.Plugin.Add
 {    
@@ -15,11 +16,19 @@ namespace ViewpointSystems.Svn.Plugin.Add
         [Import]
         public ICompositionHost Host { get; set; }
 
-        public static readonly ICommandEx AddShellRelayCommand = new ShellRelayCommand(Add)
+        public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(Add, CanAdd)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Add.AddShellRelayCommand",
+            UniqueId = "ViewpointSystems.Svn.Plugin.Add.ShellSelectionRelayCommand",
             LabelTitle = "Add",
+
+            // this will inform the system that this command should be parented under the given command in a popup menu
+            PopupMenuParent = SvnCommands.SvnSubMenuCommand
         };
+
+        public static bool CanAdd(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
+        {
+            return true;
+        }
         
         /// <summary>
         /// Command handler to add file to SVN

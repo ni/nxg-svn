@@ -8,6 +8,7 @@ using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
 using System.Windows.Forms;
+using ViewpointSystems.Svn.Plugin.SubMenu;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace ViewpointSystems.Svn.Plugin.Commit
@@ -17,11 +18,19 @@ namespace ViewpointSystems.Svn.Plugin.Commit
         [Import]
         public ICompositionHost Host { get; set; }
 
-        public static readonly ICommandEx CommitShellRelayCommand = new ShellRelayCommand(Commit)
+        public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(Commit, CanCommit)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Commint.CommitShellRelayCommand",
-            LabelTitle = "Commit"
-        };        
+            UniqueId = "ViewpointSystems.Svn.Plugin.Commint.ShellSelectionRelayCommand",
+            LabelTitle = "Commit",
+
+            // this will inform the system that this command should be parented under the given command in a popup menu
+            PopupMenuParent = SvnCommands.SvnSubMenuCommand
+        };
+
+        public static bool CanCommit(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
+        {
+            return true;
+        }
 
         /// <summary>
         /// SVN Commit

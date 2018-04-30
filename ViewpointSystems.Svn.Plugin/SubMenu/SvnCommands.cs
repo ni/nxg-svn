@@ -25,7 +25,7 @@ namespace ViewpointSystems.Svn.Plugin.SubMenu
         public static readonly ICommandEx SvnSubMenuCommand = new ShellRelayCommand()
         {
             UniqueId = "ViewpointSystems.Svn.Plugin.SelectSvnCommand.ShellSelectionRelayCommand",
-            LabelTitle = "View Svn Command List",
+            LabelTitle = "SVN",
         };
     }
 }

@@ -7,6 +7,7 @@ using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
 using System.Windows.Forms;
+using ViewpointSystems.Svn.Plugin.SubMenu;
 
 namespace ViewpointSystems.Svn.Plugin.Lock
 {    
@@ -15,12 +16,20 @@ namespace ViewpointSystems.Svn.Plugin.Lock
         [Import]
         public ICompositionHost Host { get; set; }
 
-        public static readonly ICommandEx TakeLockShellRelayCommand = new ShellRelayCommand(TakeLock)
+        public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(TakeLock, CanLock)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Lock.TakeLockShellRelayCommand",
+            UniqueId = "ViewpointSystems.Svn.Plugin.Lock.ShellSelectionRelayCommand",
             LabelTitle = "Lock",
+
+            // this will inform the system that this command should be parented under the given command in a popup menu
+            PopupMenuParent = SvnCommands.SvnSubMenuCommand
         };
-        
+
+        public static bool CanLock(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
+        {
+            return true;
+        }
+
         /// <summary>
         /// Take lock
         /// </summary>

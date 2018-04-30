@@ -46,7 +46,7 @@ namespace ViewpointSystems.Svn.SvnThings
             _repo = localRepo;
             AddToCache(_repo);
             _statusCache.StartFileSystemWatcher(_repo);
-            Ignore(".cache");
+            Ignore($".cache{System.Environment.NewLine}builds");
         }
 
         /// <summary>
@@ -172,12 +172,12 @@ namespace ViewpointSystems.Svn.SvnThings
                 SvnInfoEventArgs info;
                 _svnClient.GetInfo(uri, out info);
 
-                SvnGetPropertyArgs getPropertyArgs = new SvnGetPropertyArgs()
-                {
-                    Revision = info.Revision
-                };
+                //SvnGetPropertyArgs getPropertyArgs = new SvnGetPropertyArgs()
+                //{
+                //    Revision = info.Revision
+                //};
 
-                _svnClient.GetProperty(uri, "svn:ignore", getPropertyArgs, out SvnTargetPropertyCollection x);
+                //_svnClient.GetProperty(uri, "svn:ignore", getPropertyArgs, out SvnTargetPropertyCollection x);
 
                 // Prepare a PropertyArgs object with latest revision and a commit message;
                 SvnSetPropertyArgs setPropertyArgs = new SvnSetPropertyArgs() { BaseRevision = info.Revision, LogMessage = "SVN Ignore" };

@@ -7,6 +7,7 @@ using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
 using System.Windows.Forms;
+using ViewpointSystems.Svn.Plugin.SubMenu;
 
 namespace ViewpointSystems.Svn.Plugin.Revert
 {    
@@ -15,12 +16,20 @@ namespace ViewpointSystems.Svn.Plugin.Revert
         [Import]
         public ICompositionHost Host { get; set; }
 
-        public static readonly ICommandEx RevertShellRelayCommand = new ShellRelayCommand(Revert)
+        public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(Revert, CanRevert)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Revert.RevertShellRelayCommand",
+            UniqueId = "ViewpointSystems.Svn.Plugin.Revert.ShellSelectionRelayCommand",
             LabelTitle = "Revert",
+
+            // this will inform the system that this command should be parented under the given command in a popup menu
+            PopupMenuParent = SvnCommands.SvnSubMenuCommand
         };
-        
+
+        public static bool CanRevert(ICommandParameter parameter, ICompositionHost host, DocumentEditSite site)
+        {
+            return true;
+        }
+
         /// <summary>
         /// Revert changes
         /// </summary>
