@@ -32,9 +32,10 @@ namespace ViewpointSystems.Svn.Plugin.ContextMenu
                     if (envoy != null)
                     {
                         var svnManager = Host.GetSharedExportedValue<SvnManagerPlugin>();
-                        var status = svnManager.Status(projectItem.FullPath);
+                        var status = svnManager.Status(projectItem.FullPathForced);
 
-                        context.Add(new ShellCommandInstance(SvnCommands.SvnSubMenuCommand) { CommandParameter = projectItem.Envoy });
+                        if (status.Exists && status.IsVersionable)
+                            context.Add(new ShellCommandInstance(SvnCommands.SvnSubMenuCommand) { CommandParameter = projectItem.Envoy });
 
                         if (status.IsVersionable && !status.IsVersioned)
                             context.Add(new ShellCommandInstance(AddCommand.ShellSelectionRelayCommand) { CommandParameter = projectItem.Envoy });
