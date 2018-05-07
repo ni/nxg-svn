@@ -33,7 +33,7 @@
             </summary>
             <param name="name">The name of the task.</param>
         </member>
-        <member name="M:Cake.Core.ActionTask.AddAction(System.Action{Cake.Core.ICakeContext})">
+        <member name="M:Cake.Core.ActionTask.AddAction(System.Func{Cake.Core.ICakeContext,System.Threading.Tasks.Task})">
             <summary>
             Adds an action to the task.
             </summary>
@@ -57,6 +57,7 @@
             Executes the task using the specified context.
             </summary>
             <param name="context">The context.</param>
+            <returns>Returned Task</returns>
         </member>
         <member name="T:Cake.Core.Annotations.CakeAliasAttribute">
             <summary>
@@ -404,7 +405,7 @@
             Raised during teardown after all other tasks have been run.
             </summary>
         </member>
-        <member name="M:Cake.Core.CakeEngine.RunTarget(Cake.Core.ICakeContext,Cake.Core.IExecutionStrategy,System.String)">
+        <member name="M:Cake.Core.CakeEngine.RunTargetAsync(Cake.Core.ICakeContext,Cake.Core.IExecutionStrategy,System.String)">
             <summary>
             Runs the specified target.
             </summary>
@@ -521,12 +522,6 @@
             <returns>
             The application root path.
             </returns>
-        </member>
-        <member name="M:Cake.Core.CakeEnvironment.GetTargetFramework">
-            <summary>
-            Gets the target .Net framework version that the current AppDomain is targeting.
-            </summary>
-            <returns>The target framework.</returns>
         </member>
         <member name="T:Cake.Core.CakeException">
             <summary>
@@ -705,10 +700,16 @@
             Represents the runtime that Cake is running in.
             </summary>
         </member>
-        <member name="P:Cake.Core.CakeRuntime.TargetFramework">
+        <member name="P:Cake.Core.CakeRuntime.BuiltFramework">
             <summary>
-            Gets the target .NET framework version that the current AppDomain is targeting.
+            Gets the build-time .NET framework version that is being used.
             </summary>
+        </member>
+        <member name="P:Cake.Core.CakeRuntime.Runtime">
+            <summary>
+            Gets the current executing .NET Runtime.
+            </summary>
+            <returns>The target framework.</returns>
         </member>
         <member name="P:Cake.Core.CakeRuntime.CakeVersion">
             <summary>
@@ -751,6 +752,12 @@
             </summary>
             <value>The task's dependencies.</value>
         </member>
+        <member name="P:Cake.Core.CakeTask.Dependees">
+            <summary>
+            Gets the tasks that the task want to be a dependency of.
+            </summary>
+            <value>The tasks that the task want to be a dependency of.</value>
+        </member>
         <member name="P:Cake.Core.CakeTask.Criterias">
             <summary>
             Gets the task's criterias.
@@ -779,11 +786,19 @@
             </summary>
             <param name="name">The name of the task.</param>
         </member>
-        <member name="M:Cake.Core.CakeTask.AddDependency(System.String)">
+        <member name="M:Cake.Core.CakeTask.AddDependency(System.String,System.Boolean)">
             <summary>
             Adds a dependency to the task.
             </summary>
             <param name="name">The name of the dependency.</param>
+            <param name="required">Whether or not the dependency is required.</param>
+        </member>
+        <member name="M:Cake.Core.CakeTask.AddReverseDependency(System.String,System.Boolean)">
+            <summary>
+            Makes this task a dependency of some other task.
+            </summary>
+            <param name="name">The name of the task that this task want to be a dependency of.</param>
+            <param name="required">Whether or not the dependency is required.</param>
         </member>
         <member name="M:Cake.Core.CakeTask.AddCriteria(System.Func{Cake.Core.ICakeContext,System.Boolean})">
             <summary>
@@ -820,6 +835,7 @@
             Executes the task using the specified context.
             </summary>
             <param name="context">The context.</param>
+            <returns>Returned Task</returns>
         </member>
         <member name="T:Cake.Core.CakeTaskBuilder`1">
             <summary>
@@ -863,6 +879,15 @@
             <param name="other">The name of the dependent task.</param>
             <returns>The same <see cref="T:Cake.Core.CakeTaskBuilder`1"/> instance so that multiple calls can be chained.</returns>
         </member>
+        <member name="M:Cake.Core.CakeTaskBuilderExtensions.IsDependeeOf``1(Cake.Core.CakeTaskBuilder{``0},System.String)">
+            <summary>
+            Makes the task a dependency of another task.
+            </summary>
+            <typeparam name="T">The task type.</typeparam>
+            <param name="builder">The task builder.</param>
+            <param name="name">The name of the task the current task will be a dependency of.</param>
+            <returns>The same <see cref="T:Cake.Core.CakeTaskBuilder`1"/> instance so that multiple calls can be chained.</returns>
+        </member>
         <member name="M:Cake.Core.CakeTaskBuilderExtensions.WithCriteria``1(Cake.Core.CakeTaskBuilder{``0},System.Boolean)">
             <summary>
             Adds a criteria that has to be fulfilled for the task to run.
@@ -900,7 +925,23 @@
             <param name="action">The action.</param>
             <returns>The same <see cref="T:Cake.Core.CakeTaskBuilder`1"/> instance so that multiple calls can be chained.</returns>
         </member>
+        <member name="M:Cake.Core.CakeTaskBuilderExtensions.Does(Cake.Core.CakeTaskBuilder{Cake.Core.ActionTask},System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Adds an action to be executed when the task is invoked.
+            </summary>
+            <param name="builder">The task builder.</param>
+            <param name="action">The action.</param>
+            <returns>The same <see cref="T:Cake.Core.CakeTaskBuilder`1"/> instance so that multiple calls can be chained.</returns>
+        </member>
         <member name="M:Cake.Core.CakeTaskBuilderExtensions.Does(Cake.Core.CakeTaskBuilder{Cake.Core.ActionTask},System.Action{Cake.Core.ICakeContext})">
+            <summary>
+            Adds an action to be executed when the task is invoked.
+            </summary>
+            <param name="builder">The task builder.</param>
+            <param name="action">The action.</param>
+            <returns>The same <see cref="T:Cake.Core.CakeTaskBuilder`1"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Core.CakeTaskBuilderExtensions.Does(Cake.Core.CakeTaskBuilder{Cake.Core.ActionTask},System.Func{Cake.Core.ICakeContext,System.Threading.Tasks.Task})">
             <summary>
             Adds an action to be executed when the task is invoked.
             </summary>
@@ -1009,6 +1050,28 @@
             <param name="builder">The builder.</param>
             <param name="errorReporter">The finally handler.</param>
             <returns>The same <see cref="T:Cake.Core.CakeTaskBuilder`1"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="T:Cake.Core.CakeTaskDependency">
+            <summary>
+            Represents a task dependency.
+            </summary>
+        </member>
+        <member name="P:Cake.Core.CakeTaskDependency.Name">
+            <summary>
+            Gets the name of the dependency.
+            </summary>
+        </member>
+        <member name="P:Cake.Core.CakeTaskDependency.Required">
+            <summary>
+            Gets a value indicating whether or not the dependency is required.
+            </summary>
+        </member>
+        <member name="M:Cake.Core.CakeTaskDependency.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cake.Core.CakeTaskDependency"/> class.
+            </summary>
+            <param name="name">The name of the task.</param>
+            <param name="required">Whether or not the dependency is required.</param>
         </member>
         <member name="T:Cake.Core.CakeTaskExecutionStatus">
             <summary>
@@ -1202,12 +1265,13 @@
             <param name="action">The action.</param>
             <param name="teardownContext">The context.</param>
         </member>
-        <member name="M:Cake.Core.DefaultExecutionStrategy.Execute(Cake.Core.CakeTask,Cake.Core.ICakeContext)">
+        <member name="M:Cake.Core.DefaultExecutionStrategy.ExecuteAsync(Cake.Core.CakeTask,Cake.Core.ICakeContext)">
             <summary>
             Executes the specified task.
             </summary>
             <param name="task">The task to execute.</param>
             <param name="context">The context.</param>
+            <returns>Returned Task</returns>
         </member>
         <member name="M:Cake.Core.DefaultExecutionStrategy.Skip(Cake.Core.CakeTask)">
             <summary>
@@ -1659,6 +1723,29 @@
             enable you to implement custom logging support
             and interact with build logs.
             </summary>
+        </member>
+        <member name="T:Cake.Core.CakeConfigurationExtensions">
+            <summary>
+            Contains extension methods for <see cref="T:Cake.Core.Configuration.ICakeConfiguration"/>.
+            </summary>
+        </member>
+        <member name="M:Cake.Core.CakeConfigurationExtensions.GetToolPath(Cake.Core.Configuration.ICakeConfiguration,Cake.Core.IO.DirectoryPath,Cake.Core.ICakeEnvironment)">
+            <summary>
+            Gets the tool directory path.
+            </summary>
+            <param name="configuration">The Cake configuration.</param>
+            <param name="defaultRoot">The default root path.</param>
+            <param name="environment">The environment.</param>
+            <returns>The tool directory path.</returns>
+        </member>
+        <member name="M:Cake.Core.CakeConfigurationExtensions.GetModulePath(Cake.Core.Configuration.ICakeConfiguration,Cake.Core.IO.DirectoryPath,Cake.Core.ICakeEnvironment)">
+            <summary>
+            Gets the module directory path.
+            </summary>
+            <param name="configuration">The Cake configuration.</param>
+            <param name="defaultRoot">The default root path.</param>
+            <param name="environment">The environment.</param>
+            <returns>The module directory path.</returns>
         </member>
         <member name="T:Cake.Core.CakePlatformExtensions">
             <summary>
@@ -2366,6 +2453,18 @@
             <code>typeof(Nullable&lt;int&gt;).IsSubclassOfRawGeneric(typeof(Nullable&lt;&gt;));</code>
             <returns>Returns <c>true</c> if the type is a subtype of a raw generic, else <c>false</c></returns>
         </member>
+        <member name="T:Cake.Core.UriExtensions">
+            <summary>
+            Extensions for <see cref="T:System.Uri"/>
+            </summary>
+        </member>
+        <member name="M:Cake.Core.UriExtensions.GetQueryString(System.Uri)">
+            <summary>
+            Extracts query string of <see cref="T:System.Uri"/>
+            </summary>
+            <param name="uri">The URI</param>
+            <returns>Collection of parameters and it's values</returns>
+        </member>
         <member name="T:Cake.Core.ICakeArguments">
             <summary>
             Represents arguments passed to script.
@@ -2482,7 +2581,7 @@
             Raised during teardown after all other tasks have been run.
             </summary>
         </member>
-        <member name="M:Cake.Core.ICakeEngine.RunTarget(Cake.Core.ICakeContext,Cake.Core.IExecutionStrategy,System.String)">
+        <member name="M:Cake.Core.ICakeEngine.RunTargetAsync(Cake.Core.ICakeContext,Cake.Core.IExecutionStrategy,System.String)">
             <summary>
             Runs the specified target using the specified <see cref="T:Cake.Core.IExecutionStrategy"/>.
             </summary>
@@ -2582,12 +2681,6 @@
             </summary>
             <returns>The application root path.</returns>
         </member>
-        <member name="M:Cake.Core.ICakeEnvironment.GetTargetFramework">
-            <summary>
-            Gets the target .Net framework version that the current AppDomain is targeting.
-            </summary>
-            <returns>The target framework.</returns>
-        </member>
         <member name="T:Cake.Core.ICakePlatform">
             <summary>
             Represents the platform that Cake is running on.
@@ -2623,9 +2716,14 @@
             Represents the runtime that Cake is running in.
             </summary>
         </member>
-        <member name="P:Cake.Core.ICakeRuntime.TargetFramework">
+        <member name="P:Cake.Core.ICakeRuntime.BuiltFramework">
             <summary>
-            Gets the target .NET framework version that the current AppDomain is targeting.
+            Gets the build-time .NET framework version that is being used.
+            </summary>
+        </member>
+        <member name="P:Cake.Core.ICakeRuntime.Runtime">
+            <summary>
+            Gets the current executing .NET Runtime.
             </summary>
             <returns>The target framework.</returns>
         </member>
@@ -2665,6 +2763,12 @@
             Gets the task's dependencies.
             </summary>
             <value>The task's dependencies.</value>
+        </member>
+        <member name="P:Cake.Core.ICakeTaskInfo.Dependees">
+            <summary>
+            Gets the tasks that the task want to be a dependency of.
+            </summary>
+            <value>The tasks that the task want to be a dependency of.</value>
         </member>
         <member name="T:Cake.Core.IConsole">
             <summary>
@@ -2741,12 +2845,13 @@
             <param name="action">The action.</param>
             <param name="teardownContext">The context.</param>
         </member>
-        <member name="M:Cake.Core.IExecutionStrategy.Execute(Cake.Core.CakeTask,Cake.Core.ICakeContext)">
+        <member name="M:Cake.Core.IExecutionStrategy.ExecuteAsync(Cake.Core.CakeTask,Cake.Core.ICakeContext)">
             <summary>
             Executes the specified task.
             </summary>
             <param name="task">The task to execute.</param>
             <param name="context">The context.</param>
+            <returns>Returned Task</returns>
         </member>
         <member name="M:Cake.Core.IExecutionStrategy.Skip(Cake.Core.CakeTask)">
             <summary>
@@ -4303,6 +4408,11 @@
             Represents a tool.
             </summary>
         </member>
+        <member name="F:Cake.Core.Packaging.PackageType.Module">
+            <summary>
+            Represents a module.
+            </summary>
+        </member>
         <member name="T:Cake.Core.PlatformFamily">
             <summary>
             Represents a platform family.
@@ -4326,6 +4436,21 @@
         <member name="F:Cake.Core.PlatformFamily.OSX">
             <summary>
             Represents the OSX platform family.
+            </summary>
+        </member>
+        <member name="T:Cake.Core.Polyfill.Runtime">
+            <summary>
+            The current Runtime Cake is executing on.
+            </summary>
+        </member>
+        <member name="F:Cake.Core.Polyfill.Runtime.Clr">
+            <summary>
+            Full Framework or Mono.
+            </summary>
+        </member>
+        <member name="F:Cake.Core.Polyfill.Runtime.CoreClr">
+            <summary>
+            .NET Core 2.
             </summary>
         </member>
         <member name="T:Cake.Core.NamespaceDoc">
@@ -4505,6 +4630,18 @@
             </summary>
             <value>The using aliases defined by the script.</value>
         </member>
+        <member name="P:Cake.Core.Scripting.Analysis.IScriptInformation.UsingStaticDirectives">
+            <summary>
+            Gets all types referenced with the using static directive.
+            </summary>
+            <value>The fully qualified type names referenced by using static in the script.</value>
+        </member>
+        <member name="P:Cake.Core.Scripting.Analysis.IScriptInformation.Defines">
+            <summary>
+            Gets the defines directives defined by the scripts.
+            </summary>
+            <value>The defines.</value>
+        </member>
         <member name="P:Cake.Core.Scripting.Analysis.IScriptInformation.Tools">
             <summary>
             Gets the tools.
@@ -4516,6 +4653,12 @@
             Gets the addins.
             </summary>
             <value>The addins.</value>
+        </member>
+        <member name="P:Cake.Core.Scripting.Analysis.IScriptInformation.Modules">
+            <summary>
+            Gets the modules.
+            </summary>
+            <value>The modules.</value>
         </member>
         <member name="T:Cake.Core.Scripting.Analysis.ScriptAnalyzer">
             <summary>
@@ -4601,6 +4744,17 @@
             </summary>
             <value>The using aliases.</value>
         </member>
+        <member name="P:Cake.Core.Scripting.Analysis.ScriptAnalyzerResult.UsingStaticDirectives">
+            <summary>
+            Gets all types referenced with the using static directive.
+            </summary>
+        </member>
+        <member name="P:Cake.Core.Scripting.Analysis.ScriptAnalyzerResult.Defines">
+            <summary>
+            Gets the defines.
+            </summary>
+            <value>The defines.</value>
+        </member>
         <member name="P:Cake.Core.Scripting.Analysis.ScriptAnalyzerResult.Addins">
             <summary>
             Gets the addins.
@@ -4612,6 +4766,12 @@
             Gets the tools.
             </summary>
             <value>The tools.</value>
+        </member>
+        <member name="P:Cake.Core.Scripting.Analysis.ScriptAnalyzerResult.Modules">
+            <summary>
+            Gets the modules.
+            </summary>
+            <value>The modules.</value>
         </member>
         <member name="P:Cake.Core.Scripting.Analysis.ScriptAnalyzerResult.Succeeded">
             <summary>
@@ -4803,6 +4963,13 @@
             <param name="target">The target to run.</param>
             <returns>The resulting report.</returns>
         </member>
+        <member name="M:Cake.Core.Scripting.IScriptHost.RunTargetAsync(System.String)">
+            <summary>
+            Runs the specified target.
+            </summary>
+            <param name="target">The target to run.</param>
+            <returns>The resulting report.</returns>
+        </member>
         <member name="T:Cake.Core.Scripting.IScriptProcessor">
             <summary>
             Represents a script processor.
@@ -4821,6 +4988,13 @@
             Installs the tools.
             </summary>
             <param name="tools">The tools to install.</param>
+            <param name="installPath">The install path.</param>
+        </member>
+        <member name="M:Cake.Core.Scripting.IScriptProcessor.InstallModules(System.Collections.Generic.IReadOnlyCollection{Cake.Core.Packaging.PackageReference},Cake.Core.IO.DirectoryPath)">
+            <summary>
+            Installs the modules.
+            </summary>
+            <param name="modules">The modules to install.</param>
             <param name="installPath">The install path.</param>
         </member>
         <member name="T:Cake.Core.Scripting.IScriptRunner">
@@ -4896,7 +5070,19 @@
             </summary>
             <value>The using alias directives.</value>
         </member>
-        <member name="M:Cake.Core.Scripting.Script.#ctor(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Cake.Core.Scripting.ScriptAlias},System.Collections.Generic.IEnumerable{System.String})">
+        <member name="P:Cake.Core.Scripting.Script.UsingStaticDirectives">
+            <summary>
+            Gets the using static directives.
+            </summary>
+            <value>The using static directives.</value>
+        </member>
+        <member name="P:Cake.Core.Scripting.Script.Defines">
+            <summary>
+            Gets the defines.
+            </summary>
+            <value>The defines.</value>
+        </member>
+        <member name="M:Cake.Core.Scripting.Script.#ctor(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Cake.Core.Scripting.ScriptAlias},System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Initializes a new instance of the <see cref="T:Cake.Core.Scripting.Script" /> class.
             </summary>
@@ -4904,6 +5090,8 @@
             <param name="lines">The scrip lines.</param>
             <param name="aliases">The script aliases.</param>
             <param name="usingAliasDirectives">The using alias directives.</param>
+            <param name="usingStaticDirectives">The using static directives.</param>
+            <param name="defines">The defines.</param>
         </member>
         <member name="T:Cake.Core.Scripting.ScriptAlias">
             <summary>
@@ -5121,6 +5309,13 @@
             <param name="target">The target to run.</param>
             <returns>The resulting report.</returns>
         </member>
+        <member name="M:Cake.Core.Scripting.ScriptHost.RunTargetAsync(System.String)">
+            <summary>
+            Runs the specified target.
+            </summary>
+            <param name="target">The target to run.</param>
+            <returns>The resulting report.</returns>
+        </member>
         <member name="T:Cake.Core.Scripting.ScriptProcessor">
             <summary>
             Implementation of a script processor.
@@ -5149,6 +5344,13 @@
             Installs the tools.
             </summary>
             <param name="tools">The tools to install.</param>
+            <param name="installPath">The install path.</param>
+        </member>
+        <member name="M:Cake.Core.Scripting.ScriptProcessor.InstallModules(System.Collections.Generic.IReadOnlyCollection{Cake.Core.Packaging.PackageReference},Cake.Core.IO.DirectoryPath)">
+            <summary>
+            Installs the modules.
+            </summary>
+            <param name="modules">The modules to install.</param>
             <param name="installPath">The install path.</param>
         </member>
         <member name="T:Cake.Core.Scripting.ScriptRunner">
@@ -5669,6 +5871,17 @@
             <param name="path">The assembly path to load.</param>
             <param name="verify">If the assembly should be verified whether or not it will work properly with Cake or not.</param>
             <returns>The loaded assembly.</returns>
+        </member>
+        <member name="T:Cake.Core.Reflection.IAssemblyVerifier">
+            <summary>
+            Represents an assembly verifier.
+            </summary>
+        </member>
+        <member name="M:Cake.Core.Reflection.IAssemblyVerifier.Verify(System.Reflection.Assembly)">
+            <summary>
+            Verifies an assembly.
+            </summary>
+            <param name="assembly">The target assembly.</param>
         </member>
         <member name="T:Cake.Core.SetupEventArgs">
             <summary>

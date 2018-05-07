@@ -275,6 +275,14 @@
             <param name="password">The password to connect with.</param>
             <returns>The same <see cref="T:Cake.Powershell.PowershellSettings"/> instance so that multiple calls can be chained.</returns>
         </member>
+        <member name="M:Cake.Powershell.PowershellSettingsExtensions.UseAuthenticationMechanism(Cake.Powershell.PowershellSettings,System.Management.Automation.Runspaces.AuthenticationMechanism)">
+            <summary>
+            Sets the authentication mechanism to use when connecting
+            </summary>
+            <param name="settings">The powershell settings.</param>
+            <param name="authenticationMechanism">The authentication mechanism to connect with.</param>
+            <returns>The same <see cref="T:Cake.Powershell.PowershellSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
         <member name="M:Cake.Powershell.PowershellSettingsExtensions.SetFormatOutput(Cake.Powershell.PowershellSettings,System.Boolean)">
             <summary>
             Sets a value indicating whether the output of an application should be formatted as text
@@ -834,6 +842,11 @@
         <member name="P:Cake.Powershell.PowershellSettings.Password">
             <summary>
             Gets or sets the credentials to use when connecting
+            </summary>
+        </member>
+        <member name="P:Cake.Powershell.PowershellSettings.AuthenticationMechanism">
+            <summary>
+            Gets or sets the authentication mechanism to use when conecting
             </summary>
         </member>
         <member name="P:Cake.Powershell.PowershellSettings.FormatOutput">
