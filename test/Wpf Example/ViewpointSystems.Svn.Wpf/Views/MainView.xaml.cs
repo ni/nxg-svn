@@ -13,10 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ViewpointSystems.Svn.Core.ViewModels;
-using ViewpointSystems.Svn.Wpf.Utilities;
+using Svn.Core.ViewModels;
+using Svn.Wpf.Utilities;
 
-namespace ViewpointSystems.Svn.Wpf.Views
+namespace Svn.Wpf.Views
 {
     /// <summary>
     /// Interaction logic for MainView.xaml

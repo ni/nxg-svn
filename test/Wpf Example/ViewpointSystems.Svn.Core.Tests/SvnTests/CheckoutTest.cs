@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SvnThings;
 
-namespace ViewpointSystems.Svn.Core.Tests.SvnTests
+namespace Svn.Core.Tests.SvnTests
 {
     [TestClass]
     public class CheckoutTest : BaseTest

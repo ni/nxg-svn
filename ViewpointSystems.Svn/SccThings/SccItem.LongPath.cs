@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpSvn;
 
-namespace ViewpointSystems.Svn.SccThings
+namespace Svn.SccThings
 {
     partial class SccItem
     {

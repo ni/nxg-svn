@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32.SafeHandles;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SvnThings;
 
-namespace ViewpointSystems.Svn.SccThings
+namespace Svn.SccThings
 {
     /// <summary>
     /// Long path capable <see cref="FileSystemInfo"/> variant

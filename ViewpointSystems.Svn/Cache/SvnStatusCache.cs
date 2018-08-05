@@ -7,10 +7,10 @@ using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using SharpSvn;
-using ViewpointSystems.Svn.SccThings;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SccThings;
+using Svn.SvnThings;
 
-namespace ViewpointSystems.Svn.Cache
+namespace Svn.Cache
 {
     /// <summary>
     /// Maintains path->SvnItem mappings.

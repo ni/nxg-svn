@@ -13,7 +13,7 @@ using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using SharpSvn;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SvnThings;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +21,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
 
-namespace ViewpointSystems.Svn.Plugin.PendingChanges
+namespace Svn.Plugin.PendingChanges
 {
     public class PendingChangesViewModel : IToolWindowViewModel
     {

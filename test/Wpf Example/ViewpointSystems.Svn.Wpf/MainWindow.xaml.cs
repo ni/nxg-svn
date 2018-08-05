@@ -3,7 +3,7 @@
 //    Defines the MainWindow type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ViewpointSystems.Svn.Wpf
+namespace Svn.Wpf
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

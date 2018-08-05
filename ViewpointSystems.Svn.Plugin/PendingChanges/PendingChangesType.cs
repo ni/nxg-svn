@@ -2,7 +2,7 @@
 using NationalInstruments.Shell;
 using NationalInstruments.Composition;
 
-namespace ViewpointSystems.Svn.Plugin.PendingChanges
+namespace Svn.Plugin.PendingChanges
 {
     [Export(typeof(IToolWindowType))]
     [ExportMetadata("UniqueID", "cf9bf680-ee33-4343-9704-067a7555da31")]

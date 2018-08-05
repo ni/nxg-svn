@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpSvn;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SvnThings;
 
-namespace ViewpointSystems.Svn.Cache
+namespace Svn.Cache
 {
     public interface ISvnStatusCache : ISccStatusCache<SvnItem>
     {

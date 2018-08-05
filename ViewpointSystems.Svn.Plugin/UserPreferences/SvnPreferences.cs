@@ -1,6 +1,6 @@
 using NationalInstruments.Core;
 
-namespace ViewpointSystems.Svn.Plugin.UserPreferences
+namespace Svn.Plugin.UserPreferences
 {
     public class SvnPreferences
     {

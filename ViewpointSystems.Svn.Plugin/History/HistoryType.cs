@@ -2,7 +2,7 @@
 using NationalInstruments.Shell;
 using NationalInstruments.Composition;
 
-namespace ViewpointSystems.Svn.Plugin.History
+namespace Svn.Plugin.History
 {
     [Export(typeof(IToolWindowType))]
     [ExportMetadata("UniqueID", "b7e7ce66-d3fa-4c19-a7c9-8834e91a31f3")]

@@ -5,16 +5,16 @@ using NationalInstruments.Controls.Shell;
 using NationalInstruments.Core;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
-using ViewpointSystems.Svn.Plugin.SubMenu;
+using Svn.Plugin.SubMenu;
 
-namespace ViewpointSystems.Svn.Plugin.History
+namespace Svn.Plugin.History
 {
     [ExportPushCommandContent]
     public class HistoryCommand : PushCommandContent
     {
         public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(ViewHistory, CanHistory)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.History.ShellSelectionRelayCommand",
+            UniqueId = "Svn.Plugin.History.ShellSelectionRelayCommand",
             LabelTitle = "View History",
 
             // this will inform the system that this command should be parented under the given command in a popup menu

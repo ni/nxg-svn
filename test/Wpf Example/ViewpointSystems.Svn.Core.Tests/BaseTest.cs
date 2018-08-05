@@ -9,12 +9,12 @@ using MvvmCross.Core.Views;
 using MvvmCross.Platform.Core;
 using MvvmCross.Platform.Platform;
 using MvvmCross.Test.Core;
-using ViewpointSystems.Svn.Core.Tests.Mocks;
-using ViewpointSystems.Svn.Core.ViewModels;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.Core.Tests.Mocks;
+using Svn.Core.ViewModels;
+using Svn.SvnThings;
 
 
-namespace ViewpointSystems.Svn.Core.Tests
+namespace Svn.Core.Tests
 {   
     /// <summary>
     /// Defines the BaseTest type.

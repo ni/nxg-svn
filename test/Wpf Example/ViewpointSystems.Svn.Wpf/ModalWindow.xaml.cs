@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ViewpointSystems.Svn.Wpf
+namespace Svn.Wpf
 {
     /// <summary>
     /// Interaction logic for ModalWindow.xaml

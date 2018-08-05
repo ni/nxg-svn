@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="ViewpointSystems.Svn.Plugin.History.HistoryView"
+﻿<UserControl x:Class="Svn.Plugin.History.HistoryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ViewpointSystems.Svn.Plugin.History"
+             xmlns:local="clr-namespace:Svn.Plugin.History"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Grid.Column="1" Margin="10,0,0,0">

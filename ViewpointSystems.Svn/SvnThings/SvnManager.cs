@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpSvn;
 //using SharpSvnTest.Core.ViewModels;
-using ViewpointSystems.Svn.Cache;
-using ViewpointSystems.Svn.SccThings;
+using Svn.Cache;
+using Svn.SccThings;
 
-namespace ViewpointSystems.Svn.SvnThings
+namespace Svn.SvnThings
 {
     public class SvnManager
     {

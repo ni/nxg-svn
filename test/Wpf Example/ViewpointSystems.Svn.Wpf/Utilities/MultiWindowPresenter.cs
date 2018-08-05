@@ -10,9 +10,9 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.Exceptions;
 using MvvmCross.Platform.Platform;
 using MvvmCross.Wpf.Views;
-using ViewpointSystems.Svn.Wpf.Views;
+using Svn.Wpf.Views;
 
-namespace ViewpointSystems.Svn.Wpf.Utilities
+namespace Svn.Wpf.Utilities
 {
     public class MultiWindowPresenter : MvxWpfViewPresenter
     {

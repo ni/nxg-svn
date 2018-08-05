@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NationalInstruments.Core;
 
-namespace ViewpointSystems.Svn.Plugin.UserPreferences
+namespace Svn.Plugin.UserPreferences
 {
     /// <summary>
     /// Interaction logic for SvnPreferencesPage.xaml

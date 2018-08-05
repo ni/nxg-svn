@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{60654F2F-94CE-457D-878E-793B4C5EB100}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ViewpointSystems.Svn.Plugin</RootNamespace>
-    <AssemblyName>ViewpointSystems.Svn.Plugin</AssemblyName>
+    <RootNamespace>Svn.Plugin</RootNamespace>
+    <AssemblyName>Svn.Plugin</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -190,9 +190,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ViewpointSystems.Svn\ViewpointSystems.Svn.csproj">
+    <ProjectReference Include="..\ViewpointSystems.Svn\Svn.csproj">
       <Project>{45643b0f-d3f3-4f2b-b60a-7770600736ab}</Project>
-      <Name>ViewpointSystems.Svn</Name>
+      <Name>Svn</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -241,8 +241,8 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName) == Debug (      mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
-      xcopy /F /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.dll" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
-      xcopy /F /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.pdb" "$(InstallLocation)\Addons\ViewpointSystems\Svn")
+      xcopy /F /R /Y "$(TargetDir)Svn.Plugin.dll" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+      xcopy /F /R /Y "$(TargetDir)Svn.Plugin.pdb" "$(InstallLocation)\Addons\ViewpointSystems\Svn")
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -8,7 +8,7 @@ using NationalInstruments.Restricted.SourceModel.Envoys;
 using NationalInstruments.SourceModel.Envoys;
 using NationalInstruments.SourceModel;
 
-namespace ViewpointSystems.Svn.Plugin.FileWatcher
+namespace Svn.Plugin.FileWatcher
 {
     [ExportEnvoyServiceFactory()]
     [BindsToKeyword(EnvoyManager.EnvoyManagerKeyword)]

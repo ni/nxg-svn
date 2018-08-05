@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NLog;
 
-namespace ViewpointSystems.Svn.Wpf.Utilities
+namespace Svn.Wpf.Utilities
 {
     public class ProductionTrace : IMvxTrace
     {

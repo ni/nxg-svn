@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewpointSystems.Svn.SvnThings
+namespace Svn.SvnThings
 {
     public sealed class SvnStatusData
     {

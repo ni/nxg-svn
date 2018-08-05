@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SvnThings;
 
-namespace ViewpointSystems.Svn.Cache
+namespace Svn.Cache
 {
     public class SvnStatusFileSystemWatcher
     {

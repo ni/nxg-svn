@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ViewpointSystems.Svn.Wpf.Utilities
+namespace Svn.Wpf.Utilities
 {
     internal static class WindowExtensions
     {

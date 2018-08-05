@@ -9,10 +9,10 @@ using System.Windows.Forms;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using SharpSvn;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SvnThings;
 
 
-namespace ViewpointSystems.Svn.Core.ViewModels
+namespace Svn.Core.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {

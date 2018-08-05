@@ -7,12 +7,12 @@ using NationalInstruments;
 using NationalInstruments.Core;
 using NationalInstruments.ProjectExplorer;
 using NationalInstruments.SourceModel.Envoys;
-using ViewpointSystems.Svn.Plugin.Properties;
+using Svn.Plugin.Properties;
 using NationalInstruments.Composition;
 using NationalInstruments.Shell;
 using NationalInstruments.ProjectExplorer.Design;
 
-namespace ViewpointSystems.Svn.Plugin.Overlay
+namespace Svn.Plugin.Overlay
 {
     public class ProjectItemOverlayService : EnvoyService, IProjectItemOverlaySupport
     {

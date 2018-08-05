@@ -7,7 +7,7 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Core.Views;
 using MvvmCross.Platform.Core;
 
-namespace ViewpointSystems.Svn.Core.Tests.Mocks
+namespace Svn.Core.Tests.Mocks
 {
     /// <summary>
     /// Defines the MockDispatcher type.

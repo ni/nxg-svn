@@ -11,7 +11,7 @@ using NationalInstruments.Core;
 using NationalInstruments.ProjectExplorer;
 using NationalInstruments.ProjectExplorer.Design;
 
-namespace ViewpointSystems.Svn.Plugin.SolutionExplorer
+namespace Svn.Plugin.SolutionExplorer
 {
     [Export(typeof(IProjectExplorerInitialization))]
     internal class RefreshService : IProjectExplorerInitialization

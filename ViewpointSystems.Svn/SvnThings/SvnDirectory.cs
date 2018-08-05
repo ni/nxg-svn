@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ViewpointSystems.Svn.Cache;
-using ViewpointSystems.Svn.SccThings;
+using Svn.Cache;
+using Svn.SccThings;
 
-namespace ViewpointSystems.Svn.SvnThings
+namespace Svn.SvnThings
 {
     public interface ISvnDirectoryUpdate
     {

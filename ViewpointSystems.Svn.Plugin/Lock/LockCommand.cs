@@ -7,9 +7,9 @@ using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
 using System.Windows.Forms;
-using ViewpointSystems.Svn.Plugin.SubMenu;
+using Svn.Plugin.SubMenu;
 
-namespace ViewpointSystems.Svn.Plugin.Lock
+namespace Svn.Plugin.Lock
 {    
     public class LockCommand 
     {
@@ -18,7 +18,7 @@ namespace ViewpointSystems.Svn.Plugin.Lock
 
         public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(TakeLock, CanLock)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Lock.ShellSelectionRelayCommand",
+            UniqueId = "Svn.Plugin.Lock.ShellSelectionRelayCommand",
             LabelTitle = "Lock",
 
             // this will inform the system that this command should be parented under the given command in a popup menu

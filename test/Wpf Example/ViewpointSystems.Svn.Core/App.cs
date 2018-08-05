@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
-using ViewpointSystems.Svn.Core.ViewModels;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.Core.ViewModels;
+using Svn.SvnThings;
 
-namespace ViewpointSystems.Svn.Core
+namespace Svn.Core
 {
     using MvvmCross.Core.ViewModels;
     using MvvmCross.Platform.IoC;

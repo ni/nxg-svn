@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewpointSystems.Svn.SvnThings
+namespace Svn.SvnThings
 {
     /// <summary>
     /// This flag enum specifies the full UI state of a <see cref="SvnItem"/> in all live updating windows

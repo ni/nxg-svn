@@ -7,8 +7,8 @@
     <ProjectGuid>{BC1E2525-87B0-4D0A-A0EA-2F5CD7D2FCBD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ViewpointSystems.Svn.Core</RootNamespace>
-    <AssemblyName>ViewpointSystems.Svn.Core</AssemblyName>
+    <RootNamespace>Svn.Core</RootNamespace>
+    <AssemblyName>Svn.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -108,9 +108,9 @@
     <Compile Include="ViewModels\StatusViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ViewpointSystems.Svn\ViewpointSystems.Svn.csproj">
+    <ProjectReference Include="..\..\..\ViewpointSystems.Svn\Svn.csproj">
       <Project>{45643b0f-d3f3-4f2b-b60a-7770600736ab}</Project>
-      <Name>ViewpointSystems.Svn</Name>
+      <Name>Svn</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

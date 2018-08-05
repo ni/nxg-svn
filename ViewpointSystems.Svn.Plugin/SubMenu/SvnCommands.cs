@@ -10,9 +10,9 @@ using NationalInstruments.Core;
 using NationalInstruments.MocCommon.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
-using ViewpointSystems.Svn.Plugin.Add;
+using Svn.Plugin.Add;
 
-namespace ViewpointSystems.Svn.Plugin.SubMenu
+namespace Svn.Plugin.SubMenu
 {
     public class SvnCommands
     {
@@ -24,7 +24,7 @@ namespace ViewpointSystems.Svn.Plugin.SubMenu
         /// </summary>
         public static readonly ICommandEx SvnSubMenuCommand = new ShellRelayCommand()
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.SelectSvnCommand.ShellSelectionRelayCommand",
+            UniqueId = "Svn.Plugin.SelectSvnCommand.ShellSelectionRelayCommand",
             LabelTitle = "SVN",
         };
     }

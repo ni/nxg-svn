@@ -7,8 +7,8 @@
     <ProjectGuid>{FA42DB7A-9367-4695-A0F6-7C1B15F9EF82}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ViewpointSystems.Svn.Core.Tests</RootNamespace>
-    <AssemblyName>ViewpointSystems.Svn.Core.Tests</AssemblyName>
+    <RootNamespace>Svn.Core.Tests</RootNamespace>
+    <AssemblyName>Svn.Core.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -93,13 +93,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ViewpointSystems.Svn\ViewpointSystems.Svn.csproj">
+    <ProjectReference Include="..\..\..\ViewpointSystems.Svn\Svn.csproj">
       <Project>{45643B0F-D3F3-4F2B-B60A-7770600736AB}</Project>
-      <Name>ViewpointSystems.Svn</Name>
+      <Name>Svn</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ViewpointSystems.Svn.Core\ViewpointSystems.Svn.Core.csproj">
+    <ProjectReference Include="..\ViewpointSystems.Svn.Core\Svn.Core.csproj">
       <Project>{bc1e2525-87b0-4d0a-a0ea-2f5cd7d2fcbd}</Project>
-      <Name>ViewpointSystems.Svn.Core</Name>
+      <Name>Svn.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

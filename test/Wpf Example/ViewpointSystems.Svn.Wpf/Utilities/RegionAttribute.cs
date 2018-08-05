@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewpointSystems.Svn.Wpf.Utilities
+namespace Svn.Wpf.Utilities
 {
     public class RegionAttribute : Attribute
     {

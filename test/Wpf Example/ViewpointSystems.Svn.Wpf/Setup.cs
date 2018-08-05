@@ -4,14 +4,14 @@ using MvvmCross.Binding.Wpf;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Converters;
 using MvvmCross.Platform.Platform;
-using ViewpointSystems.Svn.Wpf.Properties;
+using Svn.Wpf.Properties;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Wpf.Platform;
 using MvvmCross.Wpf.Views;
 using System.Windows.Threading;
-using ViewpointSystems.Svn.Core.Entities;
+using Svn.Core.Entities;
 
-namespace ViewpointSystems.Svn.Wpf
+namespace Svn.Wpf
 {    
     /// <summary>
     ///  Defines the Setup type.

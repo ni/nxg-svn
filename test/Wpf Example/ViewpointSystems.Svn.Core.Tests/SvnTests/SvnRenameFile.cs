@@ -4,11 +4,11 @@ using System.Threading;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpSvn;
-using ViewpointSystems.Svn.Core.ViewModels;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.Core.ViewModels;
+using Svn.SvnThings;
 
 
-namespace ViewpointSystems.Svn.Core.Tests.SvnTests
+namespace Svn.Core.Tests.SvnTests
 {
     [TestClass]
     public class SvnRenameFile : BaseTest

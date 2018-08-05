@@ -9,19 +9,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		InstallLocation.targets = InstallLocation.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewpointSystems.Svn.Plugin", "ViewpointSystems.Svn.Plugin\ViewpointSystems.Svn.Plugin.csproj", "{60654F2F-94CE-457D-878E-793B4C5EB100}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svn.Plugin", "ViewpointSystems.Svn.Plugin\Svn.Plugin.csproj", "{60654F2F-94CE-457D-878E-793B4C5EB100}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{1719C50D-8FDB-4F86-8C1B-EE3FE00D380E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewpointSystems.Svn", "ViewpointSystems.Svn\ViewpointSystems.Svn.csproj", "{45643B0F-D3F3-4F2B-B60A-7770600736AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svn", "ViewpointSystems.Svn\Svn.csproj", "{45643B0F-D3F3-4F2B-B60A-7770600736AB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wpf Example", "Wpf Example", "{A00CE08D-A803-4AF4-BC56-6FDDC0DE0F3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewpointSystems.Svn.Wpf", "test\Wpf Example\ViewpointSystems.Svn.Wpf\ViewpointSystems.Svn.Wpf.csproj", "{753DD5A7-2D3C-4FB1-A643-B87D63B815DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svn.Wpf", "test\Wpf Example\ViewpointSystems.Svn.Wpf\Svn.Wpf.csproj", "{753DD5A7-2D3C-4FB1-A643-B87D63B815DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewpointSystems.Svn.Core.Tests", "test\Wpf Example\ViewpointSystems.Svn.Core.Tests\ViewpointSystems.Svn.Core.Tests.csproj", "{FA42DB7A-9367-4695-A0F6-7C1B15F9EF82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svn.Core.Tests", "test\Wpf Example\ViewpointSystems.Svn.Core.Tests\Svn.Core.Tests.csproj", "{FA42DB7A-9367-4695-A0F6-7C1B15F9EF82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewpointSystems.Svn.Core", "test\Wpf Example\ViewpointSystems.Svn.Core\ViewpointSystems.Svn.Core.csproj", "{BC1E2525-87B0-4D0A-A0EA-2F5CD7D2FCBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svn.Core", "test\Wpf Example\ViewpointSystems.Svn.Core\Svn.Core.csproj", "{BC1E2525-87B0-4D0A-A0EA-2F5CD7D2FCBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

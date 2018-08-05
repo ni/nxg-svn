@@ -1,9 +1,9 @@
 ﻿using System;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SvnThings;
 
-namespace ViewpointSystems.Svn.Core.Tests.SvnTests
+namespace Svn.Core.Tests.SvnTests
 {
     [TestClass]
     public class LoadRepository : BaseTest

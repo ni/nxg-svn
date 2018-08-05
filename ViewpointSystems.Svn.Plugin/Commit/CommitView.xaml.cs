@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NationalInstruments.Core;
 
-namespace ViewpointSystems.Svn.Plugin.Commit
+namespace Svn.Plugin.Commit
 {
     /// <summary>
     /// Interaction logic for CommitView.xaml

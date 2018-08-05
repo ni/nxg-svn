@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NationalInstruments.Shell;
 
-namespace ViewpointSystems.Svn.Plugin.PendingChanges
+namespace Svn.Plugin.PendingChanges
 {
     public class PendingChange : INotifyPropertyChanged
     {

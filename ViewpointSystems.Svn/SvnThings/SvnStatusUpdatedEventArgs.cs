@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewpointSystems.Svn.SvnThings
+namespace Svn.SvnThings
 {
     public class SvnStatusUpdatedEventArgs : EventArgs
     {

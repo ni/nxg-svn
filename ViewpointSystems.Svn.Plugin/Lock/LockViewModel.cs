@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewpointSystems.Svn.Plugin.Lock
+namespace Svn.Plugin.Lock
 {
     public class LockViewModel
     {

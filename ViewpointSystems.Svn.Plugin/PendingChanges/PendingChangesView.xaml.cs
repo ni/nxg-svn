@@ -18,7 +18,7 @@ using NationalInstruments.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
 
-namespace ViewpointSystems.Svn.Plugin.PendingChanges
+namespace Svn.Plugin.PendingChanges
 {
     /// <summary>
     /// Interaction logic for HistoryView.xaml

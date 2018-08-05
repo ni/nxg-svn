@@ -3,7 +3,7 @@ using System;
 using System.Linq.Expressions;
 using System.ComponentModel;
 
-namespace ViewpointSystems.Svn.Core.ViewModels
+namespace Svn.Core.ViewModels
 {    
     /// <summary>
     ///    Defines the BaseViewModel type.

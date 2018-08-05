@@ -17,10 +17,10 @@ using System.Data;
 
 using System.ComponentModel;
 using MvvmCross.Platform;
-using ViewpointSystems.Svn.Core.ViewModels;
-using ViewpointSystems.Svn.Wpf.Utilities;
+using Svn.Core.ViewModels;
+using Svn.Wpf.Utilities;
 
-namespace ViewpointSystems.Svn.Wpf.Views
+namespace Svn.Wpf.Views
 {
     /// <summary>
     /// Interaction logic for StatusView.xaml

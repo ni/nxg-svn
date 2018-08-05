@@ -10,10 +10,10 @@ using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Threading;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SvnThings;
 using Application = System.Windows.Application;
 
-namespace ViewpointSystems.Svn.Core.ViewModels
+namespace Svn.Core.ViewModels
 {
     /// <summary>
     /// View model for the StatusView

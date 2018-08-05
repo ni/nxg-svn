@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewpointSystems.Svn.SccThings
+namespace Svn.SccThings
 {
     public abstract partial class SccItem
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpSvn;
 
-namespace ViewpointSystems.Svn.SvnThings
+namespace Svn.SvnThings
 {
     public interface ISvnItemStateUpdate
     {

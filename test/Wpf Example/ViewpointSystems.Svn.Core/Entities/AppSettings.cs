@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewpointSystems.Svn.Core.Entities
+namespace Svn.Core.Entities
 {
     public class AppSettings
     {

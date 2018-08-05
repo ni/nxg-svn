@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NationalInstruments.Composition;
 using NationalInstruments.Core;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SvnThings;
 using NationalInstruments.Shell;
 using System.IO;
 using NationalInstruments.Design;
@@ -17,7 +17,7 @@ using NationalInstruments.SourceModel.Envoys;
 using NationalInstruments.Restricted.Shell;
 using SharpSvn;
 
-namespace ViewpointSystems.Svn.Plugin
+namespace Svn.Plugin
 {
     [Export(typeof(SvnManagerPlugin))]
     //[PartMetadata(ExportIdentifier.RootContainerKey, "")] // This has project afinity so we need to create one per Project

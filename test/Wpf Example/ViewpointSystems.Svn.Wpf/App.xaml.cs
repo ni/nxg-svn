@@ -4,9 +4,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using ViewpointSystems.Svn.Wpf.Utilities;
+using Svn.Wpf.Utilities;
 
-namespace ViewpointSystems.Svn.Wpf
+namespace Svn.Wpf
 {
     using MvvmCross.Core.ViewModels;
     using MvvmCross.Platform;

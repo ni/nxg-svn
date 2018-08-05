@@ -7,9 +7,9 @@ using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
 using System.Windows.Forms;
-using ViewpointSystems.Svn.Plugin.SubMenu;
+using Svn.Plugin.SubMenu;
 
-namespace ViewpointSystems.Svn.Plugin.ReleaseLock
+namespace Svn.Plugin.ReleaseLock
 {
     public class ReleaseLockCommand
     {
@@ -18,7 +18,7 @@ namespace ViewpointSystems.Svn.Plugin.ReleaseLock
 
         public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(ReleaseLock, CanReleaseLock)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.ReleaseLock.ShellSelectionRelayCommand",
+            UniqueId = "Svn.Plugin.ReleaseLock.ShellSelectionRelayCommand",
             LabelTitle = "Release Lock",
 
             // this will inform the system that this command should be parented under the given command in a popup menu

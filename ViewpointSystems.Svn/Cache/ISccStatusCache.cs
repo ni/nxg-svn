@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ViewpointSystems.Svn.SccThings;
+using Svn.SccThings;
 
-namespace ViewpointSystems.Svn.Cache
+namespace Svn.Cache
 {
     public interface ISccStatusCache 
     {

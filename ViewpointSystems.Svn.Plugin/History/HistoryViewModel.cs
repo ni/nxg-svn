@@ -13,10 +13,10 @@ using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using SharpSvn;
-using ViewpointSystems.Svn.SvnThings;
+using Svn.SvnThings;
 using System.IO;
 
-namespace ViewpointSystems.Svn.Plugin.History
+namespace Svn.Plugin.History
 {
     public class HistoryViewModel : IToolWindowViewModel
     {        

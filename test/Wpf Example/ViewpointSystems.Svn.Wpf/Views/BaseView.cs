@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using MvvmCross.Wpf.Views;
 
-namespace ViewpointSystems.Svn.Wpf.Views
+namespace Svn.Wpf.Views
 {
 
 

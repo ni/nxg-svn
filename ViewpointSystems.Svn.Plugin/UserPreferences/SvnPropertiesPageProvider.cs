@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewpointSystems.Svn.Plugin.UserPreferences
+namespace Svn.Plugin.UserPreferences
 {
     /// <summary>
     /// User preferences page factory export

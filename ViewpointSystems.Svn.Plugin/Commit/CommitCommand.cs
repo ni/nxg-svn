@@ -8,10 +8,10 @@ using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
 using System.Windows.Forms;
-using ViewpointSystems.Svn.Plugin.SubMenu;
+using Svn.Plugin.SubMenu;
 using MessageBox = System.Windows.Forms.MessageBox;
 
-namespace ViewpointSystems.Svn.Plugin.Commit
+namespace Svn.Plugin.Commit
 {    
     public class CommitCommand 
     {
@@ -20,7 +20,7 @@ namespace ViewpointSystems.Svn.Plugin.Commit
 
         public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(Commit, CanCommit)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Commint.ShellSelectionRelayCommand",
+            UniqueId = "Svn.Plugin.Commint.ShellSelectionRelayCommand",
             LabelTitle = "Commit",
 
             // this will inform the system that this command should be parented under the given command in a popup menu

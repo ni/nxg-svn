@@ -5,9 +5,9 @@
 //using System.Text;
 //using System.Threading.Tasks;
 //using System.Windows.Forms;
-//using ViewpointSystems.Svn.SvnThings;
+//using Svn.SvnThings;
 
-//namespace ViewpointSystems.Svn.Cache
+//namespace Svn.Cache
 //{
 //    partial class SvnStatusCache
 //    {

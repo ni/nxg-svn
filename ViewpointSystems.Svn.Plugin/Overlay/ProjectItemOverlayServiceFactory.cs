@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NationalInstruments.ProjectExplorer;
 using NationalInstruments.SourceModel.Envoys;
 
-namespace ViewpointSystems.Svn.Plugin.Overlay
+namespace Svn.Plugin.Overlay
 {
     [ExportEnvoyServiceFactory(typeof(IProjectItemOverlaySupport))]
     public class ProjectItemOverlayServiceFactory : EnvoyServiceFactory

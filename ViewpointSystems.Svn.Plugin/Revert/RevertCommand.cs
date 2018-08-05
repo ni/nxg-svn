@@ -7,9 +7,9 @@ using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using System.ComponentModel.Composition;
 using System.Windows.Forms;
-using ViewpointSystems.Svn.Plugin.SubMenu;
+using Svn.Plugin.SubMenu;
 
-namespace ViewpointSystems.Svn.Plugin.Revert
+namespace Svn.Plugin.Revert
 {    
     public class RevertCommand 
     {
@@ -18,7 +18,7 @@ namespace ViewpointSystems.Svn.Plugin.Revert
 
         public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(Revert, CanRevert)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Revert.ShellSelectionRelayCommand",
+            UniqueId = "Svn.Plugin.Revert.ShellSelectionRelayCommand",
             LabelTitle = "Revert",
 
             // this will inform the system that this command should be parented under the given command in a popup menu

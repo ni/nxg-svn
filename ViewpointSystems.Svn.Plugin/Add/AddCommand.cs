@@ -7,9 +7,9 @@ using NationalInstruments.Core;
 using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
-using ViewpointSystems.Svn.Plugin.SubMenu;
+using Svn.Plugin.SubMenu;
 
-namespace ViewpointSystems.Svn.Plugin.Add
+namespace Svn.Plugin.Add
 {    
     public class AddCommand 
     {
@@ -18,7 +18,7 @@ namespace ViewpointSystems.Svn.Plugin.Add
 
         public static readonly ICommandEx ShellSelectionRelayCommand = new ShellRelayCommand(Add, CanAdd)
         {
-            UniqueId = "ViewpointSystems.Svn.Plugin.Add.ShellSelectionRelayCommand",
+            UniqueId = "Svn.Plugin.Add.ShellSelectionRelayCommand",
             LabelTitle = "Add",
 
             // this will inform the system that this command should be parented under the given command in a popup menu

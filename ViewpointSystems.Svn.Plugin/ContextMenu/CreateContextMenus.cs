@@ -4,15 +4,15 @@ using NationalInstruments.Composition;
 using NationalInstruments.Core;
 using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
-using ViewpointSystems.Svn.Plugin.Add;
-using ViewpointSystems.Svn.Plugin.Commit;
-using ViewpointSystems.Svn.Plugin.History;
-using ViewpointSystems.Svn.Plugin.Lock;
-using ViewpointSystems.Svn.Plugin.ReleaseLock;
-using ViewpointSystems.Svn.Plugin.Revert;
-using ViewpointSystems.Svn.Plugin.SubMenu;
+using Svn.Plugin.Add;
+using Svn.Plugin.Commit;
+using Svn.Plugin.History;
+using Svn.Plugin.Lock;
+using Svn.Plugin.ReleaseLock;
+using Svn.Plugin.Revert;
+using Svn.Plugin.SubMenu;
 
-namespace ViewpointSystems.Svn.Plugin.ContextMenu
+namespace Svn.Plugin.ContextMenu
 {
     [ExportPushCommandContent]
     public class CreateContextMenus : PushCommandContent
