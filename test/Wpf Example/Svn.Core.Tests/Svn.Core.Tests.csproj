@@ -97,7 +97,7 @@
       <Project>{45643B0F-D3F3-4F2B-B60A-7770600736AB}</Project>
       <Name>Svn</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ViewpointSystems.Svn.Core\Svn.Core.csproj">
+    <ProjectReference Include="..\Svn.Core\Svn.Core.csproj">
       <Project>{bc1e2525-87b0-4d0a-a0ea-2f5cd7d2fcbd}</Project>
       <Name>Svn.Core</Name>
     </ProjectReference>

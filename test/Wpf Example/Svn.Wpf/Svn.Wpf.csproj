@@ -196,7 +196,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ViewpointSystems.Svn.Core\Svn.Core.csproj">
+    <ProjectReference Include="..\Svn.Core\Svn.Core.csproj">
       <Project>{bc1e2525-87b0-4d0a-a0ea-2f5cd7d2fcbd}</Project>
       <Name>Svn.Core</Name>
     </ProjectReference>
