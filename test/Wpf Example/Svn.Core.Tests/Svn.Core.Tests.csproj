@@ -93,7 +93,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ViewpointSystems.Svn\Svn.csproj">
+    <ProjectReference Include="..\..\..\Svn\Svn.csproj">
       <Project>{45643B0F-D3F3-4F2B-B60A-7770600736AB}</Project>
       <Name>Svn</Name>
     </ProjectReference>

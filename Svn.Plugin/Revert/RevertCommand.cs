@@ -58,7 +58,7 @@ namespace Svn.Plugin.Revert
                     //This will revert a file once, but you have to close and reopen in order to revert the same file a second time.
                     //If open, you also have to manually close the file and reopen to see the reversion.
                     var referencedFile = envoy.GetReferencedFileService();
-                    referencedFile.RefreshReferencedFileAsync();
+                    referencedFile.RefreshReferencedFileAsync(RefreshMode.RefreshFromStorage);
 
                     debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Revert {filePath}"));
                 }                

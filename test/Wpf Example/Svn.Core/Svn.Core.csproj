@@ -108,7 +108,7 @@
     <Compile Include="ViewModels\StatusViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ViewpointSystems.Svn\Svn.csproj">
+    <ProjectReference Include="..\..\..\Svn\Svn.csproj">
       <Project>{45643b0f-d3f3-4f2b-b60a-7770600736ab}</Project>
       <Name>Svn</Name>
     </ProjectReference>
