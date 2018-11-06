@@ -42,7 +42,7 @@ namespace Svn.Plugin.Lock
             try
             {
                 var filePath = ((Envoy)parameter.Parameter).GetFilePath();
-                //TODO: flush out View / ViewModel for lock - bsh todo
+                //TODO: flush out View / ViewModel for lock 
                 //if (SvnPreferences.PromptToLock)
                 //{
                 //    var lockWindow = new LockView();
@@ -63,14 +63,14 @@ namespace Svn.Plugin.Lock
                     {
                         projectItem.RefreshIcon();
                     }
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Lock {filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Lock {filePath}"));
                 }                
                 // }
             }
             catch (Exception e)
             {                
                 Console.WriteLine(e);
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Lock {e.Message}"));
+                debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed to Lock {e.Message}"));
                 const string caption = "Error SVN";
                 var result = MessageBox.Show(e.Message, caption,
                     MessageBoxButtons.OK,

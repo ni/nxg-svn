@@ -232,9 +232,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-if $(ConfigurationName) == Debug (      mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
-      xcopy /F /R /Y "$(TargetDir)Svn.Plugin.dll" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
-      xcopy /F /R /Y "$(TargetDir)Svn.Plugin.pdb" "$(InstallLocation)\Addons\ViewpointSystems\Svn")
+if $(ConfigurationName) == Debug (      mkdir "$(InstallLocation)\Addons\NI\Svn"
+      xcopy /F /R /Y "$(TargetDir)Svn.Plugin.dll" "$(InstallLocation)\Addons\NI\Svn"
+      xcopy /F /R /Y "$(TargetDir)Svn.Plugin.pdb" "$(InstallLocation)\Addons\NI\Svn")
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
