@@ -40,7 +40,7 @@ namespace Svn.Plugin.History
             {                
                 Console.WriteLine(e);
                 var debugHost = host.GetSharedExportedValue<IDebugHost>();
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"View History {e.Message}"));
+                debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"View History {e.Message}"));
                 const string caption = "Error SVN";
                 var result = MessageBox.Show(e.Message, caption,
                     MessageBoxButtons.OK,

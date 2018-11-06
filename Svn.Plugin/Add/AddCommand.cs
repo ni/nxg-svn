@@ -49,13 +49,13 @@ namespace Svn.Plugin.Add
                     {
                         projectItem.RefreshIcon();
                     }
-                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Add {filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Add {filePath}"));
                 }                
             }
             catch (Exception e)
             {                
                 Console.WriteLine(e);
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Add {e.Message}"));
+                debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed to Add {e.Message}"));
                 const string caption = "Error SVN";
                 var result = MessageBox.Show(e.Message, caption,
                     MessageBoxButtons.OK,
