@@ -1,25 +1,25 @@
 ﻿Architecture: windows_x64
 Built-Using: nipkg
 CompatibilityVersion: 170006
-Depends: ni-labview-nxg-2.0.0 (>= 5.2.0.32842)
+Depends: ni-labview-nxg-2.0.0 (>= 6.2.0.49152)
 Description: SVN Toolkit
 DisplayName: Viewpoint Systems, Inc. SVN Toolkit
 Essential: no
 Eula: eula-viewpoint-license
-Filename: viewpoint-svntoolkit-base-ext-2_2.0.0.3_windows_x64.nipkg
+Filename: viewpoint-svntoolkit-base-ext-3_2.0.0.5_windows_x64.nipkg
 Homepage: https://www.viewpointusa.com/<url>
-MD5Sum: da1c6ee2d157c76a44939534cbae9d24
-MD5sum: da1c6ee2d157c76a44939534cbae9d24
+MD5Sum: efee18aa33762111f98c6dfa99454ef5
+MD5sum: efee18aa33762111f98c6dfa99454ef5
 Maintainer: Viewpoint Systems, Inc <hello@viewpointusa.com>
-Package: viewpoint-svntoolkit-base-ext-2
+Package: viewpoint-svntoolkit-base-ext-3
 Plugin: file
 Priority: optional
 Provides: 
 Recommends: 
 Section: Add-Ons
-Size: 31356440
+Size: 31356384
 StoreProduct: Yes
 Suggests: 
 UserVisible: Yes
-Version: 2.0.0.3
+Version: 2.0.0.5
 

@@ -72,15 +72,6 @@ Task("Generate-Eula")
 {
 	CleanDirectory(niRepo);
 	
-	//update Version number 
-	using(var process = StartAndReturnProcess("./NIPKG/pkg-eula/eula-src/control/test.bat", new ProcessSettings{ Arguments = "-version " + Version } ))
-	{
-    process.WaitForExit();
-    // This should output 0 as valid arguments supplied
-    Information("Exit code: {0}", process.GetExitCode());
-	}	
-	
-	
     using(var process = StartAndReturnProcess("./NIPKG/pkg-eula/pack-eula.bat"))
 	{
     process.WaitForExit();
@@ -93,14 +84,6 @@ Task("Generate-ext")
     .IsDependentOn("Generate-Eula")	
     .Does(() =>
 {
-	//update Version number 
-	using(var process = StartAndReturnProcess("./NIPKG/pkg-ext/ext-src/control/test.bat", new ProcessSettings{ Arguments = "-version " + Version } ))
-	{
-    process.WaitForExit();
-    // This should output 0 as valid arguments supplied
-    Information("Exit code: {0}", process.GetExitCode());
-	}
-	
     using(var process = StartAndReturnProcess("./NIPKG/pkg-ext/pack-ext.bat"))
 	{
     process.WaitForExit();
