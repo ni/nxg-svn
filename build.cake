@@ -6,13 +6,13 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var Version = Argument("my_version", "2.0.0.0");
+var Version = Argument("my_version", "2.0.0.1");
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
 var buildDir = Directory("./ViewpointSystems.Svn.Plugin/bin/x64") + Directory(configuration);
-var niPackDir = Directory("./NIPKG/pkg-ext/ext-src/data/ni-paths-LVNXG200DIR64/Addons/viewpoint/svntoolkit/base-ext/");
+var niPackDir = Directory("./NIPKG/pkg-ext/ext-src/data/ni-paths-LVNXG300DIR64/Addons/viewpoint/svntoolkit/base-ext/");
 var eulaDir = Directory("./NIPKG/pkg-eula/pack-eula.bat");
 var extDir = Directory("./NIPKG/pkg-ext/pack-ext.bat");
 var niRepo = Directory("./NIPKG/repo");

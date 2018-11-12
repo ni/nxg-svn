@@ -291,7 +291,8 @@ namespace Svn.Cache
                 SvnItem walkItem = null;
 
                 // We get more information for free, lets use that to update other items
-                DirectoryMap.TryGetValue(walkPath, out var directory);
+                SvnDirectory directory;
+                DirectoryMap.TryGetValue(walkPath, out directory);
                 if (null != directory)
                 {
                     updateDir = directory;
