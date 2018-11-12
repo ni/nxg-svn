@@ -6,7 +6,7 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var Version = Argument("my_version", "2.0.0.1");
+var Version = Argument("my_version", "2.0.0.5");
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -73,7 +73,7 @@ Task("Generate-Eula")
 	CleanDirectory(niRepo);
 	
 	//update Version number 
-	using(var process = StartAndReturnProcess("./C:/work/TestSvn/NIPKG/pkg-eula/eula-src/control/test.bat", new ProcessSettings{ Arguments = "-version " + Version } ))
+	using(var process = StartAndReturnProcess("./NIPKG/pkg-eula/eula-src/control/test.bat", new ProcessSettings{ Arguments = "-version " + Version } ))
 	{
     process.WaitForExit();
     // This should output 0 as valid arguments supplied
@@ -81,7 +81,7 @@ Task("Generate-Eula")
 	}	
 	
 	
-    using(var process = StartAndReturnProcess("C:/work/TestSvn/NIPKG/pkg-eula/pack-eula.bat"))
+    using(var process = StartAndReturnProcess("./NIPKG/pkg-eula/pack-eula.bat"))
 	{
     process.WaitForExit();
     // This should output 0 as valid arguments supplied
@@ -94,14 +94,14 @@ Task("Generate-ext")
     .Does(() =>
 {
 	//update Version number 
-	using(var process = StartAndReturnProcess("./C:/work/TestSvn/NIPKG/pkg-ext/ext-src/control/test.bat", new ProcessSettings{ Arguments = "-version " + Version } ))
+	using(var process = StartAndReturnProcess("./NIPKG/pkg-ext/ext-src/control/test.bat", new ProcessSettings{ Arguments = "-version " + Version } ))
 	{
     process.WaitForExit();
     // This should output 0 as valid arguments supplied
     Information("Exit code: {0}", process.GetExitCode());
 	}
 	
-    using(var process = StartAndReturnProcess("C:/work/TestSvn/NIPKG/pkg-ext/pack-ext.bat"))
+    using(var process = StartAndReturnProcess("./NIPKG/pkg-ext/pack-ext.bat"))
 	{
     process.WaitForExit();
     // This should output 0 as valid arguments supplied
@@ -113,7 +113,7 @@ Task("Generate-pkg")
     .IsDependentOn("Generate-ext")	
     .Does(() =>
 {
-    using(var process = StartAndReturnProcess("C:/work/TestSvn/NIPKG/create-repo.bat"))
+    using(var process = StartAndReturnProcess("./NIPKG/create-repo.bat"))
 	{
     process.WaitForExit();
     // This should output 0 as valid arguments supplied

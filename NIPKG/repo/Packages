@@ -1,39 +1,23 @@
 ﻿Architecture: windows_x64
-CompatibilityVersion: 170500
-Conflicts: ni-package-manager
-Description: End-User License Agreement
-DisplayName: 
-EulaPriority: 0
-EulaTitle: 
-Filename: 
-MD5Sum: f1f274f7119d970070b01938a789094b
-Maintainer: 
-Package: 
-Plugin: eula
-Section: Infrastructure
-Size: 1466
-UserVisible: no
-Version: 2.0.0.3
-
-Architecture: windows_x64
 Built-Using: nipkg
 CompatibilityVersion: 170006
 Depends: ni-labview-nxg-2.0.0 (>= 5.2.0.32842)
 Description: SVN Toolkit
-DisplayName: SVN Toolkit
+DisplayName: Viewpoint Systems, Inc. SVN Toolkit
 Essential: no
-Eula: 
-Filename: 
-Homepage: https://github.com/ni/nxg-svn/<url>
-MD5Sum: 6071ffac9108ed88a3613224d61a0988
-Maintainer:
-Package: 
+Eula: eula-viewpoint-license
+Filename: viewpoint-svntoolkit-base-ext-2_2.0.0.3_windows_x64.nipkg
+Homepage: https://www.viewpointusa.com/<url>
+MD5Sum: da1c6ee2d157c76a44939534cbae9d24
+MD5sum: da1c6ee2d157c76a44939534cbae9d24
+Maintainer: Viewpoint Systems, Inc <hello@viewpointusa.com>
+Package: viewpoint-svntoolkit-base-ext-2
 Plugin: file
 Priority: optional
 Provides: 
 Recommends: 
 Section: Add-Ons
-Size: 22486530
+Size: 31356440
 StoreProduct: Yes
 Suggests: 
 UserVisible: Yes
