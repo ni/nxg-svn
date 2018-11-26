@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -72,18 +72,18 @@ namespace Svn.Plugin.PendingChanges
                     if (success)
                     {
                         CommitMessage = string.Empty;
-                        debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Commit files"));
+                        debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Commit files"));
                     }
                     else
                     {
-                        debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to commit files"));
+                        debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed Compare to commit files"));
                     }
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to commit files {e.Message}"));
+                debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed Compare to commit files {e.Message}"));
             }
             
         }
@@ -161,11 +161,11 @@ namespace Svn.Plugin.PendingChanges
         //        {
         //            //TODO: how to call compare
 
-        //            debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Compare to revision {SelectedHistoryRow.Revision} {filePath}"));
+        //            debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Compare to revision {SelectedHistoryRow.Revision} {filePath}"));
         //        }
         //        else
         //        {
-        //            debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to revision {SelectedHistoryRow.Revision} {filePath}"));
+        //            debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed Compare to revision {SelectedHistoryRow.Revision} {filePath}"));
         //        }
         //    }
         //}

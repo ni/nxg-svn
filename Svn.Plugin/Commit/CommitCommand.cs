@@ -70,14 +70,14 @@ namespace Svn.Plugin.Commit
                             projectItem.RefreshIcon();
                         }
 
-                        debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Commit {filePath}"));
+                        debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Commit {filePath}"));
                     }                    
                 }
             }
             catch (Exception e)
             {                
                 Console.WriteLine(e);
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Commit {e.Message}"));
+                debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed to Commit {e.Message}"));
 
                 const string caption = "Error SVN";
                 var result = MessageBox.Show(e.Message, caption,
