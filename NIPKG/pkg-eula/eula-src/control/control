@@ -2,11 +2,11 @@ Architecture: windows_x64
 CompatibilityVersion: 170500
 Conflicts: ni-package-manager
 Description: End-User License Agreement
-DisplayName: 
+DisplayName: eula-ni-svn-license
 EulaPriority: 0
-EulaTitle: 
-Maintainer: 
-Package: 
+EulaTitle: eula-ni-svn-license
+Maintainer: National Instruments Corp. <support@ni.com>
+Package: eula-ni-svn-license
 Plugin: eula
 Section: Infrastructure
 UserVisible: no
