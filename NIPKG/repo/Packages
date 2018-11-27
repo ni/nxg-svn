@@ -2,13 +2,13 @@
 CompatibilityVersion: 170500
 Conflicts: ni-package-manager
 Description: End-User License Agreement
-DisplayName: 
+DisplayName: eula-ni-svn-license
 EulaPriority: 0
-EulaTitle: 
-Filename: 
+EulaTitle: eula-ni-svn-license
+Filename: eula-ni-svn-license_2.0.0.3_windows_x64.nipkg
 MD5Sum: f1f274f7119d970070b01938a789094b
-Maintainer: 
-Package: 
+Maintainer: National Instruments Corp. <support@ni.com>
+Package: eula-ni-svn-license
 Plugin: eula
 Section: Infrastructure
 Size: 1466
@@ -22,12 +22,12 @@ Depends: ni-labview-nxg-2.0.0 (>= 5.2.0.32842)
 Description: SVN Toolkit
 DisplayName: SVN Toolkit
 Essential: no
-Eula: 
-Filename: 
+Eula: eula-ni-svn-license
+Filename: ni-svntoolkit-base-ext-2_2.0.0.3_windows_x64.nipkg
 Homepage: https://github.com/ni/nxg-svn/<url>
 MD5Sum: 6071ffac9108ed88a3613224d61a0988
-Maintainer:
-Package: 
+Maintainer: National Instruments Corp. <support@ni.com>
+Package: ni-svntoolkit-base-ext-2
 Plugin: file
 Priority: optional
 Provides: 
