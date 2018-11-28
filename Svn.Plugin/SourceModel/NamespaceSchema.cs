@@ -25,7 +25,7 @@ namespace Svn.Plugin
         /// <summary>
         /// Namespace name
         /// </summary>
-        public const string ParsableNamespaceName = "https://github.com/ni/nxg-svn";
+        public const string ParsableNamespaceName = "http://www.viewpointusa.com/svn";
 
         /// <summary>
         /// Default Constructor

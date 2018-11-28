@@ -52,11 +52,11 @@ namespace Svn.Plugin.History
                     //var referencedFile = envoy.GetReferencedFileService();
                     //referencedFile.RefreshReferencedFileAsync();
 
-                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Revert to revision {SelectedHistoryRow.Revision} {_filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Revert to revision {SelectedHistoryRow.Revision} {_filePath}"));
                 }
                 else
                 {
-                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed to revert revision {SelectedHistoryRow.Revision} {_filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to revert revision {SelectedHistoryRow.Revision} {_filePath}"));
                 }
             }
         }
@@ -77,11 +77,11 @@ namespace Svn.Plugin.History
                 {
                     //TODO: how to call compare
 
-                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Compare to revision {SelectedHistoryRow.Revision} {_filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Compare to revision {SelectedHistoryRow.Revision} {_filePath}"));
                 }
                 else
                 {
-                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed Compare to revision {SelectedHistoryRow.Revision} {_filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed Compare to revision {SelectedHistoryRow.Revision} {_filePath}"));
                 }
             }
         }

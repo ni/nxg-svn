@@ -11,8 +11,8 @@ var Version = Argument("my_version", "2.0.0.5");
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
-var buildDir = Directory("./Svn.Plugin/bin/x64") + Directory(configuration);
-var niPackDir = Directory("./NIPKG/pkg-ext/ext-src/data/ni-paths-LVNXG300DIR64/Addons/svntoolkit/base-ext/");
+var buildDir = Directory("./ViewpointSystems.Svn.Plugin/bin/x64") + Directory(configuration);
+var niPackDir = Directory("./NIPKG/pkg-ext/ext-src/data/ni-paths-LVNXG200DIR64/Addons/viewpoint/svntoolkit/base-ext/");
 var eulaDir = Directory("./NIPKG/pkg-eula/pack-eula.bat");
 var extDir = Directory("./NIPKG/pkg-ext/pack-ext.bat");
 var niRepo = Directory("./NIPKG/repo");
@@ -32,7 +32,7 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    NuGetRestore("./Svn.sln");
+    NuGetRestore("./ViewpointSystems.Svn.sln");
 });
 
 Task("Build")
@@ -42,7 +42,7 @@ Task("Build")
     if(IsRunningOnWindows())
     {
       // Use MSBuild
-      MSBuild("./Svn.sln", settings =>
+      MSBuild("./ViewpointSystems.Svn.sln", settings =>
         settings.SetConfiguration(configuration)
 		.UseToolVersion(MSBuildToolVersion.Default)
 		.WithTarget("Rebuild")
@@ -52,7 +52,7 @@ Task("Build")
     else
     {
       // Use XBuild
-      XBuild("./Svn.sln", settings =>
+      XBuild("./ViewpointSystems.Svn.sln", settings =>
         settings.SetConfiguration(configuration));
     }
 });
@@ -84,7 +84,15 @@ Task("Generate-ext")
     .IsDependentOn("Generate-Eula")	
     .Does(() =>
 {
-    using(var process = StartAndReturnProcess("./NIPKG/pkg-ext/pack-ext.bat"))
+	//update Version number 
+	using(var process = StartAndReturnProcess("./C:/work/TestSvn/NIPKG/pkg-ext/ext-src/control/test.bat", new ProcessSettings{ Arguments = "-version " + Version } ))
+	{
+    process.WaitForExit();
+    // This should output 0 as valid arguments supplied
+    Information("Exit code: {0}", process.GetExitCode());
+	}
+	
+    using(var process = StartAndReturnProcess("C:/work/TestSvn/NIPKG/pkg-ext/pack-ext.bat"))
 	{
     process.WaitForExit();
     // This should output 0 as valid arguments supplied

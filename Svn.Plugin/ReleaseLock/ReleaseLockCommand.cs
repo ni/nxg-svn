@@ -53,12 +53,12 @@ namespace Svn.Plugin.ReleaseLock
                     {
                         projectItem.RefreshIcon();
                     }
-                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Release Lock {filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Release Lock {filePath}"));
                 }                
             }
             catch (Exception e)
             {                
-                debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed to Release Lock {e.Message}"));
+                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Release Lock {e.Message}"));
                 Console.WriteLine(e);
                 const string caption = "Error SVN";
                 var result = MessageBox.Show(e.Message, caption,

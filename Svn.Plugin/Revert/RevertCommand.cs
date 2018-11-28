@@ -60,13 +60,13 @@ namespace Svn.Plugin.Revert
                     var referencedFile = envoy.GetReferencedFileService();
                     referencedFile.RefreshReferencedFileAsync(RefreshMode.RefreshFromStorage);
 
-                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Revert {filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Revert {filePath}"));
                 }                
             }
             catch (Exception e)
             {                
                 Console.WriteLine(e);
-                debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed to Revert {e.Message}"));
+                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Revert {e.Message}"));
                 const string caption = "Error SVN";
                 var result = MessageBox.Show(e.Message, caption,
                     MessageBoxButtons.OK,

@@ -1,7 +1,7 @@
-mkdir "$(InstallLocation)\AddonsNI\Svn"
-xcopy /F /R /Y "$(TargetDir)*.*" "$(InstallLocation)\Addons\NI\Svn"
+mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+xcopy /F /R /Y "$(TargetDir)*.*" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
 
 
-if $(ConfigurationName) == Debug (      mkdir "$(InstallLocation)\Addons\NI\Svn"
-      xcopy /F /R /Y "$(TargetDir)Svn.Plugin.dll" "$(InstallLocation)\Addons\NI\Svn"
-      xcopy /F /R /Y "$(TargetDir)Svn.Plugin.pdb" "$(InstallLocation)\Addons\NI\Svn")
+if $(ConfigurationName) == Debug (      mkdir "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+      xcopy /F /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.dll" "$(InstallLocation)\Addons\ViewpointSystems\Svn"
+      xcopy /F /R /Y "$(TargetDir)ViewpointSystems.Svn.Plugin.pdb" "$(InstallLocation)\Addons\ViewpointSystems\Svn")
