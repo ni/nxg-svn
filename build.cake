@@ -12,7 +12,7 @@ var Version = Argument("my_version", "2.0.0.5");
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
 var buildDir = Directory("./Svn.Plugin/bin/x64") + Directory(configuration);
-var niPackDir = Directory("./NIPKG/pkg-ext/ext-src/data/ni-paths-LVNXG200DIR64/Addons/svntoolkit/base-ext/");
+var niPackDir = Directory("./NIPKG/pkg-ext/ext-src/data/ni-paths-LVNXG300DIR64/Addons/svntoolkit/base-ext/");
 var eulaDir = Directory("./NIPKG/pkg-eula/pack-eula.bat");
 var extDir = Directory("./NIPKG/pkg-ext/pack-ext.bat");
 var niRepo = Directory("./NIPKG/repo");
@@ -85,14 +85,14 @@ Task("Generate-ext")
     .Does(() =>
 {
 	//update Version number 
-	using(var process = StartAndReturnProcess("./C:/work/TestSvn/NIPKG/pkg-ext/ext-src/control/test.bat", new ProcessSettings{ Arguments = "-version " + Version } ))
+	using(var process = StartAndReturnProcess("./NIPKG/pkg-ext/ext-src/control/test.bat", new ProcessSettings{ Arguments = "-version " + Version } ))
 	{
     process.WaitForExit();
     // This should output 0 as valid arguments supplied
     Information("Exit code: {0}", process.GetExitCode());
 	}
 	
-    using(var process = StartAndReturnProcess("C:/work/TestSvn/NIPKG/pkg-ext/pack-ext.bat"))
+    using(var process = StartAndReturnProcess("./NIPKG/pkg-ext/pack-ext.bat"))
 	{
     process.WaitForExit();
     // This should output 0 as valid arguments supplied
