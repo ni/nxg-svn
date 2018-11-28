@@ -2,13 +2,13 @@
 CompatibilityVersion: 170500
 Conflicts: ni-package-manager
 Description: End-User License Agreement
-DisplayName: eula-viewpoint-license
+DisplayName: eula-ni-svn-license
 EulaPriority: 0
-EulaTitle: eula-viewpoint-license
-Filename: eula-viewpoint-license_2.0.0.3_windows_x64.nipkg
+EulaTitle: eula-ni-svn-license
+Filename: eula-ni-svn-license_2.0.0.3_windows_x64.nipkg
 MD5Sum: f1f274f7119d970070b01938a789094b
-Maintainer: Viewpoint Systems, Inc. <hello@viewpointusa.com>
-Package: eula-viewpoint-license
+Maintainer: National Instruments Corp. <support@ni.com>
+Package: eula-ni-svn-license
 Plugin: eula
 Section: Infrastructure
 Size: 1466
@@ -20,14 +20,14 @@ Built-Using: nipkg
 CompatibilityVersion: 170006
 Depends: ni-labview-nxg-2.0.0 (>= 6.2.0.49152)
 Description: SVN Toolkit
-DisplayName: Viewpoint Systems, Inc. SVN Toolkit
+DisplayName: SVN Toolkit
 Essential: no
-Eula: eula-viewpoint-license
-Filename: viewpoint-svntoolkit-base-ext-2_2.0.0.3_windows_x64.nipkg
-Homepage: https://www.viewpointusa.com/<url>
+Eula: eula-ni-svn-license
+Filename: ni-svntoolkit-base-ext-2_2.0.0.3_windows_x64.nipkg
+Homepage: https://github.com/ni/nxg-svn/<url>
 MD5Sum: 6071ffac9108ed88a3613224d61a0988
-Maintainer: Viewpoint Systems, Inc <hello@viewpointusa.com>
-Package: viewpoint-svntoolkit-base-ext-2
+Maintainer: National Instruments Corp. <support@ni.com>
+Package: ni-svntoolkit-base-ext-2
 Plugin: file
 Priority: optional
 Provides: 

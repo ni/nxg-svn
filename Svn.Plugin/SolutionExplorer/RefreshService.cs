@@ -35,11 +35,11 @@ namespace Svn.Plugin.SolutionExplorer
             {
                 var svnManager = Host.GetSharedExportedValue<SvnManagerPlugin>();
                 svnManager.UpdateCache();
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Information, $"Status Cache Updated"));
+                debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Status Cache Updated"));
             }
             catch (Exception e)
             {
-                debugHost.LogMessage(new DebugMessage("Viewpoint.Svn", DebugMessageSeverity.Error, $"Failed to Update Cache {e.Message}"));
+                debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed to Update Cache {e.Message}"));
                 const string caption = "Error SVN";
                 var result = System.Windows.Forms.MessageBox.Show(e.Message, caption,
                     MessageBoxButtons.OK,

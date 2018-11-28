@@ -11,8 +11,8 @@ var Version = Argument("my_version", "2.0.0.5");
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
-var buildDir = Directory("./ViewpointSystems.Svn.Plugin/bin/x64") + Directory(configuration);
-var niPackDir = Directory("./NIPKG/pkg-ext/ext-src/data/ni-paths-LVNXG200DIR64/Addons/viewpoint/svntoolkit/base-ext/");
+var buildDir = Directory("./Svn.Plugin/bin/x64") + Directory(configuration);
+var niPackDir = Directory("./NIPKG/pkg-ext/ext-src/data/ni-paths-LVNXG200DIR64/Addons/svntoolkit/base-ext/");
 var eulaDir = Directory("./NIPKG/pkg-eula/pack-eula.bat");
 var extDir = Directory("./NIPKG/pkg-ext/pack-ext.bat");
 var niRepo = Directory("./NIPKG/repo");
@@ -32,7 +32,7 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    NuGetRestore("./ViewpointSystems.Svn.sln");
+    NuGetRestore("./Svn.sln");
 });
 
 Task("Build")
@@ -42,7 +42,7 @@ Task("Build")
     if(IsRunningOnWindows())
     {
       // Use MSBuild
-      MSBuild("./ViewpointSystems.Svn.sln", settings =>
+      MSBuild("./Svn.sln", settings =>
         settings.SetConfiguration(configuration)
 		.UseToolVersion(MSBuildToolVersion.Default)
 		.WithTarget("Rebuild")
@@ -52,7 +52,7 @@ Task("Build")
     else
     {
       // Use XBuild
-      XBuild("./ViewpointSystems.Svn.sln", settings =>
+      XBuild("./Svn.sln", settings =>
         settings.SetConfiguration(configuration));
     }
 });

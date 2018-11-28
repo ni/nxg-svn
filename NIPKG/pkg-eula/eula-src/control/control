@@ -2,11 +2,11 @@ Architecture: windows_x64
 CompatibilityVersion: 170500
 Conflicts: ni-package-manager
 Description: End-User License Agreement
-DisplayName: eula-viewpoint-license
+DisplayName: eula-ni-svn-license
 EulaPriority: 0
-EulaTitle: eula-viewpoint-license
-Maintainer: Viewpoint Systems, Inc. <hello@viewpointusa.com>
-Package: eula-viewpoint-license
+EulaTitle: eula-ni-svn-license
+Maintainer: National Instruments Corp. <support@ni.com>
+Package: eula-ni-svn-license
 Plugin: eula
 Section: Infrastructure
 UserVisible: no
