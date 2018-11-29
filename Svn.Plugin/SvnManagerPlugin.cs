@@ -241,7 +241,7 @@ namespace Svn.Plugin
         /// </summary>
         public void UpdateCache()
         {
-            _svnManager.UpdateCache();
+            _svnManager?.UpdateCache();
         }
     }
 }

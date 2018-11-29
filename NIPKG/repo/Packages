@@ -6,12 +6,12 @@ DisplayName: eula-ni-svn-license
 EulaPriority: 0
 EulaTitle: eula-ni-svn-license
 Filename: eula-ni-svn-license_2.0.0.5_windows_x64.nipkg
-MD5sum: 1eef443761d0ee323ccc43378edde028
+MD5Sum: 6a418ae40318cfee666652238ae4b10d
 Maintainer: National Instruments Corp. <support@ni.com>
 Package: eula-ni-svn-license
 Plugin: eula
 Section: Infrastructure
-Size: 1286
+Size: 10138
 UserVisible: no
 Version: 2.0.0.5
 
@@ -25,7 +25,7 @@ Essential: no
 Eula: eula-ni-svn-license
 Filename: ni-svntoolkit-base-ext-3_2.0.0.5_windows_x64.nipkg
 Homepage: https://github.com/ni/nxg-svn/<url>
-MD5Sum: 6dd8fb0f4609d8fbe4161c3df2fc9c6b
+MD5Sum: b654a1bad1b7649a7d2faf760fb12596
 Maintainer: National Instruments Corp. <support@ni.com>
 Package: ni-svntoolkit-base-ext-3
 Plugin: file
@@ -33,7 +33,7 @@ Priority: optional
 Provides: 
 Recommends: 
 Section: Add-Ons
-Size: 35900348
+Size: 26054124
 StoreProduct: Yes
 Suggests: 
 UserVisible: Yes
