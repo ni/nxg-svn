@@ -6,7 +6,7 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var Version = Argument("my_version", "2.0.0.5");
+var Version = Argument("my_version", "3.0.0.5");
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION

@@ -1,5 +1,5 @@
 param (
-    [string]$version = '2.0.0.0'
+    [string]$version = '3.0.0.0'
 	)
 	
 $line = Get-Content .\NIPKG\pkg-eula\eula-src\control\control -Tail 1
