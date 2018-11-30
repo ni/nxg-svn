@@ -78,14 +78,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(InstallLocation)\NationalInstruments.Core.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.LabVIEW.Compiler.Interfaces, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(InstallLocation)\NationalInstruments.LabVIEW.Compiler.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="NationalInstruments.LabVIEW.VI, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(InstallLocation)\NationalInstruments.LabVIEW.VI.dll</HintPath>
-    </Reference>
     <Reference Include="NationalInstruments.MocCommon, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(InstallLocation)\NationalInstruments.MocCommon.dll</HintPath>

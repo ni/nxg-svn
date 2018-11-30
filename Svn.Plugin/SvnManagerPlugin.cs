@@ -58,8 +58,6 @@ namespace Svn.Plugin
             ConnectToRepository(_currentProject.StoragePath); 
         }
 
-        
-
         private void HandleProjectPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == Project.StoragePathPropertyChangedName)
@@ -74,7 +72,7 @@ namespace Svn.Plugin
             {
                 // Unsaved project
                 return;
-            }            
+            }
             _svnManager = new SvnManager();
             if (_svnManager.IsWorkingCopy(Path.GetDirectoryName(storagePath))) 
             {
@@ -241,7 +239,7 @@ namespace Svn.Plugin
         /// </summary>
         public void UpdateCache()
         {
-            _svnManager.UpdateCache();
+            _svnManager?.UpdateCache();
         }
     }
 }

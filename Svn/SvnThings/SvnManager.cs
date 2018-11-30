@@ -58,7 +58,8 @@ namespace Svn.SvnThings
         {
             if (_statusCache.Map.ContainsKey(old))
             {
-                if (_statusCache.Map.TryGetValue(old, out var itemOfChoice))
+                SvnItem itemOfChoice;
+                if (_statusCache.Map.TryGetValue(old, out itemOfChoice))
                 {
                     if (itemOfChoice.Status.LocalNodeStatus == SvnStatus.NotVersioned)
                     {
@@ -89,11 +90,12 @@ namespace Svn.SvnThings
             _repo = filePath;
             try
             {
+                Collection<SvnStatusEventArgs> statusContents;
                 if (_svnClient.GetStatus(_repo, new SvnStatusArgs
                 {
                     Depth = SvnDepth.Infinity,
                     RetrieveAllEntries = true
-                }, out var statusContents))
+                }, out statusContents))
                 {
                     foreach (var content in statusContents)
                     {
@@ -116,11 +118,12 @@ namespace Svn.SvnThings
         /// <returns></returns>
         public Collection<SvnStatusEventArgs> GetStatus()
         {
+            Collection<SvnStatusEventArgs> statusContents;
             _svnClient.GetStatus(_repo, new SvnStatusArgs
             {
                 Depth = SvnDepth.Infinity,
                 RetrieveAllEntries = true
-            }, out var statusContents);
+            }, out statusContents);
             return statusContents;
         }
 
@@ -144,7 +147,8 @@ namespace Svn.SvnThings
         {
             if (_statusCache.Map.ContainsKey(filePath))
             {
-                if (_statusCache.Map.TryGetValue(filePath, out var itemOfChoice))
+                SvnItem itemOfChoice;
+                if (_statusCache.Map.TryGetValue(filePath, out itemOfChoice))
                 {
                     RemoveItemFromProjectEvent?.Invoke(itemOfChoice, new EventArgs());
                     _statusCache.Map.Remove(filePath);
@@ -297,7 +301,8 @@ namespace Svn.SvnThings
         /// <returns></returns>
         public Collection<SvnLogEventArgs> GetHistory(string filePath)
         {
-            _svnClient.GetLog(filePath, out var logs);
+            Collection<SvnLogEventArgs> logs;
+            _svnClient.GetLog(filePath, out logs);
             return logs;
         }
 
