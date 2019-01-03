@@ -13,8 +13,8 @@ The SVN Toolkit provides beta integration to SVN from within the LabVIEW NXG pro
 
 ### Prerequisites
 
--TortoiseSVN or other SVN client
--SVN Toolkit for LabVIEW NXG
+- TortoiseSVN or other SVN client
+- SVN Toolkit for LabVIEW NXG
 
 #### Contributing
 
