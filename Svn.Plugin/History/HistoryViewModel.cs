@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows.Media;
 using NationalInstruments;
-using NationalInstruments.Composition;
+using NationalInstruments.Comparison;
 using NationalInstruments.Core;
-using NationalInstruments.ProjectExplorer.Design;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel.Envoys;
 using SharpSvn;
-using Svn.SvnThings;
-using System.IO;
 
 namespace Svn.Plugin.History
 {
     public class HistoryViewModel : IToolWindowViewModel
     {        
         private ToolWindowEditSite _editSite;
+        private Envoy _envoy;
 
         public ICommand CompareWithWorkingCopyCommand { get; set; }
         public ICommand RevertToThisRevisionCommand { get; set; }
@@ -29,7 +26,7 @@ namespace Svn.Plugin.History
         public HistoryViewModel(ToolWindowEditSite site)
         {
             _editSite = site;
-            CompareWithWorkingCopyCommand = new RelayCommand(DoComapreWithWorkingCopyCommand);
+            CompareWithWorkingCopyCommand = new RelayCommand(DoCompareWithWorkingCopyCommand, CanCompareWithWorkingCopy);
             RevertToThisRevisionCommand = new RelayCommand(DoRevertToThisRevisionCommand);            
         }
 
@@ -52,11 +49,11 @@ namespace Svn.Plugin.History
                     //var referencedFile = envoy.GetReferencedFileService();
                     //referencedFile.RefreshReferencedFileAsync();
 
-                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Revert to revision {SelectedHistoryRow.Revision} {_filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Revert to revision {SelectedHistoryRow.Revision} {FilePath}"));
                 }
                 else
                 {
-                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed to revert revision {SelectedHistoryRow.Revision} {_filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed to revert revision {SelectedHistoryRow.Revision} {FilePath}"));
                 }
             }
         }
@@ -65,36 +62,55 @@ namespace Svn.Plugin.History
         /// Compare selected version with working version
         /// </summary>
         /// <param name="obj"></param>
-        private void DoComapreWithWorkingCopyCommand(object obj)
+        private void DoCompareWithWorkingCopyCommand(object obj)
         {
             if (null != SelectedHistoryRow)
             {
                 var svnManager = _editSite.Host.GetSharedExportedValue<SvnManagerPlugin>();
-                var tempFilePathOldVersion = Path.Combine(Path.GetTempPath(), Path.GetFileName(FilePath));                
+                var fileNameOldVersion = $"{Envoy.Name.Last} #{SelectedHistoryRow.Revision}";
+                var tempFilePathOldVersion = Path.Combine(Path.GetTempPath(), fileNameOldVersion);                
                 var success = svnManager.Write(FilePath, tempFilePathOldVersion, SelectedHistoryRow.Revision);
                 var debugHost = _editSite.Host.GetSharedExportedValue<IDebugHost>();
                 if (success)
                 {
-                    //TODO: how to call compare
+                    var parameter = new CompareItemsCommandParameter(tempFilePathOldVersion, Envoy);
+                    CompareCommands.CompareItemsCommand.Execute(parameter);
 
-                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Compare to revision {SelectedHistoryRow.Revision} {_filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Information, $"Compare to revision {SelectedHistoryRow.Revision} {FilePath}"));
                 }
                 else
                 {
-                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed Compare to revision {SelectedHistoryRow.Revision} {_filePath}"));
+                    debugHost.LogMessage(new DebugMessage("Svn", DebugMessageSeverity.Error, $"Failed Compare to revision {SelectedHistoryRow.Revision} {FilePath}"));
                 }
             }
         }
 
-        private string _filePath;
-        public string FilePath
+        private bool CanCompareWithWorkingCopy(object obj)
         {
-            get { return _filePath; }
+            if (Envoy == null)
+            {
+                return false;
+            }
+            var compareEngineManager = _editSite.Host.GetSharedExportedValue<ICompareEngineManager>();
+            return compareEngineManager.IsFileTypeSupportedByCompare(Envoy.OverridingModelDefinitionType);
+        }
+
+        /// <summary>
+        /// The file path of <see cref="Envoy"/>
+        /// </summary>
+        public string FilePath => Envoy?.GetFilePath();
+
+        /// <summary>
+        /// The file for which we are showing history.
+        /// </summary>
+        public Envoy Envoy
+        {
+            get { return _envoy; }
             set
             {
-                _filePath = value;
+                _envoy = value;
                 var svnManager = _editSite.Host.GetSharedExportedValue<SvnManagerPlugin>();
-                HistoryStatus = svnManager.History(_filePath);
+                HistoryStatus = svnManager.History(FilePath);
                 OnPropertyChanged();
             }
         }
@@ -126,31 +142,6 @@ namespace Svn.Plugin.History
                 OnPropertyChanged();
             }
         }
-
-
-
-        /// <summary>
-        /// Called when the active document changes
-        /// </summary>
-        /// <param name="sender">sender of the event</param>
-        /// <param name="args">event data</param>
-        private void HandleActiveDocumentChanged(object sender, ActiveDocumentChangedEventArgs args)
-        {
-
-            if (args.ActiveDocument == null)
-            {
-                FilePath = "No Selection";
-                //_documentTypeControl.Text = "No Selection";
-                return;
-            }
-            var name = args.ActiveDocument.DocumentName;
-            var type = args.ActiveDocument.Envoy.ModelDefinitionType.ToString();
-
-            FilePath = name;
-            //_documentTypeControl.Text = type;
-        }
-
-        
 
         public object Model
         {
@@ -202,8 +193,6 @@ namespace Svn.Plugin.History
         public void Initialize(IToolWindowTypeInfo info)
         {
         }
-
-
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

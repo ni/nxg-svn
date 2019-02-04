@@ -86,6 +86,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(InstallLocation)\NationalInstruments.PlatformFramework.dll</HintPath>
     </Reference>
+    <Reference Include="NationalInstruments.VersionManagement.Comparison.CompareEngine.dll, Version=5.2.0.0, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(InstallLocation)\NationalInstruments.VersionManagement.Comparison.CompareEngine.dll</HintPath>
+    </Reference>
     <Reference Include="SharpSvn, Version=1.9007.3987.251, Culture=neutral, PublicKeyToken=d729672594885a28, processorArchitecture=AMD64">
       <HintPath>..\packages\SharpSvn.1.9-x64.1.9007.3987.251\lib\net40\SharpSvn.dll</HintPath>
     </Reference>
