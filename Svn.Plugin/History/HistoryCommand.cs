@@ -34,7 +34,7 @@ namespace Svn.Plugin.History
             try
             {
                 var historyToolWindow = site.ShowToolWindow(new Guid("b7e7ce66-d3fa-4c19-a7c9-8834e91a31f3"), true);
-                ((HistoryViewModel)(historyToolWindow.DataContext)).Envoy = ((Envoy)parameter.Parameter);
+                ((HistoryViewModel)(historyToolWindow.DataContext)).Envoy = (Envoy)parameter.Parameter;
             }
             catch (Exception e)
             {                
