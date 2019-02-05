@@ -6,7 +6,7 @@ The SVN Toolkit provides beta integration to SVN from within the LabVIEW NXG pro
 
 1) Install the Tortoise SVN client on your machine: https://tortoisesvn.net/downloads.html
 2) Install the SVN Toolkit for LabVIEW NXG from NI Package Manager, located in the Product Add-Ons section
-3) Create a TSVN repository from an empty folder on disk (right-click on a new folder> TortoiseSVN > Create repository here)
+3) Create a TSVN repository from an empty folder on disk (right-click on a new folder> TortoiseSVN > Create repository here. Note that this toolkit does not yet support repositories created using using SVN 1.10 or greater. To work around this you can instead create the repository using the following command line. eg `svnadmin create --compatible-version 1.9 PATH_TO_YOUR_FOLDER`)
 4) Right-click on a LabVIEW NXG project folder and TortoiseSVN > Import it to your repo
 5) Check out that project from your repository to a folder on disk
 6) Open the project in LabVIEW NXG and the Toolkit should reflect the status of every file you checked out in the project files pane
