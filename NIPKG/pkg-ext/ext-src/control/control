@@ -6,7 +6,7 @@ Description: SVN Toolkit
 DisplayName: SVN Toolkit
 Essential: no
 Eula: eula-ni-svn-license
-Homepage: https://github.com/ni/nxg-svn/<url>
+Homepage: https://github.com/ni/nxg-svn/
 Maintainer: National Instruments Corp. <support@ni.com>
 Package: ni-svntoolkit-base-ext-3
 Plugin: file
