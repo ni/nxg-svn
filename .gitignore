@@ -22,6 +22,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 NIPKG/pkg-ext/ext-src/data/
+NIPKG/repo/
 
 # Visual Studio 2015 cache/options directory
 .vs/
