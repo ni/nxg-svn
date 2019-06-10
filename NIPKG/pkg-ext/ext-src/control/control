@@ -18,3 +18,6 @@ StoreProduct: Yes
 Suggests: 
 UserVisible: Yes
 Version: 3.0.0.5
+XB-MessageText-1: SVN Version Support
+  Note: This toolkit does not yet support repositories created using using SVN 1.10 or greater
+Version: 3.0.0.5
